@@ -26,5 +26,13 @@
         Title="New User Page"
         ContentTemplate="{DataTemplate local:Views.NewUserPage}"
         Route="NewUserPage" />
+    <ShellContent 
+        Title="Physician Home Page"
+        ContentTemplate="{DataTemplate local:Views.PhysicianHomePage}"
+        Route="PhysicianHome" />
+    <ShellContent
+        Title="Patient Home Page"
+        ContentTemplate="{DataTemplate local:Views.PatientHomePage}"
+        Route="PatientHome" />
 
 </Shell>

@@ -20,7 +20,6 @@ public partial class PhysicianLoginPage : ContentPage
     {
         Console.WriteLine("Login authentication not implemented");
         await Shell.Current.GoToAsync("///PhysicianHome");
-
     }
 
 }

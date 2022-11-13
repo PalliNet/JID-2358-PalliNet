@@ -34,7 +34,7 @@
                 BorderWidth="1"
                 FontSize="20"
                 WidthRequest="200"
-                Clicked="OnButtonClicked"/>
+                Clicked="OnLoginAttempt"/>
             <Button Text="First Time User?"
                 BackgroundColor="DarkGray"
                 TextColor="Black"
