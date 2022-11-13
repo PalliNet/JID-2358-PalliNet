@@ -8,7 +8,23 @@
 
     <ShellContent
         Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
+        ContentTemplate="{DataTemplate local:Views.MainPage}"
         Route="MainPage" />
+    <ShellContent
+        Title="Login Page"
+        ContentTemplate="{DataTemplate local:Views.LoginPage}"
+        Route="LoginPage" />
+    <ShellContent 
+        Title="Physician Login"
+        ContentTemplate="{DataTemplate local:Views.PhysicianLoginPage}"
+        Route="PhysicianLogin" />
+    <ShellContent
+        Title="Patient Login"
+        ContentTemplate="{DataTemplate local:Views.PatientLoginPage}"
+        Route="PatientLogin" />
+    <ShellContent
+        Title="Landing"
+        ContentTemplate="{DataTemplate local:Views.LandingPage}"
+        Route="LandingPage" />
 
 </Shell>

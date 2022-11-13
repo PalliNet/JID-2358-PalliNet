@@ -1,3 +1,5 @@
+using Microsoft.Maui.Controls.Xaml;
+
 namespace PalliNet.Components;
 
 public partial class StartCard : ContentView
@@ -6,4 +8,9 @@ public partial class StartCard : ContentView
 	{
 		InitializeComponent();
 	}
+
+	async void OnButtonClicked(object sender, EventArgs e)
+	{
+        await Shell.Current.GoToAsync("///LoginPage");
+    }
 }

@@ -1,4 +1,4 @@
-﻿namespace PalliNet;
+﻿namespace PalliNet.Views;
 
 public partial class MainPage : ContentPage
 {

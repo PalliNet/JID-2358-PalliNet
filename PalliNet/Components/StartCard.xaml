@@ -34,9 +34,10 @@
                 Padding="0, 0, 0, 80"/>
 
             <Button
+                x:Name="Enter"
                 Text="Enter"
                 SemanticProperties.Hint="Navigates to Login Choices"
-
+                Clicked="OnButtonClicked"
                 HorizontalOptions="Center" />
 
         </VerticalStackLayout>
