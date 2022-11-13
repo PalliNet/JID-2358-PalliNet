@@ -12,14 +12,14 @@ public partial class PhysicianLoginPage : ContentPage
         Button button = sender as Button;
         if (button.ClassId == "Return")
         {
-            await Shell.Current.GoToAsync("///LoginPage");
+            await Shell.Current.GoToAsync("..");
         }
     }
 
     async void OnLoginAttempt(object sender, EventArgs e )
     {
         Console.WriteLine("Login authentication not implemented");
-        await Shell.Current.GoToAsync("///PhysicianHome");
+        await Shell.Current.GoToAsync("home/physician");
     }
 
 }

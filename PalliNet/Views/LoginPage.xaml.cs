@@ -12,11 +12,11 @@ public partial class LoginPage : ContentPage
         Button button = sender as Button;
         if (button.ClassId == "PhysicianLogin")
         {
-            await Shell.Current.GoToAsync("///PhysicianLogin");
+            await Shell.Current.GoToAsync("physician");
         }
         else if (button.ClassId == "PatientLogin")
         {
-            await Shell.Current.GoToAsync("///PatientLogin");
+            await Shell.Current.GoToAsync("patient");
         }
     }
 }

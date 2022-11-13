@@ -11,6 +11,6 @@ public partial class StartCard : ContentView
 
 	async void OnButtonClicked(object sender, EventArgs e)
 	{
-        await Shell.Current.GoToAsync("///LoginPage");
+        await Shell.Current.GoToAsync("///login");
     }
 }

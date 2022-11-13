@@ -5,34 +5,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:PalliNet"
     Shell.FlyoutBehavior="Disabled">
-
+    
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:Views.MainPage}"
-        Route="MainPage" />
+        Route="landing" />
+
     <ShellContent
-        Title="Login Page"
+        Title="Login"
         ContentTemplate="{DataTemplate local:Views.LoginPage}"
-        Route="LoginPage" />
-    <ShellContent 
-        Title="Physician Login"
-        ContentTemplate="{DataTemplate local:Views.PhysicianLoginPage}"
-        Route="PhysicianLogin" />
-    <ShellContent
-        Title="Patient Login"
-        ContentTemplate="{DataTemplate local:Views.PatientLoginPage}"
-        Route="PatientLogin" />
-    <ShellContent
-        Title="New User Page"
-        ContentTemplate="{DataTemplate local:Views.NewUserPage}"
-        Route="NewUserPage" />
-    <ShellContent 
-        Title="Physician Home Page"
-        ContentTemplate="{DataTemplate local:Views.PhysicianHomePage}"
-        Route="PhysicianHome" />
-    <ShellContent
-        Title="Patient Home Page"
-        ContentTemplate="{DataTemplate local:Views.PatientHomePage}"
-        Route="PatientHome" />
+        Route="login" />
 
 </Shell>

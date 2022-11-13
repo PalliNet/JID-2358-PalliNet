@@ -19,7 +19,7 @@ public partial class NewUserPage : ContentPage
             Console.WriteLine("LocalSearch Not implemented yet");
         } else if (type == "Return")
         {
-            await Shell.Current.GoToAsync("///PatientLogin");
+            await Shell.Current.GoToAsync("..");
         }
     }
 }
