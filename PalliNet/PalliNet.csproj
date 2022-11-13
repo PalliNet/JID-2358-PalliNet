@@ -64,8 +64,8 @@
 	  <Compile Update="Views\LoginPage.xaml.cs">
 	    <DependentUpon>LoginPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\LandingPage.xaml.cs">
-	    <DependentUpon>LandingPage.xaml</DependentUpon>
+	  <Compile Update="Views\NewUserPage.xaml.cs">
+	    <DependentUpon>NewUserPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\TestPage.xaml.cs">
 	    <DependentUpon>TestPage.xaml</DependentUpon>
@@ -79,7 +79,7 @@
 	  <MauiXaml Update="Views\LoginPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\LandingPage.xaml">
+	  <MauiXaml Update="Views\NewUserPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\PatientLoginPage.xaml">

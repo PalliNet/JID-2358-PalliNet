@@ -12,10 +12,12 @@
                    FontSize="30"/>
         </Frame>
         <Button Text="Physician Login"
+                ClassId="PhysicianLogin"
                 HeightRequest="60"
                 FontSize="20"
                 Clicked="OnButtonClicked"/>
         <Button Text="Patient Login"
+                ClassId="PatientLogin"
                 HeightRequest="60"
                 Clicked="OnButtonClicked"
                 FontSize="20"/>

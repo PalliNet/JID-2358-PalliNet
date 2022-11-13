@@ -23,8 +23,8 @@
         ContentTemplate="{DataTemplate local:Views.PatientLoginPage}"
         Route="PatientLogin" />
     <ShellContent
-        Title="Landing"
-        ContentTemplate="{DataTemplate local:Views.LandingPage}"
-        Route="LandingPage" />
+        Title="New User Page"
+        ContentTemplate="{DataTemplate local:Views.NewUserPage}"
+        Route="NewUserPage" />
 
 </Shell>
