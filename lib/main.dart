@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pallinet/NewAccount.dart';
 import 'package:pallinet/PatientLogin.dart';
 import 'package:pallinet/PhysicianLogin.dart';
+import 'package:pallinet/ProviderLandingPage.dart';
 import 'LoginLandingPage.dart';
 import 'HomePage.dart';
 
@@ -27,6 +28,7 @@ class PalliNet extends StatelessWidget {
           '/login/patient': (context) => const PatientLogin(),
           '/login/physician': (context) => const PhysicianLogin(),
           '/new/patient': (context) => const NewAccount(),
+          '/provider': (context) => const ProviderLandingPage(),
         },
         onUnknownRoute: (settings) =>
             MaterialPageRoute(builder: (context) => const HomePage()));

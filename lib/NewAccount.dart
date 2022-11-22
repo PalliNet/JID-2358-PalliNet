@@ -71,16 +71,17 @@ class FormContent extends StatefulWidget {
 }
 
 class FormContentState extends State<FormContent> {
-  bool _isPasswordVisible = false;
+  bool isPosswordVisible = false;
+  String first = "";
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       constraints: const BoxConstraints(maxWidth: 300),
       child: Form(
-        key: _formKey,
+        key: formKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -118,24 +119,26 @@ class FormContentState extends State<FormContent> {
                 if (value.length < 6) {
                   return 'Password must be at least 6 characters';
                 }
+
                 return null;
               },
-              obscureText: !_isPasswordVisible,
+              obscureText: !isPosswordVisible,
               decoration: InputDecoration(
                   labelText: 'Password',
                   hintText: 'Enter your password',
                   prefixIcon: const Icon(Icons.lock_outline_rounded),
                   border: const OutlineInputBorder(),
                   suffixIcon: IconButton(
-                    icon: Icon(_isPasswordVisible
+                    icon: Icon(isPosswordVisible
                         ? Icons.visibility_off
                         : Icons.visibility),
                     onPressed: () {
                       setState(() {
-                        _isPasswordVisible = !_isPasswordVisible;
+                        isPosswordVisible = !isPosswordVisible;
                       });
                     },
                   )),
+              onChanged: (value) => {first = value},
             ),
             gap(),
             TextFormField(
@@ -144,24 +147,24 @@ class FormContentState extends State<FormContent> {
                   return 'Please enter some text';
                 }
 
-                if (value.length < 6) {
-                  return 'Password must be at least 6 characters';
+                if (value != first) {
+                  return 'Password does not match';
                 }
                 return null;
               },
-              obscureText: !_isPasswordVisible,
+              obscureText: !isPosswordVisible,
               decoration: InputDecoration(
                   labelText: 'Verify Password',
                   hintText: 'Verify Password',
                   prefixIcon: const Icon(Icons.lock_outline_rounded),
                   border: const OutlineInputBorder(),
                   suffixIcon: IconButton(
-                    icon: Icon(_isPasswordVisible
+                    icon: Icon(isPosswordVisible
                         ? Icons.visibility_off
                         : Icons.visibility),
                     onPressed: () {
                       setState(() {
-                        _isPasswordVisible = !_isPasswordVisible;
+                        isPosswordVisible = !isPosswordVisible;
                       });
                     },
                   )),
@@ -182,8 +185,8 @@ class FormContentState extends State<FormContent> {
                   ),
                 ),
                 onPressed: () {
-                  if (_formKey.currentState?.validate() ?? false) {
-                    /// do something
+                  if (formKey.currentState?.validate() ?? false) {
+                    debugPrint("Validateed");
                   }
                 },
               ),
