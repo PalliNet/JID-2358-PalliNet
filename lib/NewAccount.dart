@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class PhysicianLogin extends StatelessWidget {
-  const PhysicianLogin({Key? key}) : super(key: key);
+class NewAccount extends StatelessWidget {
+  const NewAccount({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class Logo extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            "Physician Login",
+            "Create New Account",
             textAlign: TextAlign.center,
             style: isSmallScreen
                 ? Theme.of(context).textTheme.headline5
@@ -71,7 +71,7 @@ class FormContent extends StatefulWidget {
 }
 
 class FormContentState extends State<FormContent> {
-  bool isPasswordVisible = false;
+  bool _isPasswordVisible = false;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -120,19 +120,48 @@ class FormContentState extends State<FormContent> {
                 }
                 return null;
               },
-              obscureText: !isPasswordVisible,
+              obscureText: !_isPasswordVisible,
               decoration: InputDecoration(
                   labelText: 'Password',
                   hintText: 'Enter your password',
                   prefixIcon: const Icon(Icons.lock_outline_rounded),
                   border: const OutlineInputBorder(),
                   suffixIcon: IconButton(
-                    icon: Icon(isPasswordVisible
+                    icon: Icon(_isPasswordVisible
                         ? Icons.visibility_off
                         : Icons.visibility),
                     onPressed: () {
                       setState(() {
-                        isPasswordVisible = !isPasswordVisible;
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                  )),
+            ),
+            gap(),
+            TextFormField(
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter some text';
+                }
+
+                if (value.length < 6) {
+                  return 'Password must be at least 6 characters';
+                }
+                return null;
+              },
+              obscureText: !_isPasswordVisible,
+              decoration: InputDecoration(
+                  labelText: 'Verify Password',
+                  hintText: 'Verify Password',
+                  prefixIcon: const Icon(Icons.lock_outline_rounded),
+                  border: const OutlineInputBorder(),
+                  suffixIcon: IconButton(
+                    icon: Icon(_isPasswordVisible
+                        ? Icons.visibility_off
+                        : Icons.visibility),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
                       });
                     },
                   )),
@@ -148,7 +177,7 @@ class FormContentState extends State<FormContent> {
                 child: const Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Text(
-                    'Sign in',
+                    'Create New Account',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),

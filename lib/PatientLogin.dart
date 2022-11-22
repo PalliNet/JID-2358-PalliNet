@@ -13,8 +13,8 @@ class PatientLogin extends StatelessWidget {
                 ? Column(
                     mainAxisSize: MainAxisSize.min,
                     children: const [
-                      _Logo(),
-                      _FormContent(),
+                      Logo(),
+                      FormContent(),
                     ],
                   )
                 : Container(
@@ -22,9 +22,9 @@ class PatientLogin extends StatelessWidget {
                     constraints: const BoxConstraints(maxWidth: 800),
                     child: Row(
                       children: const [
-                        Expanded(child: _Logo()),
+                        Expanded(child: Logo()),
                         Expanded(
-                          child: Center(child: _FormContent()),
+                          child: Center(child: FormContent()),
                         ),
                       ],
                     ),
@@ -32,8 +32,10 @@ class PatientLogin extends StatelessWidget {
   }
 }
 
-class _Logo extends StatelessWidget {
-  const _Logo({Key? key}) : super(key: key);
+class Logo extends StatelessWidget {
+  const Logo({Key? key}) : super(key: key);
+
+  Widget gap() => const SizedBox(height: 30);
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +44,10 @@ class _Logo extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        FlutterLogo(size: isSmallScreen ? 100 : 200),
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            "Welcome to Flutter!",
+            "Patient Login",
             textAlign: TextAlign.center,
             style: isSmallScreen
                 ? Theme.of(context).textTheme.headline5
@@ -55,22 +56,22 @@ class _Logo extends StatelessWidget {
                     .headline4
                     ?.copyWith(color: Colors.black),
           ),
-        )
+        ),
+        gap(),
       ],
     );
   }
 }
 
-class _FormContent extends StatefulWidget {
-  const _FormContent({Key? key}) : super(key: key);
+class FormContent extends StatefulWidget {
+  const FormContent({Key? key}) : super(key: key);
 
   @override
-  State<_FormContent> createState() => __FormContentState();
+  State<FormContent> createState() => FormContentState();
 }
 
-class __FormContentState extends State<_FormContent> {
+class FormContentState extends State<FormContent> {
   bool _isPasswordVisible = false;
-  bool _rememberMe = false;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -91,10 +92,10 @@ class __FormContentState extends State<_FormContent> {
                   return 'Please enter some text';
                 }
 
-                bool _emailValid = RegExp(
+                bool emailValid = RegExp(
                         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                     .hasMatch(value);
-                if (!_emailValid) {
+                if (!emailValid) {
                   return 'Please enter a valid email';
                 }
 
@@ -107,7 +108,7 @@ class __FormContentState extends State<_FormContent> {
                 border: OutlineInputBorder(),
               ),
             ),
-            _gap(),
+            gap(),
             TextFormField(
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -136,21 +137,7 @@ class __FormContentState extends State<_FormContent> {
                     },
                   )),
             ),
-            _gap(),
-            CheckboxListTile(
-              value: _rememberMe,
-              onChanged: (value) {
-                if (value == null) return;
-                setState(() {
-                  _rememberMe = value;
-                });
-              },
-              title: const Text('Remember me'),
-              controlAffinity: ListTileControlAffinity.leading,
-              dense: true,
-              contentPadding: const EdgeInsets.all(0),
-            ),
-            _gap(),
+            gap(),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -172,11 +159,31 @@ class __FormContentState extends State<_FormContent> {
                 },
               ),
             ),
+            gap(),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4)),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Text(
+                    'First Time User?',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, "/new/patient");
+                },
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _gap() => const SizedBox(height: 16);
+  Widget gap() => const SizedBox(height: 16);
 }

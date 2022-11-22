@@ -33,9 +33,7 @@ class HomePage extends StatelessWidget {
             ),
             OutlinedButton(
               onPressed: () {
-                debugPrint("PushNamed");
-                Navigator.pushNamed(context, "/temp");
-                debugPrint("Start");
+                Navigator.pushNamed(context, "/login");
               },
               child: const Text("Button"),
             )
