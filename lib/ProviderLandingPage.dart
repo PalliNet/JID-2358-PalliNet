@@ -5,39 +5,73 @@ class ProviderLandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         body: Center(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(bottom: 20.0),
-            child: Text(
-              'PalliNet',
-              style: Theme.of(context).textTheme.headline5,
-            ),
+        children: [
+          Expanded(
+              flex: 1,
+              child: Container(
+                  alignment: Alignment.center,
+                  color: Colors.white,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 30.0),
+                          child: Text("Have a referral?",
+                              style:
+                                  TextStyle(color: Colors.blue, fontSize: 30)),
+                        ),
+                        OutlinedButton(
+                          // ignore: prefer_const_constructors
+                          style: OutlinedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              minimumSize: Size(screenWidth / 1.75, 50)),
+                          onPressed: () {
+                            debugPrint("Not implemented yet");
+                            Navigator.pushNamed(context, "/login/patient");
+                          },
+                          child: const Text(
+                            "Click Here",
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                        )
+                      ]))),
+          Expanded(
+            flex: 1,
+            child: Container(
+                alignment: Alignment.center,
+                color: Colors.blue,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 30.0),
+                        child: Text("Search your local area",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 30)),
+                      ),
+                      OutlinedButton(
+                        // ignore: prefer_const_constructors
+                        style: OutlinedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            minimumSize: Size(screenWidth / 1.75, 50)),
+                        onPressed: () {
+                          debugPrint("Not implemented yet");
+                          Navigator.pushNamed(context, "/login/patient");
+                        },
+                        child: const Text(
+                          "Click Here",
+                          style: TextStyle(color: Colors.blue, fontSize: 20),
+                        ),
+                      )
+                    ])),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-            child: SizedBox(
-              width: 200,
-              child: OutlinedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, "/login/patient");
-                },
-                child: const Text("Patient Login"),
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 200,
-            child: OutlinedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, "/login/physician");
-              },
-              child: const Text("Physician Login"),
-            ),
-          )
         ],
       ),
     ));

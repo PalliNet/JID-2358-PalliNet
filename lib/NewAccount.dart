@@ -185,9 +185,11 @@ class FormContentState extends State<FormContent> {
                   ),
                 ),
                 onPressed: () {
-                  if (formKey.currentState?.validate() ?? false) {
-                    debugPrint("Validateed");
-                  }
+                  // if (formKey.currentState?.validate() ?? false) {
+                  //   debugPrint("Validateed");
+                  //   // Create new account and insert data into database
+                  // }
+                  Navigator.pushNamed(context, "/provider");
                 },
               ),
             ),
