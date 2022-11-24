@@ -71,7 +71,7 @@ class FormContent extends StatefulWidget {
 }
 
 class FormContentState extends State<FormContent> {
-  bool _isPasswordVisible = false;
+  bool isPasswordVisible = false;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -120,19 +120,19 @@ class FormContentState extends State<FormContent> {
                 }
                 return null;
               },
-              obscureText: !_isPasswordVisible,
+              obscureText: !isPasswordVisible,
               decoration: InputDecoration(
                   labelText: 'Password',
                   hintText: 'Enter your password',
                   prefixIcon: const Icon(Icons.lock_outline_rounded),
                   border: const OutlineInputBorder(),
                   suffixIcon: IconButton(
-                    icon: Icon(_isPasswordVisible
+                    icon: Icon(isPasswordVisible
                         ? Icons.visibility_off
                         : Icons.visibility),
                     onPressed: () {
                       setState(() {
-                        _isPasswordVisible = !_isPasswordVisible;
+                        isPasswordVisible = !isPasswordVisible;
                       });
                     },
                   )),
@@ -153,9 +153,10 @@ class FormContentState extends State<FormContent> {
                   ),
                 ),
                 onPressed: () {
-                  if (_formKey.currentState?.validate() ?? false) {
-                    /// do something
-                  }
+                  Navigator.pushNamed(context, "/patient/home");
+                  // if (_formKey.currentState?.validate() ?? false) {
+                  //   /// do something
+                  // }
                 },
               ),
             ),

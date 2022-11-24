@@ -153,9 +153,10 @@ class FormContentState extends State<FormContent> {
                   ),
                 ),
                 onPressed: () {
-                  if (_formKey.currentState?.validate() ?? false) {
-                    /// do something
-                  }
+                  Navigator.pushNamed(context, "/physician/home");
+                  // if (_formKey.currentState?.validate() ?? false) {
+                  //   /// do something
+                  // }
                 },
               ),
             ),
