@@ -1,6 +1,6 @@
 # PalliNet
 
-A new Flutter project.
+A new Flutter project.Palliative Care app designed for Georgia Tech Junior Design.
 
 ## Motivation
 
