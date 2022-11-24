@@ -1,15 +1,13 @@
-// ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 
-class Treatments extends StatelessWidget {
-  const Treatments({super.key});
+class PainDiary extends StatelessWidget {
+  const PainDiary({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Treatment Plan"),
+          title: const Text("Pain Diary"),
           automaticallyImplyLeading: false,
           backgroundColor: const Color.fromARGB(255, 108, 125, 133),
         ),

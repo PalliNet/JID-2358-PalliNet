@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pallinet/components/Appointments.dart';
-import 'package:pallinet/components/Messages.dart';
-import 'package:pallinet/components/PainDiary.dart';
-import 'package:pallinet/components/Treatments.dart';
+import 'package:pallinet/components/appointments.dart';
+import 'package:pallinet/components/messages.dart';
+import 'package:pallinet/components/pain_diary.dart';
+import 'package:pallinet/components/treatments.dart';
 
 class PatientHome extends StatelessWidget {
   const PatientHome({super.key});
@@ -14,16 +14,20 @@ class PatientHome extends StatelessWidget {
       body: ListView(
         children: const [
           Padding(
-              padding: EdgeInsets.only(bottom: 20),
+              padding:
+                  EdgeInsets.only(bottom: 10, top: 10, right: 20, left: 20),
               child: SizedBox(height: 300, child: PainDiary())),
           Padding(
-              padding: EdgeInsets.only(bottom: 20),
+              padding:
+                  EdgeInsets.only(bottom: 10, top: 10, right: 20, left: 20),
               child: SizedBox(height: 300, child: Appointments())),
           Padding(
-              padding: EdgeInsets.only(bottom: 20),
+              padding:
+                  EdgeInsets.only(bottom: 10, top: 10, right: 20, left: 20),
               child: SizedBox(height: 300, child: Messages())),
           Padding(
-              padding: EdgeInsets.only(bottom: 20),
+              padding:
+                  EdgeInsets.only(bottom: 10, top: 10, right: 20, left: 20),
               child: SizedBox(height: 300, child: Treatments()))
         ],
       ),

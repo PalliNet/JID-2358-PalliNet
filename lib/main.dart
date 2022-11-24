@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:pallinet/NewAccount.dart';
-import 'package:pallinet/PatientHome.dart';
-import 'package:pallinet/PatientLogin.dart';
-import 'package:pallinet/PhysicianHome.dart';
-import 'package:pallinet/PhysicianLogin.dart';
-import 'package:pallinet/ProviderLandingPage.dart';
-import 'package:pallinet/NewPainDiaryEntry.dart';
-import 'LoginLandingPage.dart';
-import 'HomePage.dart';
+import 'package:pallinet/new_account.dart';
+import 'package:pallinet/patient_home.dart';
+import 'package:pallinet/patient_login.dart';
+import 'package:pallinet/physician_home.dart';
+import 'package:pallinet/physician_login.dart';
+import 'package:pallinet/provider_landing_view.dart';
+import 'package:pallinet/new_pain_diary_entry.dart';
+import 'login_view.dart';
+import 'home_view.dart';
 
 void main() {
   runApp(const PalliNet());
