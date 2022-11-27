@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:pallinet/pain_index.dart';
 
-class NewPainDiaryEntry extends StatelessWidget {
+class NewPainDiaryEntry extends StatefulWidget {
   const NewPainDiaryEntry({super.key});
+
+  @override
+  State<NewPainDiaryEntry> createState() => NewPainDiaryEntryState();
+}
+
+class NewPainDiaryEntryState extends State<NewPainDiaryEntry> {
+  List<painIndex> indices = <painIndex>[painIndex(1), painIndex(2), painIndex(3), painIndex(4), 
+    painIndex(5), painIndex(6), painIndex(7), painIndex(8), painIndex(9), painIndex(10)];
+    int numPressed = 0;
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenheight = MediaQuery.of(context).size.height;
-
+    int value;
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text("New Pain Diary Entry"),
@@ -17,16 +28,62 @@ class NewPainDiaryEntry extends StatelessWidget {
       body: PageView(
         children: [
           Container(
-            color: const Color.fromARGB(255, 211, 211, 211),
+            color: const Color.fromARGB(255, 211, 211, 211), //255, 211, 211, 211
             width: screenWidth,
             height: screenheight,
-            child: FractionallySizedBox(
-                widthFactor: 0.95,
-                heightFactor: 0.95,
+            child: SizedBox(
+                //widthFactor: 0.95, //95
+                //heightFactor: 0.95, //95
+                //height: 300,
                 child: Column(
                   children: [
-                    Text("temp"),
-                    const Expanded(child: SizedBox.shrink()),
+                    Expanded(
+                      child: ListView.separated(
+                        padding: const EdgeInsets.all(4),
+                        itemCount: 10,
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                            child: Container(
+                              height: 60,
+                              color: indices[index].isSelected ?const Color.fromARGB(255, 116, 72, 213) : Colors.white,
+                              child: Center(
+                                child: Text('${indices[index].value}', 
+                                style: const TextStyle(fontSize: 25)),
+                                )
+                            ),
+                            onTap: () => {
+                              if (indices[index].isSelected == false && numPressed == 0) {
+                                setState(() {
+                                  value = indices[index].value;
+                                  indices[index].isSelected = true;
+                                  numPressed += 1;
+                                }),
+                              } else {
+                                if (indices[index].isSelected == false && numPressed == 1) {
+                                  setState(() {
+                                    for (int i = 0; i < indices.length; i++) {
+                                      if (indices[i].isSelected == true) {
+                                        indices[i].isSelected = false;
+                                        indices[index].isSelected = true;
+                                        break;
+                                      }
+                                    }
+                                  }),
+                                } else if (indices[index].isSelected == true) {
+                                  setState(() {
+                                    value = indices[index].value;
+                                    indices[index].isSelected = false;
+                                    numPressed = 0;
+                                  }),
+                                }
+                              }
+                            }
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) => const Divider()
+                      ),
+                    ),
+                   // const Expanded(child: SizedBox.shrink()),
                     Row(
                       children: [
                         Padding(
@@ -43,7 +100,7 @@ class NewPainDiaryEntry extends StatelessWidget {
                                 const EdgeInsets.only(right: 10, bottom: 5),
                             child: OutlinedButton(
                                 onPressed: () => {
-                                      debugPrint("OwO"),
+                                      debugPrint("OwO?"),
                                     },
                                 child: const Text("Next Question")))
                       ],
