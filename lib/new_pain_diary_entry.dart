@@ -11,13 +11,22 @@ class NewPainDiaryEntry extends StatefulWidget {
 class NewPainDiaryEntryState extends State<NewPainDiaryEntry> {
   List<painIndex> indices = <painIndex>[painIndex(1), painIndex(2), painIndex(3), painIndex(4), 
     painIndex(5), painIndex(6), painIndex(7), painIndex(8), painIndex(9), painIndex(10)];
-    int numPressed = 0;
+
+  List<String> painDiaryQuestions = <String>[
+    "Question 1",
+    "Question 2",
+    "Question 3",
+    "Question 4",
+    "Question 5",
+  ];
+
+  int numPressed = 0;
+  int questionNum = 0;
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenheight = MediaQuery.of(context).size.height;
-    int value;
     
     return Scaffold(
       appBar: AppBar(
@@ -34,13 +43,13 @@ class NewPainDiaryEntryState extends State<NewPainDiaryEntry> {
             child: SizedBox(
                 child: Column(
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.only(bottom: 5, top: 5, right: 20, left: 20),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 5, top: 5, right: 20, left: 20),
                       child: SizedBox(
                         height: 100, 
                         child: Text(
-                          "Pain Question 1",
-                          style: TextStyle(
+                          painDiaryQuestions[questionNum],
+                          style: const TextStyle(
                             fontSize: 30,
                           ),
                         )
@@ -63,7 +72,6 @@ class NewPainDiaryEntryState extends State<NewPainDiaryEntry> {
                             onTap: () => {
                               if (indices[index].isSelected == false && numPressed == 0) {
                                 setState(() {
-                                  value = indices[index].value;
                                   indices[index].isSelected = true;
                                   numPressed += 1;
                                 }),
@@ -80,7 +88,6 @@ class NewPainDiaryEntryState extends State<NewPainDiaryEntry> {
                                   }),
                                 } else if (indices[index].isSelected == true) {
                                   setState(() {
-                                    value = indices[index].value;
                                     indices[index].isSelected = false;
                                     numPressed = 0;
                                   }),
@@ -102,9 +109,16 @@ class NewPainDiaryEntryState extends State<NewPainDiaryEntry> {
                             padding: const EdgeInsets.only(left: 10, bottom: 5),
                             child: OutlinedButton(
                                 onPressed: () => {
-                                      debugPrint(
-                                          "View entries not implemented"),
-                                    },
+                                  setState(() {
+                                    if (questionNum == 0) {
+                                      questionNum = 0;
+                                    } else {
+                                      questionNum -= 1;
+                                    }
+                                  }),
+                                      // debugPrint(
+                                      //     "View entries not implemented"),
+                                },
                                 child: const Text("Previous Question"))),
                         const Spacer(),
                         Padding(
@@ -112,8 +126,14 @@ class NewPainDiaryEntryState extends State<NewPainDiaryEntry> {
                                 const EdgeInsets.only(right: 10, bottom: 5),
                             child: OutlinedButton(
                                 onPressed: () => {
-                                      debugPrint("OwO?"),
-                                    },
+                                  setState(() {
+                                    if (questionNum == painDiaryQuestions.length - 1) {
+                                      questionNum = painDiaryQuestions.length - 1;
+                                    } else {
+                                      questionNum += 1;
+                                    }
+                                  }),
+                                },
                                 child: const Text("Next Question")))
                       ],
                     )
