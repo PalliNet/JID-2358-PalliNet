@@ -32,14 +32,23 @@ class NewPainDiaryEntryState extends State<NewPainDiaryEntry> {
             width: screenWidth,
             height: screenheight,
             child: SizedBox(
-                //widthFactor: 0.95, //95
-                //heightFactor: 0.95, //95
-                //height: 300,
                 child: Column(
                   children: [
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 5, top: 5, right: 20, left: 20),
+                      child: SizedBox(
+                        height: 100, 
+                        child: Text(
+                          "Pain Question 1",
+                          style: TextStyle(
+                            fontSize: 30,
+                          ),
+                        )
+                      ), 
+                    ),
                     Expanded(
                       child: ListView.separated(
-                        padding: const EdgeInsets.all(4),
+                        padding: const EdgeInsets.all(10),
                         itemCount: 10,
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
@@ -80,7 +89,10 @@ class NewPainDiaryEntryState extends State<NewPainDiaryEntry> {
                             }
                           );
                         },
-                        separatorBuilder: (BuildContext context, int index) => const Divider()
+                        separatorBuilder: (BuildContext context, int index) => const Divider(
+                          thickness: 3,
+                          color: Color.fromARGB(255, 95, 95, 95),
+                        )
                       ),
                     ),
                    // const Expanded(child: SizedBox.shrink()),
