@@ -15,6 +15,7 @@ class EntryModel extends ChangeNotifier {
   }
 
   void submit() {
+    debugPrint(entries.toString());
     removeAll();
   }
 

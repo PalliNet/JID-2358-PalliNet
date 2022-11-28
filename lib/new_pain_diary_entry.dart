@@ -86,30 +86,28 @@ class NewPainDiaryEntryState extends State<NewPainDiaryEntry> {
                               child: OutlinedButton(
                                   onPressed: () => {
                                         setState(() {
-                                          if (questionNum == 0) {
-                                            questionNum = 0;
-                                          } else {
+                                          if (questionNum > 0) {
                                             questionNum -= 1;
                                           }
                                         }),
-                                        // debugPrint(
-                                        //     "View entries not implemented"),
                                       },
                                   child: const Text("Previous Question"))),
                           const Spacer(),
-                          Padding(
-                              padding: const EdgeInsets.only(right: 10, bottom: 5),
-                              child: OutlinedButton(
-                                  onPressed: () => {
-                                        setState(() {
-                                          if (questionNum == painDiaryQuestions.length - 1) {
-                                            questionNum = painDiaryQuestions.length - 1;
-                                          } else {
-                                            questionNum += 1;
-                                          }
-                                        }),
-                                      },
-                                  child: const Text("Next Question")))
+                          Consumer<EntryModel>(
+                              builder: (context, model, child) => Padding(
+                                  padding: const EdgeInsets.only(right: 10, bottom: 5),
+                                  child: questionNum != painDiaryQuestions.length - 1
+                                      ? OutlinedButton(
+                                          onPressed: () => {
+                                                setState(() {
+                                                  questionNum += 1;
+                                                }),
+                                              },
+                                          child: const Text("Next Question"))
+                                      : OutlinedButton(
+                                          onPressed: () =>
+                                              {model.submit(), Navigator.pushNamed(context, "/patient/home")},
+                                          child: const Text("Submit"))))
                         ],
                       )
                     ],
