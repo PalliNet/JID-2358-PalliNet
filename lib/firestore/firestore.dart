@@ -13,7 +13,7 @@ final user = <String, dynamic>{
   "born": 1815
 };
 
-void getStarted_addData(UnmodifiableMapView<int, int> entries) async {
+void addData(UnmodifiableMapView<int, int> entries) async {
 
     // [START get_started_add_data_1]
     // Create a new user with a first and last name
@@ -22,9 +22,15 @@ void getStarted_addData(UnmodifiableMapView<int, int> entries) async {
       "last": "Lovelace",
       "born": 1815
     };
-
+    final storedEntries = <String, dynamic> {
+      "q1": entries[0],
+      "q2": entries[1],
+      "q3": entries[2],
+      "q4": entries[3],
+      "q5": entries[4]
+    };
     // Add a new document with a generated ID
-    db.collection("users").add(user).then((DocumentReference doc) =>
+    db.collection("Pain Diary Entries").add(storedEntries).then((DocumentReference doc) =>
         debugPrint('DocumentSnapshot added with ID: ${doc.id}'));
     // [END get_started_add_data_1]
   }
