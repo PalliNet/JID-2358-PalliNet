@@ -1,5 +1,5 @@
 import 'dart:collection';
-
+import 'package:pallinet/firestore/firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class EntryModel extends ChangeNotifier {
@@ -15,6 +15,8 @@ class EntryModel extends ChangeNotifier {
   }
 
   void submit() {
+
+    addData(entries);
     debugPrint(entries.toString());
     removeAll();
   }
