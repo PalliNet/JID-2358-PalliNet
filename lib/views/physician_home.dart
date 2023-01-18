@@ -13,15 +13,26 @@ class PhysicianHome extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         children: [
           ElevatedButton(
-            onPressed: () => {Navigator.pushNamed(context, "/patients")},
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.amber, // Background color
-            ),
-            child: const Text(
-              'Patients',
-              style: TextStyle(fontSize: 40, color: Colors.black),
-            ),
-          )
+              onPressed: () => {Navigator.pushNamed(context, "/patients")},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white, // Background color
+              ),
+              child: Row(
+                children: const [
+                  Icon(
+                    Icons.assignment_ind,
+                    color: Colors.pink,
+                    size: 120,
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    'Patients',
+                    style: TextStyle(fontSize: 30, color: Colors.black),
+                  )
+                ],
+              ))
         ],
       ),
     );
