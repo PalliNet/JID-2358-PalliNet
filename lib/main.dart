@@ -8,6 +8,7 @@ import 'package:pallinet/views/provider_landing_view.dart';
 import 'package:pallinet/views/new_entry.dart';
 import 'package:pallinet/views/login_view.dart';
 import 'package:pallinet/views/home_view.dart';
+import 'package:pallinet/views/patients_list.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
@@ -22,7 +23,6 @@ class PalliNet extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -39,6 +39,7 @@ class PalliNet extends StatelessWidget {
           '/patient/home': (context) => const PatientHome(),
           '/patient/diary/new': (context) => const NewPainDiaryEntry(),
           '/physician/home': (context) => const PhysicianHome(),
+          '/patients': (context) => const PatientList(),
         },
         onUnknownRoute: (settings) => MaterialPageRoute(builder: (context) => const HomePage()));
   }
