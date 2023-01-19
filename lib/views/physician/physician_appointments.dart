@@ -10,7 +10,7 @@ class PhysicianAppointments extends StatelessWidget {
       appBar: AppBar(title: const Text("Dr. Totally Real Doctor")),
       body: ListView(
         padding: const EdgeInsets.all(8),
-        children: [Text("Appointments")],
+        children: const [Text("Appointments")],
       ),
     );
   }
