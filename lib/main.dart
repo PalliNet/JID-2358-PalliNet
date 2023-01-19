@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:pallinet/views/new_account.dart';
-import 'package:pallinet/views/patient_home.dart';
-import 'package:pallinet/views/patient_login.dart';
-import 'package:pallinet/views/physician_appointments.dart';
-import 'package:pallinet/views/physician_home.dart';
-import 'package:pallinet/views/physician_login.dart';
-import 'package:pallinet/views/provider_landing_view.dart';
-import 'package:pallinet/views/new_entry.dart';
+import 'package:pallinet/views/patient/patient_home.dart';
+import 'package:pallinet/views/patient/patient_login.dart';
+import 'package:pallinet/views/physician/physician_appointments.dart';
+import 'package:pallinet/views/physician/physician_home.dart';
+import 'package:pallinet/views/physician/physician_login.dart';
+import 'package:pallinet/views/physician/provider_landing_view.dart';
+import 'package:pallinet/views/patient/new_entry.dart';
 import 'package:pallinet/views/login_view.dart';
 import 'package:pallinet/views/home_view.dart';
-import 'package:pallinet/views/patients_list.dart';
+import 'package:pallinet/views/physician/patients_list.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {

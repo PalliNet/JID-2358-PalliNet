@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pallinet/components/pain_diary.dart';
 
 class PhysicianHome extends StatelessWidget {
   const PhysicianHome({super.key});
