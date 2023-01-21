@@ -6,14 +6,14 @@ class PatientCard extends StatelessWidget {
   const PatientCard({
     super.key,
     required this.name,
-    required this.mrn,
+    required this.id,
     required this.age,
     required this.sex,
     required this.birthdate,
   });
 
   final String name;
-  final String mrn;
+  final String id;
   final int age;
   final String sex;
   final DateTime birthdate;
@@ -36,7 +36,7 @@ class PatientCard extends StatelessWidget {
                 flex: 4,
                 child: _PatientDescription(
                   name: name,
-                  mrn: mrn,
+                  id: id,
                   age: age,
                   sex: sex,
                   birthdate: birthdate,
@@ -55,14 +55,14 @@ class PatientCard extends StatelessWidget {
 class _PatientDescription extends StatelessWidget {
   const _PatientDescription({
     required this.name,
-    required this.mrn,
+    required this.id,
     required this.age,
     required this.sex,
     required this.birthdate,
   });
 
   final String name;
-  final String mrn;
+  final String id;
   final int age;
   final String sex;
   final DateTime birthdate;
@@ -84,7 +84,7 @@ class _PatientDescription extends StatelessWidget {
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
           Text(
-            'MRN: $mrn',
+            'id: $id',
             style: const TextStyle(fontSize: 10.0),
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
