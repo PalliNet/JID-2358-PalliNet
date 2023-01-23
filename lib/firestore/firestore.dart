@@ -45,6 +45,7 @@ Future<List<dynamic>>? retrievePatients() async {
   }, onError: (e) => debugPrint("Error getting document: $e"));
 
   List<dynamic> patients = list["patients"];
+  debugPrint("zzzzz");
   debugPrint(patients.toString());
 
   return patients;

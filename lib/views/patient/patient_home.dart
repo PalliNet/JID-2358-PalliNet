@@ -21,7 +21,7 @@ class PatientHome extends StatelessWidget {
           Padding(
               padding:
                   EdgeInsets.only(bottom: 10, top: 10, right: 20, left: 20),
-              child: SizedBox(height: 300, child: Appointments())),
+              child: SizedBox(height: 140, child: Appointments())),
           Padding(
               padding:
                   EdgeInsets.only(bottom: 10, top: 10, right: 20, left: 20),
@@ -36,6 +36,7 @@ class PatientHome extends StatelessWidget {
               child: SizedBox(height: 300, child: Prescriptions()))
         ],
       ),
+      
     );
   }
 }
