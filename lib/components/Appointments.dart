@@ -8,10 +8,6 @@ class Appointments extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Appointments"),
-        automaticallyImplyLeading: false,
-      ),
       body: ListView(
         padding: const EdgeInsets.all(8),
         children: [
@@ -26,36 +22,14 @@ class Appointments extends StatelessWidget {
                   Icon(
                     Icons.schedule,
                     color: Color.fromRGBO(64, 192, 251, 1),
-                    size: 60,
+                    size: 120,
                   ),
                   SizedBox(
-                    width: 25,
+                    width: 30,
                   ),
                   Text(
-                    'Upcoming Appointments',
-                    style: TextStyle(fontSize: 20, color: Colors.black),
-                  )
-                ],
-              )),
-              ElevatedButton(
-              onPressed: () =>
-                  {Navigator.pushNamed(context, "/patient/appointments")},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white, // Background color
-              ),
-              child: Row(
-                children: const [
-                  Icon(
-                    Icons.schedule,
-                    color: Color.fromRGBO(64, 192, 251, 1),
-                    size: 60,
-                  ),
-                  SizedBox(
-                    width: 25,
-                  ),
-                  Text(
-                    'Upcoming Appointments',
-                    style: TextStyle(fontSize: 20, color: Colors.black),
+                    'Appointments',
+                    style: TextStyle(fontSize: 25, color: Colors.black),
                   )
                 ],
               )),

@@ -49,6 +49,7 @@ class PalliNet extends StatelessWidget {
           '/patients': (context) => const PatientList(),
           '/physician/appointments': (context) => const PhysicianAppointments(),
           '/patient/appointments': (context) => const PatientAppointments(),
+          '/physician/patient/detail': (context) => const PatientAppointments(),
         },
         onUnknownRoute: (settings) =>
             MaterialPageRoute(builder: (context) => const HomePage()));
