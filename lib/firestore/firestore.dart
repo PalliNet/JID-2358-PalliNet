@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:collection';
 import 'package:flutter/foundation.dart';
+import 'package:pallinet/constants.dart';
+import 'package:pallinet/models/patient_model.dart';
 import 'package:quiver/iterables.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
@@ -46,6 +48,29 @@ Future<List<dynamic>>? retrievePatients() async {
 
   List<dynamic> patients = list["patients"];
   debugPrint(patients.toString());
+
+  return patients;
+}
+
+Future<List<PatientID>>? retrievePatients2() async {
+  debugPrint("Retrieve patients");
+
+  Map<dynamic, dynamic> list =
+      await db.collection("Practitioner").doc("ORVKtlLSLSovmRfxxPq5").get().then((DocumentSnapshot doc) {
+    return doc.data() as Map<String, dynamic>;
+  }, onError: (e) => debugPrint("Error getting document: $e"));
+
+  List<dynamic> data = list["patients"];
+  debugPrint(data.toString());
+  List<PatientID> patients = data.map((e) {
+    // debugPrint(e.runtimeType.toString());
+    debugPrint(e.toString());
+    Gender gender = e["gender"] == "M" ? Gender.male : Gender.female;
+    Timestamp t = e["birthDate"] as Timestamp;
+    DateTime birthdate = t.toDate();
+
+    return PatientID(e["name"], gender, e["id"], birthdate);
+  }).toList();
 
   return patients;
 }

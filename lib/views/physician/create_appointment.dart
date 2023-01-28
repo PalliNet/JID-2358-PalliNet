@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pallinet/components/patient_card.dart';
 import 'package:pallinet/constants.dart';
 import 'package:pallinet/firestore/firestore.dart';
+import 'package:pallinet/models/patient_model.dart';
 
 class CreateAppointment extends StatelessWidget {
   const CreateAppointment({super.key});
@@ -28,7 +29,7 @@ class AppointmentContentState extends State<AppointmentContent> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  String patient = "";
+  PatientID? patient;
   List practitioners = [];
   DateTime date = DateTime.now();
   String desc = "";
@@ -36,58 +37,67 @@ class AppointmentContentState extends State<AppointmentContent> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(maxWidth: 1000),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            gap(),
-            gap(),
-            TextFormField(
-              decoration: const InputDecoration(
-                hintText: 'Patient',
-                prefixIcon: Icon(Icons.person),
-              ),
+    return FutureBuilder<List<PatientID>>(
+      future: retrievePatients2(),
+      builder: ((context, snapshot) {
+        List<PatientID> list = snapshot.data == null ? [] : snapshot.data as List<PatientID>;
+        return Container(
+          constraints: const BoxConstraints(maxWidth: 1000),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                gap(),
+                gap(),
+                DropdownButtonFormField(
+                    decoration: const InputDecoration(
+                      hintText: 'Patient',
+                      prefixIcon: Icon(Icons.person),
+                    ),
+                    items: list.map((e) {
+                      return DropdownMenuItem<PatientID>(value: e, child: Text(e.name));
+                    }).toList(),
+                    onChanged: (PatientID? value) {
+                      debugPrint("temmp");
+                    },
+                    value: patient),
+                gap(),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    hintText: 'Practitioner(s)',
+                    prefixIcon: Icon(Icons.group_add),
+                  ),
+                ),
+                gap(),
+                TextFormField(
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  minLines: 3,
+                  decoration: const InputDecoration(
+                    hintText: 'Notes',
+                    prefixIcon: Icon(Icons.description),
+                  ),
+                ),
+                DropdownButtonFormField(
+                  items: ServiceType.values.map((e) {
+                    return DropdownMenuItem<ServiceType>(
+                      value: e,
+                      child: Text(e.value),
+                    );
+                  }).toList(),
+                  hint: const Text("Visit Type"),
+                  onChanged: (ServiceType? value) {
+                    debugPrint(value.toString());
+                  },
+                  value: serviceType,
+                )
+              ],
             ),
-            gap(),
-            TextFormField(
-              decoration: const InputDecoration(
-                hintText: 'Practitioner(s)',
-                prefixIcon: Icon(Icons.group_add),
-              ),
-            ),
-            gap(),
-            TextFormField(
-              keyboardType: TextInputType.multiline,
-              maxLines: null,
-              minLines: 3,
-              decoration: const InputDecoration(
-                hintText: 'Notes',
-                prefixIcon: Icon(Icons.description),
-              ),
-            ),
-            DropdownButton(
-              items: ServiceType.values.map((e) {
-                return DropdownMenuItem<ServiceType>(
-                  value: e,
-                  child: Text(e.value),
-                );
-              }).toList(),
-              hint: const Text("Visit Type"),
-              onChanged: (ServiceType? value) {
-                debugPrint(value.toString());
-                setState(() {
-                  serviceType = value!;
-                });
-              },
-              value: serviceType,
-            )
-          ],
-        ),
-      ),
+          ),
+        );
+      }),
     );
   }
 
