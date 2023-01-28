@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pallinet/views/new_account.dart';
 import 'package:pallinet/views/patient/patient_home.dart';
 import 'package:pallinet/views/patient/patient_login.dart';
+import 'package:pallinet/views/physician/create_appointment.dart';
 import 'package:pallinet/views/physician/physician_appointments.dart';
 import 'package:pallinet/views/physician/physician_home.dart';
 import 'package:pallinet/views/physician/physician_login.dart';
@@ -41,14 +42,13 @@ class PalliNet extends StatelessWidget {
           '/provider': (context) => const ProviderLandingPage(),
           '/patient/home': (context) => const PatientHome(),
           '/prescriptionssummary': (context) => const PrescriptionsSummary(),
-          '/prescriptionsdetailedview': (context) =>
-              const PrescriptionsDetailedView(),
+          '/prescriptionsdetailedview': (context) => const PrescriptionsDetailedView(),
           '/patient/diary/new': (context) => const NewPainDiaryEntry(),
           '/physician/home': (context) => const PhysicianHome(),
           '/patients': (context) => const PatientList(),
           '/appointments': (context) => const PhysicianAppointments(),
+          '/temp': (context) => const CreateAppointment(),
         },
-        onUnknownRoute: (settings) =>
-            MaterialPageRoute(builder: (context) => const HomePage()));
+        onUnknownRoute: (settings) => MaterialPageRoute(builder: (context) => const HomePage()));
   }
 }
