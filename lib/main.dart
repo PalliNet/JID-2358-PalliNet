@@ -12,6 +12,7 @@ import 'package:pallinet/views/home_view.dart';
 import 'package:pallinet/views/physician/patients_list.dart';
 import 'package:pallinet/views/prescriptions_detailed_view.dart';
 import 'package:pallinet/views/prescriptions_summary.dart';
+import 'package:pallinet/views/patient/patient_appointments.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
@@ -46,7 +47,9 @@ class PalliNet extends StatelessWidget {
           '/patient/diary/new': (context) => const NewPainDiaryEntry(),
           '/physician/home': (context) => const PhysicianHome(),
           '/patients': (context) => const PatientList(),
-          '/appointments': (context) => const PhysicianAppointments(),
+          '/physician/appointments': (context) => const PhysicianAppointments(),
+          '/patient/appointments': (context) => const PatientAppointments(),
+          '/physician/patient/detail': (context) => const PatientAppointments(),
         },
         onUnknownRoute: (settings) =>
             MaterialPageRoute(builder: (context) => const HomePage()));
