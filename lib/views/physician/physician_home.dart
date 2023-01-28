@@ -33,7 +33,7 @@ class PhysicianHome extends StatelessWidget {
                 ],
               )),
           ElevatedButton(
-              onPressed: () => {Navigator.pushNamed(context, "/appointments")},
+              onPressed: () => {Navigator.pushNamed(context, "/physician/appointments")},
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white, // Background color
               ),
