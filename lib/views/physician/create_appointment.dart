@@ -30,9 +30,9 @@ class AppointmentContentState extends State<AppointmentContent> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   PatientID? patient;
-  List practitioners = [];
-  DateTime date = DateTime.now();
-  String desc = "";
+  List? practitioners = [];
+  DateTime? date = DateTime.now();
+  String? desc = "";
   ServiceType? serviceType;
 
   @override
@@ -62,6 +62,7 @@ class AppointmentContentState extends State<AppointmentContent> {
                     onChanged: (PatientID? value) {
                       debugPrint("temmp");
                     },
+                    onSaved: (value) => {patient = value},
                     value: patient),
                 gap(),
                 TextFormField(
@@ -75,6 +76,7 @@ class AppointmentContentState extends State<AppointmentContent> {
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
                   minLines: 3,
+                  onSaved: (value) => {desc = value},
                   decoration: const InputDecoration(
                     hintText: 'Notes',
                     prefixIcon: Icon(Icons.description),
@@ -92,7 +94,20 @@ class AppointmentContentState extends State<AppointmentContent> {
                     debugPrint(value.toString());
                   },
                   value: serviceType,
-                )
+                ),
+                gap(),
+                ElevatedButton(
+                    onPressed: () {
+                      _formKey.currentState?.save();
+                      debugPrint('Form Information');
+                      debugPrint('Patient: $patient');
+                      debugPrint('Practioners: $practitioners');
+                      debugPrint('Description: $desc');
+                      debugPrint('Service Type: $serviceType');
+
+                      // debugPrint(_formKey.currentState.toString());
+                    },
+                    child: const Text("Create Appointment"))
               ],
             ),
           ),

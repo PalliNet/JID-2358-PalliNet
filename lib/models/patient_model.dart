@@ -19,6 +19,12 @@ class PatientID {
   final DateTime birthDate;
 
   PatientID(this.name, this.gender, this.id, this.birthDate);
+
+  @override
+  String toString() {
+    String bdate = birthDate.toString();
+    return 'PatientID: $name $gender $id $bdate';
+  }
 }
 
 class Name {
