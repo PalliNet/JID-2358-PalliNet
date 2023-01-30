@@ -5,10 +5,17 @@ We are creating PalliNet in order to make palliative care specialists more acces
 
 PalliNet will not only provide access to palliative care specialists, but also provide an easy way for primary healthcare providers to see how patients react to care and plan repeat appointments and/or referrals to specialists
 
-# Release Notes
-## Version 0.1.0
-### New Features
-* Physician patient list view
-### Bug Fixes
-### Known Issues
-* Errors while loading patient list view due to lack of null handling
+# Release Notes: 
+
+## Version 0.1.0 
+### New Features: 
+* Physican Patient List 
+* Detailed Patient Information View and Navigation 
+* Created Appointment information views 
+* Pain Diary Navigation and question setup 
+* Calendar Navigation and UI 
+### Bug Fixes: 
+* Fixed pixel overflow on appointment button 
+### Known Issues: 
+* Pixel overflow on patient prescription detailed view 
+* Errors while loading patient list view due to lack of null handling 
