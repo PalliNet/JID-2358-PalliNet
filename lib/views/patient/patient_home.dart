@@ -15,7 +15,7 @@ class PatientHome extends StatelessWidget {
       appBar: AppBar(title: const Text("John Smith")),
       body: ListView(
         children: const [
-        Padding(
+            Padding(
               padding:
                   EdgeInsets.only(bottom: 10, top: 10, right: 20, left: 20),
               child: SizedBox(height: 150, child: Calendar())),
