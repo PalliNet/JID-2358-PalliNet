@@ -53,27 +53,6 @@ class PhysicianHome extends StatelessWidget {
                   )
                 ],
               )),
-          ElevatedButton(
-              onPressed: () => {Navigator.pushNamed(context, "/temp")},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white, // Background color
-              ),
-              child: Row(
-                children: const [
-                  Icon(
-                    Icons.schedule,
-                    color: Colors.pink,
-                    size: 120,
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    'temp',
-                    style: TextStyle(fontSize: 30, color: Colors.black),
-                  )
-                ],
-              ))
         ],
       ),
     );
