@@ -93,6 +93,7 @@ class AppointmentContentState extends State<AppointmentContent> {
                   onChanged: (ServiceType? value) {
                     debugPrint(value.toString());
                   },
+                  onSaved: (value) => {serviceType = value},
                   value: serviceType,
                 ),
                 gap(),
@@ -104,7 +105,13 @@ class AppointmentContentState extends State<AppointmentContent> {
                       debugPrint('Practioners: $practitioners');
                       debugPrint('Description: $desc');
                       debugPrint('Service Type: $serviceType');
-
+                      Map<String, dynamic> payload = {
+                        "patient": patient,
+                        "practitioners": practitioners,
+                        "description": desc,
+                        "type": serviceType?.value,
+                      };
+                      createAppointment(payload);
                       // debugPrint(_formKey.currentState.toString());
                     },
                     child: const Text("Create Appointment"))

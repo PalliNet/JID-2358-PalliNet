@@ -76,6 +76,25 @@ Future<List<PatientID>>? retrievePatients2() async {
   return patients;
 }
 
+void createAppointment(Map<String, dynamic> payload) async {
+  debugPrint("Create appointment");
+  debugPrint(payload.toString());
+
+  final appointmentsRef = db.collection("Appointment");
+
+  await appointmentsRef.add({
+    "appointmentType": payload["type"],
+    "description": payload["description"],
+    "created": DateTime.now(),
+    "serviceCategory": "appointment",
+  }).then((value) => debugPrint(value.toString()), onError: (e) => debugPrint("Error occured: $e"));
+
+  Map<dynamic, dynamic> list =
+      await db.collection("Practitioner").doc("ORVKtlLSLSovmRfxxPq5").get().then((DocumentSnapshot doc) {
+    return doc.data() as Map<String, dynamic>;
+  }, onError: (e) => debugPrint("Error getting document: $e"));
+}
+
 // Add Patients
 void addPatient() async {
   final data = {
