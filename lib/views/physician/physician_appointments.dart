@@ -9,32 +9,23 @@ class PhysicianAppointments extends StatelessWidget {
     // double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(title: const Text("Appointments")),
-      body: 
-      ListView(
+      body: ListView(
         padding: const EdgeInsets.all(8),
         children: [
           const Text(
-            "Upcoming Appointments", 
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            "Upcoming Appointments",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
-          AppointmentCard(
-            name: "Kenny Hoang",
-            date: DateTime(2023, 2,  12),
-            time: "12:30PM"
-            ),
+          AppointmentCard(name: "Kenny Hoang", date: DateTime(2023, 2, 12), time: "12:30PM"),
           const Padding(padding: EdgeInsets.all(16.0)),
           const Text(
-            "Past Appointments", 
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            "Past Appointments",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
-          AppointmentCard(
-            name: "Jenny Ang",
-            date: DateTime(2022, 12,  25),
-            time: "1:30PM"
-          ),
+          AppointmentCard(name: "Jenny Ang", date: DateTime(2022, 12, 25), time: "1:30PM"),
           const Padding(padding: EdgeInsets.all(16.0)),
           ElevatedButton(
-              onPressed: () => {debugPrint('schedule tapped')},
+              onPressed: () => {Navigator.pushNamed(context, "/physician/appointments/new")},
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white, // Background color
               ),

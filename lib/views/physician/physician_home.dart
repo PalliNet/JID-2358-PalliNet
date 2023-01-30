@@ -52,7 +52,7 @@ class PhysicianHome extends StatelessWidget {
                     style: TextStyle(fontSize: 30, color: Colors.black),
                   )
                 ],
-              ))
+              )),
         ],
       ),
     );
