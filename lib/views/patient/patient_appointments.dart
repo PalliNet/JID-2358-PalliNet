@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pallinet/components/appointment_card.dart';
 
-class PhysicianAppointments extends StatelessWidget {
-  const PhysicianAppointments({super.key});
-
-  @override
+class PatientAppointments extends StatelessWidget {
+  const PatientAppointments({super.key});
+@override
   Widget build(BuildContext context) {
     // double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -18,7 +17,7 @@ class PhysicianAppointments extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
           AppointmentCard(
-            name: "Kenny Hoang",
+            name: "Dr. Totally Real Doctor",
             date: DateTime(2023, 2,  12),
             time: "12:30PM"
             ),
@@ -28,7 +27,7 @@ class PhysicianAppointments extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
           AppointmentCard(
-            name: "Jenny Ang",
+            name: "Dr. Lanyard",
             date: DateTime(2022, 12,  25),
             time: "1:30PM"
           ),

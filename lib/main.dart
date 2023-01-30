@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pallinet/components/calendar.dart';
+import 'package:pallinet/views/calendar_card.dart';
 import 'package:pallinet/views/new_account.dart';
 import 'package:pallinet/views/patient/patient_home.dart';
 import 'package:pallinet/views/patient/patient_login.dart';
@@ -13,7 +15,9 @@ import 'package:pallinet/views/home_view.dart';
 import 'package:pallinet/views/physician/patients_list.dart';
 import 'package:pallinet/views/prescriptions_detailed_view.dart';
 import 'package:pallinet/views/prescriptions_summary.dart';
+import 'package:pallinet/views/patient/patient_appointments.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:pallinet/views/physician/physician_appointment_specifics.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,8 +51,11 @@ class PalliNet extends StatelessWidget {
           '/patient/diary/new': (context) => const NewPainDiaryEntry(),
           '/physician/home': (context) => const PhysicianHome(),
           '/patients': (context) => const PatientList(),
-          '/appointments': (context) => const PhysicianAppointments(),
           '/physician/patient/details': (context) => const PatientDetails(),
+          '/physician/appointments': (context) => const PhysicianAppointments(),
+          '/patient/appointments': (context) => const PatientAppointments(),
+          '/patient/calendar': (context) => const CalendarView(),
+          '/physician/appointment/detail': (context) => const PhysicianAppointmentSpecifics(),
         },
         onUnknownRoute: (settings) =>
             MaterialPageRoute(builder: (context) => const HomePage()));
