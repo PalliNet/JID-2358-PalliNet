@@ -22,7 +22,7 @@ class Appointments extends StatelessWidget {
                   Icon(
                     Icons.schedule,
                     color: Color.fromRGBO(64, 192, 251, 1),
-                    size: 120,
+                    size: 110,
                   ),
                   SizedBox(
                     width: 30,
