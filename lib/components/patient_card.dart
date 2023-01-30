@@ -21,7 +21,8 @@ class PatientCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () => {debugPrint('$name tapped')},
+        onTap: () =>
+            {Navigator.pushNamed(context, "/physician/patient/details")},
         child: Card(
             child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0),
