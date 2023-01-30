@@ -17,10 +17,12 @@ import 'package:pallinet/views/prescriptions_summary.dart';
 import 'package:pallinet/views/patient/patient_appointments.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pallinet/views/physician/physician_appointment_specifics.dart';
+import 'package:pallinet/views/symptoms.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const PalliNet());
 }
 
@@ -53,7 +55,9 @@ class PalliNet extends StatelessWidget {
           '/physician/appointments': (context) => const PhysicianAppointments(),
           '/patient/appointments': (context) => const PatientAppointments(),
           '/patient/calendar': (context) => const CalendarView(),
-          '/physician/appointment/detail': (context) => const PhysicianAppointmentSpecifics(),
+          '/physician/appointment/detail': (context) =>
+              const PhysicianAppointmentSpecifics(),
+          '/symptoms': (context) => const SymptomsView()
         },
         onUnknownRoute: (settings) =>
             MaterialPageRoute(builder: (context) => const HomePage()));
