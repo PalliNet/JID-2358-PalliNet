@@ -9,18 +9,23 @@ FirebaseFirestore db = FirebaseFirestore.instance;
 void addData(UnmodifiableMapView<int, int> entries) async {
   // [START get_started_add_data_1]
   // Create a new user with a first and last name
-  final storedEntries = <String, dynamic>{
-    "q1": entries[0],
-    "q2": entries[1],
-    "q3": entries[2],
-    "q4": entries[3],
-    "q5": entries[4]
-  };
+  final storedEntries = <String, dynamic>{};
+  for (int i = 0; i < entries.length; i++) {
+    storedEntries["q$i"] = entries[i];
+  }
   // Add a new document with a generated ID
+  // db.collection("Pain Diary Entries").add(storedEntries).then(
+  //     (DocumentReference doc) =>
+  //         debugPrint('DocumentSnapshot added with ID: ${doc.id}'));
+
+  //add entry into patient database
   db
-      .collection("Pain Diary Entries")
+      .collection("Patient")
+      .doc("6827485") // un hard-code this
+      .collection("PainDiary")
       .add(storedEntries)
-      .then((DocumentReference doc) => debugPrint('DocumentSnapshot added with ID: ${doc.id}'));
+      .then((DocumentReference doc) =>
+          debugPrint('patient entry added with ID: ${doc.id}'));
   // [END get_started_add_data_1]
 }
 
@@ -34,12 +39,31 @@ void addData(UnmodifiableMapView<int, int> entries) async {
 
 //   return list;
 // }
+Future<Map<dynamic, dynamic>>? retrieveQuestions() async {
+  debugPrint("Retrieve Questions");
+
+  Map<dynamic, dynamic> list = await db
+      .collection("Pain Diary Questions")
+      .doc("S3tecvHL4Vivoe2EomXj")
+      .get()
+      .then((DocumentSnapshot doc) {
+    debugPrint(doc.data().toString());
+    return doc.data() as Map<String, dynamic>;
+  }, onError: (e) => debugPrint("Error getting document: $e"));
+
+  List<dynamic> questions = list["questions"];
+  return list;
+  // return questions;
+}
 
 Future<List<dynamic>>? retrievePatients() async {
   debugPrint("Retrieve patients");
 
-  Map<dynamic, dynamic> list =
-      await db.collection("Practitioner").doc("ORVKtlLSLSovmRfxxPq5").get().then((DocumentSnapshot doc) {
+  Map<dynamic, dynamic> list = await db
+      .collection("Practitioner")
+      .doc("ORVKtlLSLSovmRfxxPq5")
+      .get()
+      .then((DocumentSnapshot doc) {
     debugPrint(doc.data().toString());
     return doc.data() as Map<String, dynamic>;
   }, onError: (e) => debugPrint("Error getting document: $e"));
@@ -61,12 +85,17 @@ void addPatient() async {
     "birthdate": DateTime(2001, 12, 17),
     "identifier": "293-58-2919",
     "maritalStatus": "",
-    "name": {"family": "Guo", "given": "Jason", "prefix": "", "suffix": "", "text": "Jason Guo", "use": "legal"}
+    "name": {
+      "family": "Guo",
+      "given": "Jason",
+      "prefix": "",
+      "suffix": "",
+      "text": "Jason Guo",
+      "use": "legal"
+    }
   };
-  db
-      .collection("Patient")
-      .add(data)
-      .then((DocumentReference doc) => debugPrint('DocumentSnapshot added with ID: ${doc.id}'));
+  db.collection("Patient").add(data).then((DocumentReference doc) =>
+      debugPrint('DocumentSnapshot added with ID: ${doc.id}'));
 }
 
 FirebaseFirestore getDatabase() {

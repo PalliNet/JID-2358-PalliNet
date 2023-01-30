@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pallinet/components/Symptoms.dart';
 import 'package:pallinet/components/appointments.dart';
 import 'package:pallinet/components/messages.dart';
 import 'package:pallinet/components/pain_diary.dart';
@@ -19,6 +20,10 @@ class PatientHome extends StatelessWidget {
               padding:
                   EdgeInsets.only(bottom: 10, top: 10, right: 20, left: 20),
               child: SizedBox(height: 150, child: Calendar())),
+          Padding(
+              padding:
+                  EdgeInsets.only(bottom: 10, top: 10, right: 20, left: 20),
+              child: SizedBox(height: 300, child: Symptoms())),
           Padding(
               padding:
                   EdgeInsets.only(bottom: 10, top: 10, right: 20, left: 20),
