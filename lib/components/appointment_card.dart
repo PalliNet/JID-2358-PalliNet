@@ -6,17 +6,13 @@ class AppointmentCard extends StatelessWidget {
   const AppointmentCard({
     super.key,
     required this.name,
-    required this.id,
-    required this.age,
-    required this.sex,
-    required this.birthdate,
+    required this.time,
+    required this.date,
   });
 
   final String name;
-  final String id;
-  final int age;
-  final String sex;
-  final DateTime birthdate;
+  final String time;
+  final DateTime date;
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +32,8 @@ class AppointmentCard extends StatelessWidget {
                 flex: 4,
                 child: _AppointmentDescription(
                   name: name,
-                  id: id,
-                  age: age,
-                  sex: sex,
-                  birthdate: birthdate,
+                  time: time,
+                  date: date
                 ),
               ),
               const Icon(
@@ -55,17 +49,13 @@ class AppointmentCard extends StatelessWidget {
 class _AppointmentDescription extends StatelessWidget {
   const _AppointmentDescription({
     required this.name,
-    required this.id,
-    required this.age,
-    required this.sex,
-    required this.birthdate,
+    required this.time,
+    required this.date,
   });
 
   final String name;
-  final String id;
-  final int age;
-  final String sex;
-  final DateTime birthdate;
+  final String time;
+  final DateTime date;
 
   @override
   Widget build(BuildContext context) {
@@ -79,18 +69,22 @@ class _AppointmentDescription extends StatelessWidget {
             name,
             style: const TextStyle(
               fontWeight: FontWeight.w500,
-              fontSize: 14.0,
+              fontSize: 18.0,
             ),
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
           Text(
-            'id: $id',
-            style: const TextStyle(fontSize: 10.0),
+            'Appointment Type: Checkup',
+            style: const TextStyle(fontSize: 14.0),
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
           Text(
-            '$age Years $sex DOB: ${DateFormat('MM-dd-yyyy').format(birthdate)}',
-            style: const TextStyle(fontSize: 10.0),
+            'Time: $time',
+            style: const TextStyle(fontSize: 14.0),
+          ),
+          Text(
+            'Date ${DateFormat('MM-dd-yyyy').format(date)}',
+            style: const TextStyle(fontSize: 14.0),
           ),
         ],
       ),
