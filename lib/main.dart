@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pallinet/components/calendar.dart';
+import 'package:pallinet/views/calendar_card.dart';
 import 'package:pallinet/views/new_account.dart';
 import 'package:pallinet/views/patient/patient_home.dart';
 import 'package:pallinet/views/patient/patient_login.dart';
@@ -51,6 +53,7 @@ class PalliNet extends StatelessWidget {
           '/physician/appointments': (context) => const PhysicianAppointments(),
           '/patient/appointments': (context) => const PatientAppointments(),
           '/physician/appointments/new': (context) => const CreateAppointment(),
+          '/patient/calendar': (context) => const CalendarView(),
           '/physician/appointment/detail': (context) => const PhysicianAppointmentSpecifics(),
         },
         onUnknownRoute: (settings) => MaterialPageRoute(builder: (context) => const HomePage()));
