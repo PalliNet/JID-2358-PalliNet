@@ -19,3 +19,4 @@ PalliNet will not only provide access to palliative care specialists, but also p
 ### Known Issues: 
 * Pixel overflow on patient prescription detailed view 
 * Errors while loading patient list view due to lack of null handling 
+* Calendar UI has a two weeks button that will crash the app
