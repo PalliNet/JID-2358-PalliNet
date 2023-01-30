@@ -4,6 +4,7 @@ import 'package:pallinet/views/calendar_card.dart';
 import 'package:pallinet/views/new_account.dart';
 import 'package:pallinet/views/patient/patient_home.dart';
 import 'package:pallinet/views/patient/patient_login.dart';
+import 'package:pallinet/views/physician/patient_detailed_info.dart';
 import 'package:pallinet/views/physician/create_appointment.dart';
 import 'package:pallinet/views/physician/physician_appointments.dart';
 import 'package:pallinet/views/physician/physician_home.dart';
@@ -52,6 +53,7 @@ class PalliNet extends StatelessWidget {
           '/patient/diary/new': (context) => const NewPainDiaryEntry(),
           '/physician/home': (context) => const PhysicianHome(),
           '/patients': (context) => const PatientList(),
+          '/physician/patient/details': (context) => const PatientDetails(),
           '/physician/appointments': (context) => const PhysicianAppointments(),
           '/patient/appointments': (context) => const PatientAppointments(),
           '/physician/appointments/new': (context) => const CreateAppointment(),
