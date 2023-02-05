@@ -1,0 +1,99 @@
+import 'package:age_calculator/age_calculator.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:pallinet/components/patient_card.dart';
+import 'package:pallinet/constants.dart';
+import 'package:pallinet/firestore/firestore.dart';
+import 'package:pallinet/models/patient_model.dart';
+
+class PhysicianProfile extends StatelessWidget {
+  const PhysicianProfile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(title: const Text('Edit Physican Profile')),
+        body: const Padding(padding: EdgeInsets.all(16.0), child: ProfileContent()));
+  }
+}
+
+class ProfileContent extends StatefulWidget {
+  const ProfileContent({Key? key}) : super(key: key);
+
+  @override
+  State<ProfileContent> createState() => ProfileContentState();
+}
+
+class ProfileContentState extends State<ProfileContent> {
+  bool isPasswordVisible = false;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  PatientID? patient;
+  List? practitioners = [];
+  DateTime? date = DateTime.now();
+  String? desc = "";
+  ServiceType? serviceType;
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<PatientID>>(
+      future: retrievePatients2(),
+      builder: ((context, snapshot) {
+        List<PatientID> list = snapshot.data == null ? [] : snapshot.data as List<PatientID>;
+        return Container(
+          constraints: const BoxConstraints(maxWidth: 1000),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                gap(),
+                gap(),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    hintText: 'Name',
+                    prefixIcon: Icon(Icons.person),
+                  ),
+                ),
+                gap(),
+                TextFormField(
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  minLines: 3,
+                  onSaved: (value) => {desc = value},
+                  decoration: const InputDecoration(
+                    hintText: 'Profile Description',
+                    prefixIcon: Icon(Icons.description),
+                  ),
+                ),
+                gap(),
+                ElevatedButton(
+                    onPressed: () {
+                      _formKey.currentState?.save();
+                      debugPrint('Form Information');
+                      debugPrint('Patient: $patient');
+                      debugPrint('Practioners: $practitioners');
+                      debugPrint('Description: $desc');
+                      debugPrint('Service Type: $serviceType');
+                      Map<String, dynamic> payload = {
+                        "patient": patient,
+                        "practitioners": practitioners,
+                        "description": desc,
+                        "type": serviceType?.value,
+                      };
+                      createAppointment(payload);
+                      // debugPrint(_formKey.currentState.toString());
+                    },
+                    child: const Text("Change Profile"))
+              ],
+            ),
+          ),
+        );
+      }),
+    );
+  }
+
+  Widget gap() => const SizedBox(height: 16);
+}
