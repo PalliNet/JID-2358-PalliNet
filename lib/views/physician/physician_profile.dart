@@ -51,11 +51,10 @@ class ProfileContentState extends State<ProfileContent> {
               children: [
                 gap(),
                 gap(),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    hintText: 'Name',
-                    prefixIcon: Icon(Icons.person),
-                  ),
+                const Text(
+                  'Change your profile description here',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
                 gap(),
                 TextFormField(
@@ -71,20 +70,7 @@ class ProfileContentState extends State<ProfileContent> {
                 gap(),
                 ElevatedButton(
                     onPressed: () {
-                      _formKey.currentState?.save();
-                      debugPrint('Form Information');
-                      debugPrint('Patient: $patient');
-                      debugPrint('Practioners: $practitioners');
-                      debugPrint('Description: $desc');
-                      debugPrint('Service Type: $serviceType');
-                      Map<String, dynamic> payload = {
-                        "patient": patient,
-                        "practitioners": practitioners,
-                        "description": desc,
-                        "type": serviceType?.value,
-                      };
-                      createAppointment(payload);
-                      // debugPrint(_formKey.currentState.toString());
+                      debugPrint("not implemented");
                     },
                     child: const Text("Change Profile"))
               ],
