@@ -16,3 +16,14 @@ enum Gender {
 
   const Gender(this.value);
 }
+
+enum NumberType {
+  mobile("Mobile"),
+  home("Home"),
+  work("Work"),
+  other("Other");
+
+  final String value;
+
+  const NumberType(this.value);
+}
