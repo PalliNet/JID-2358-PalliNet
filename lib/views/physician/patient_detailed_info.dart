@@ -42,6 +42,19 @@ class PatientDetails extends StatelessWidget {
           const Text('Surgical History(Clickable):',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
           gap(),
+          SizedBox(
+            height: 100,
+            width: 100,
+            child: OutlinedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, "/physician/patient/edit_details");
+              },
+              child: const Text(
+                "Edit Details",
+                style: TextStyle(fontSize: 25),
+              ),
+            ),
+          )
         ],
       ),
     );

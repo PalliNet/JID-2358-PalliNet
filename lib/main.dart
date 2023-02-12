@@ -5,6 +5,7 @@ import 'package:pallinet/views/new_account.dart';
 import 'package:pallinet/views/patient/patient_home.dart';
 import 'package:pallinet/views/patient/patient_login.dart';
 import 'package:pallinet/views/physician/patient_detailed_info.dart';
+import 'package:pallinet/views/physician/edit_patient_info.dart';
 import 'package:pallinet/views/physician/create_appointment.dart';
 import 'package:pallinet/views/physician/physician_appointments.dart';
 import 'package:pallinet/views/physician/physician_home.dart';
@@ -49,11 +50,14 @@ class PalliNet extends StatelessWidget {
           '/provider': (context) => const ProviderLandingPage(),
           '/patient/home': (context) => const PatientHome(),
           '/prescriptionssummary': (context) => const PrescriptionsSummary(),
-          '/prescriptionsdetailedview': (context) => const PrescriptionsDetailedView(),
+          '/prescriptionsdetailedview': (context) =>
+              const PrescriptionsDetailedView(),
           '/patient/diary/new': (context) => const NewPainDiaryEntry(),
           '/physician/home': (context) => const PhysicianHome(),
           '/patients': (context) => const PatientList(),
           '/physician/patient/details': (context) => const PatientDetails(),
+          '/physician/patient/edit_details': (context) =>
+              const EditPatientDetails(),
           '/physician/appointments': (context) => const PhysicianAppointments(),
           '/patient/appointments': (context) => const PatientAppointments(),
           '/physician/appointments/new': (context) => const CreateAppointment(),
@@ -62,6 +66,7 @@ class PalliNet extends StatelessWidget {
               const PhysicianAppointmentSpecifics(),
           '/symptoms': (context) => const SymptomsView()
         },
-        onUnknownRoute: (settings) => MaterialPageRoute(builder: (context) => const HomePage()));
+        onUnknownRoute: (settings) =>
+            MaterialPageRoute(builder: (context) => const HomePage()));
   }
 }
