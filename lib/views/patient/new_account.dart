@@ -1,330 +1,353 @@
 import 'package:flutter/material.dart';
 import 'package:pallinet/constants.dart';
+import 'package:pallinet/firestore/firestore.dart';
+import 'package:pallinet/utils.dart';
+import 'package:intl/intl.dart';
 
-final PageController controller = PageController();
-
-class NewAccount extends StatelessWidget {
-  const NewAccount({Key? key}) : super(key: key);
+class NewAccountPage extends StatefulWidget {
+  const NewAccountPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final bool isSmallScreen = MediaQuery.of(context).size.width < 600;
-
-    return Scaffold(
-      body: PageView(scrollDirection: Axis.vertical, controller: controller, children: [
-        Center(
-            child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Logo(),
-            AccountPage(),
-          ],
-        )),
-        Center(
-            child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            DetailPage(),
-          ],
-        )),
-      ]),
-    );
-  }
+  State<NewAccountPage> createState() => _NewAccountState();
 }
 
-class Logo extends StatelessWidget {
-  const Logo({Key? key}) : super(key: key);
+class _NewAccountState extends State<NewAccountPage> {
+  final List<GlobalKey<FormState>> _formKeys = [GlobalKey<FormState>(), GlobalKey<FormState>(), GlobalKey<FormState>()];
 
-  Widget gap() => const SizedBox(height: 30);
+  bool isPasswordVisible = false;
 
+  String? first;
+
+  String? email;
+  String? password;
+  String? firstName;
+  String? lastName;
+  Gender? gender;
+  String? birthdate;
+  NumberType? phoneType;
+  String? phoneNumber;
+
+  int currentStep = 0;
   @override
   Widget build(BuildContext context) {
-    final bool isSmallScreen = MediaQuery.of(context).size.width < 600;
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text(
             "Create New Account",
-            textAlign: TextAlign.center,
-            style: isSmallScreen
-                ? Theme.of(context).textTheme.headline5
-                : Theme.of(context).textTheme.headline4?.copyWith(color: Colors.black),
           ),
+          centerTitle: true,
         ),
-        gap(),
-      ],
-    );
-  }
-}
-
-class AccountPage extends StatefulWidget {
-  const AccountPage({Key? key}) : super(key: key);
-
-  @override
-  State<AccountPage> createState() => AccountPageState();
-}
-
-class AccountPageState extends State<AccountPage> {
-  bool isPosswordVisible = false;
-  String first = "";
-
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(maxWidth: 300),
-      child: Form(
-        key: formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextFormField(
-              validator: (value) {
-                // add email validation
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
+        body: Container(
+            padding: const EdgeInsets.all(20),
+            child: Stepper(
+              type: StepperType.vertical,
+              currentStep: currentStep,
+              onStepCancel: () => currentStep == 0
+                  ? null
+                  : setState(() {
+                      currentStep -= 1;
+                    }),
+              onStepContinue: () {
+                bool isLastStep = (currentStep == getSteps().length - 1);
+                if (_formKeys[currentStep].currentState?.validate() ?? false) {
+                  _formKeys[currentStep].currentState?.save();
+                  if (isLastStep) {
+                    var payload = {
+                      "email": email,
+                      "password": password,
+                      "firstName": firstName,
+                      "lastName": lastName,
+                      "gender": gender,
+                      "birthdate": birthdate,
+                      "phoneNumber": phoneNumber,
+                      "type": phoneType,
+                    };
+                    createPatient(payload).then((value) => {
+                          if (value) {Navigator.pushNamed(context, "/patient/home")} else {showAlertDialog(context)}
+                        });
+                  } else {
+                    setState(() => currentStep += 1);
+                  }
                 }
-
-                bool emailValid =
-                    RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value);
-                if (!emailValid) {
-                  return 'Please enter a valid email';
-                }
-
-                return null;
               },
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                hintText: 'Enter your email',
-                prefixIcon: Icon(Icons.email_outlined),
-                border: OutlineInputBorder(),
-              ),
-            ),
-            gap(),
-            TextFormField(
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-
-                if (value.length < 6) {
-                  return 'Password must be at least 6 characters';
-                }
-
-                return null;
-              },
-              obscureText: !isPosswordVisible,
-              decoration: InputDecoration(
-                  labelText: 'Password',
-                  hintText: 'Enter your password',
-                  prefixIcon: const Icon(Icons.lock_outline_rounded),
-                  border: const OutlineInputBorder(),
-                  suffixIcon: IconButton(
-                    icon: Icon(isPosswordVisible ? Icons.visibility_off : Icons.visibility),
-                    onPressed: () {
-                      setState(() {
-                        isPosswordVisible = !isPosswordVisible;
-                      });
-                    },
-                  )),
-              onChanged: (value) => {first = value},
-            ),
-            gap(),
-            TextFormField(
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-                if (value != first) {
-                  return 'Password does not match';
-                }
-                return null;
-              },
-              obscureText: !isPosswordVisible,
-              decoration: InputDecoration(
-                  labelText: 'Verify Password',
-                  hintText: 'Verify Password',
-                  prefixIcon: const Icon(Icons.lock_outline_rounded),
-                  border: const OutlineInputBorder(),
-                  suffixIcon: IconButton(
-                    icon: Icon(isPosswordVisible ? Icons.visibility_off : Icons.visibility),
-                    onPressed: () {
-                      setState(() {
-                        isPosswordVisible = !isPosswordVisible;
-                      });
-                    },
-                  )),
-            ),
-            gap(),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text(
-                    'Create New Account',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                onPressed: () {
-                  // if (formKey.currentState?.validate() ?? false) {
-                  //   debugPrint("Validateed");
-                  //   // Create new account and insert data into database
-                  // }
-                  controller.nextPage(duration: const Duration(seconds: 1), curve: const Interval(0.3, 0.7));
-                },
-              ),
-            ),
-          ],
-        ),
+              onStepTapped: (step) => setState(() {
+                currentStep = step;
+              }),
+              steps: getSteps(),
+            )),
       ),
     );
   }
 
-  Widget gap() => const SizedBox(height: 16);
-}
+  List<Step> getSteps() {
+    Widget gap() => const SizedBox(height: 10);
 
-class DetailPage extends StatefulWidget {
-  const DetailPage({Key? key}) : super(key: key);
-
-  @override
-  State<DetailPage> createState() => DetailPageState();
-}
-
-class DetailPageState extends State<DetailPage> {
-  bool isPosswordVisible = false;
-  String first = "";
-
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(maxWidth: 300),
-      child: Form(
-        key: formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Text(
-                'Patient Details',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-            ),
-            gap(),
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: 'First Name',
-                hintText: 'OwO',
-              ),
-            ),
-            gap(),
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: 'Last Name',
-                hintText: 'OwO',
-              ),
-            ),
-            gap(),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
+    return <Step>[
+      Step(
+          state: currentStep > 0 ? StepState.complete : StepState.indexed,
+          isActive: currentStep >= 0,
+          title: const Text("Account Info"),
+          content: Form(
+            key: _formKeys[0],
+            child: Column(
               children: [
-                Expanded(
-                  flex: 2,
-                  child: DropdownButtonFormField(
-                    items: Gender.values.map((e) {
-                      return DropdownMenuItem<Gender>(
-                        value: e,
-                        child: Text(e.value),
-                      );
-                    }).toList(),
-                    hint: const Text("Gender"),
-                    onChanged: (value) => {},
+                gap(),
+                TextFormField(
+                  validator: ((value) => emailValidation(value)),
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
+                    hintText: 'Enter your email',
+                    border: OutlineInputBorder(),
                   ),
+                  onSaved: (newValue) => email = newValue,
                 ),
-                const Expanded(
-                  flex: 1,
-                  child: SizedBox(),
+                gap(),
+                TextFormField(
+                  validator: ((value) => passwordValidation(value)),
+                  obscureText: !isPasswordVisible,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    hintText: 'Enter your password',
+                    border: const OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      icon: Icon(isPasswordVisible ? Icons.visibility_off : Icons.visibility),
+                      onPressed: () {
+                        setState(() {
+                          isPasswordVisible = !isPasswordVisible;
+                        });
+                      },
+                    ),
+                  ),
+                  onChanged: (value) => {first = value},
+                  onSaved: (newValue) => password = newValue,
                 ),
-                Expanded(
-                  flex: 4,
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Birthdate',
-                      hintText: '01/01/1900',
+                gap(),
+                TextFormField(
+                  validator: ((value) => passwordVerification(value, first)),
+                  obscureText: !isPasswordVisible,
+                  decoration: InputDecoration(
+                    labelText: 'Verify Password',
+                    hintText: 'Verify your password',
+                    border: const OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      icon: Icon(isPasswordVisible ? Icons.visibility_off : Icons.visibility),
+                      onPressed: () {
+                        setState(() {
+                          isPasswordVisible = !isPasswordVisible;
+                        });
+                      },
                     ),
                   ),
                 ),
               ],
             ),
-            gap(),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
+          )),
+      Step(
+          state: currentStep > 1 ? StepState.complete : StepState.indexed,
+          isActive: currentStep >= 1,
+          title: const Text("Patient Details"),
+          content: Form(
+            key: _formKeys[1],
+            child: Column(
               children: [
-                Expanded(
-                  flex: 2,
-                  child: DropdownButtonFormField(
-                    items: NumberType.values.map((e) {
-                      return DropdownMenuItem<NumberType>(
-                        value: e,
-                        child: Text(e.value),
-                      );
-                    }).toList(),
-                    hint: const Text("Type"),
-                    onChanged: (value) => {},
+                gap(),
+                TextFormField(
+                  validator: (value) => requiredValue(value),
+                  decoration: const InputDecoration(
+                    labelText: 'First Name',
+                    hintText: 'Enter your first name',
+                    border: OutlineInputBorder(),
                   ),
+                  onSaved: (newValue) => firstName = newValue,
                 ),
-                const Expanded(
-                  flex: 1,
-                  child: SizedBox(),
+                gap(),
+                TextFormField(
+                  validator: (value) => requiredValue(value),
+                  decoration: const InputDecoration(
+                    labelText: 'Last Name',
+                    hintText: 'Enter your last name',
+                    border: OutlineInputBorder(),
+                  ),
+                  onSaved: (newValue) => lastName = newValue,
                 ),
-                Expanded(
-                  flex: 4,
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      labelText: 'Phone Number',
-                      hintText: 'xxx-xxx-xxxx',
+                gap(),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                        flex: 3,
+                        child: DropdownButtonFormField(
+                          validator: (value) => requiredValue(value),
+                          items: Gender.values.map((e) {
+                            return DropdownMenuItem<Gender>(
+                              value: e,
+                              child: Text(e.value),
+                            );
+                          }).toList(),
+                          hint: const Text("Gender"),
+                          decoration: const InputDecoration(
+                            labelText: 'Gender',
+                            helperText: ' ',
+                          ),
+                          onChanged: (value) => {},
+                          onSaved: (newValue) => gender = newValue,
+                        )),
+                    const Expanded(
+                      flex: 1,
+                      child: SizedBox(),
                     ),
-                  ),
-                ),
+                    Expanded(
+                        flex: 5,
+                        child: TextFormField(
+                          validator: (value) => dateValidation(value),
+                          decoration: const InputDecoration(
+                            labelText: 'Birthdate',
+                            hintText: 'Enter your birthdate',
+                            helperText: ' ',
+                          ),
+                          inputFormatters: [DateTextFormatter()],
+                          onSaved: (newValue) => birthdate = newValue,
+                          keyboardType: const TextInputType.numberWithOptions(),
+                        )),
+                  ],
+                )
               ],
             ),
-            gap(),
-            gap(),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text(
-                    'Submit',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                onPressed: () {
-                  controller.nextPage(duration: const Duration(seconds: 1), curve: const Interval(0.3, 0.7));
-                },
-              ),
+          )),
+      Step(
+          state: currentStep > 2 ? StepState.complete : StepState.indexed,
+          isActive: currentStep >= 2,
+          title: const Text("Additional Contact Information"),
+          content: Form(
+            key: _formKeys[2],
+            child: Column(
+              children: [
+                gap(),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      flex: 3,
+                      child: DropdownButtonFormField(
+                        items: NumberType.values.map((e) {
+                          return DropdownMenuItem<NumberType>(
+                            value: e,
+                            child: Text(e.value),
+                          );
+                        }).toList(),
+                        hint: const Text("Type"),
+                        onChanged: (value) => {},
+                        onSaved: (newValue) => phoneType = newValue,
+                      ),
+                    ),
+                    const Expanded(
+                      flex: 1,
+                      child: SizedBox(),
+                    ),
+                    Expanded(
+                        flex: 5,
+                        child: TextFormField(
+                          decoration: const InputDecoration(
+                            labelText: 'Phone Number',
+                            hintText: 'xxx-xxx-xxxx',
+                          ),
+                          inputFormatters: [PhoneNumberFormatter()],
+                          keyboardType: const TextInputType.numberWithOptions(),
+                          onSaved: (newValue) => phoneNumber = newValue,
+                        )),
+
+                    // TODO ability to add multiple contactss
+                  ],
+                )
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          )),
+    ];
+  }
+}
+
+emailValidation(value) {
+  if (value == null || value.isEmpty) {
+    return 'Please enter some text';
+  }
+  bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value);
+  if (!emailValid) {
+    return 'Please enter a valid email';
+  }
+  return null;
+}
+
+passwordValidation(value) {
+  if (value == null || value.isEmpty) {
+    return 'Please enter some text';
+  }
+  if (value.length < 6) {
+    return 'Password must be at least 6 characters';
+  }
+  return null;
+}
+
+passwordVerification(value, first) {
+  if (value == null || value.isEmpty) {
+    return 'Please enter some text';
+  }
+  if (value != first) {
+    return "Password does not match";
+  }
+  return null;
+}
+
+requiredValue(value) {
+  if (value.runtimeType == Gender) {
+    return null;
+  } else if (value == null || value.isEmpty) {
+    return 'Required field';
+  }
+  return null;
+}
+
+dateValidation(value) {
+  if (value == null || value.isEmpty) {
+    return 'Required field';
+  } else {
+    try {
+      DateFormat format = DateFormat("MM/dd/yyyy");
+      DateTime time = format.parseStrict(value);
+      if (time.isAfter(DateTime.now())) {
+        return "Invalid date";
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      return "Invalid date";
+    }
   }
 
-  Widget gap() => const SizedBox(height: 16);
+  return null;
+}
+
+showAlertDialog(BuildContext context) {
+  Widget okButton = TextButton(
+    child: const Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: const Text("Error"),
+    content: const Text("Account was not created successfully, please try again later."),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

@@ -9,8 +9,8 @@ enum ServiceType {
 }
 
 enum Gender {
-  male("M"),
-  female("F");
+  male("Male"),
+  female("Female");
 
   final String value;
 
