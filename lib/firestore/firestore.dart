@@ -3,7 +3,6 @@ import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:pallinet/constants.dart';
 import 'package:pallinet/models/patient_model.dart';
-import 'package:quiver/iterables.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
@@ -137,12 +136,27 @@ void createAppointment(Map<String, dynamic> payload) async {
 // }
 
 void createPatient(payload) async {
-  debugPrint("createPatient: $payload");
+  List<String> birthdate = payload["birthdate"].split("/");
+
   try {
     final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: payload['email'],
       password: payload['password'],
     );
+    String uid = credential.user!.uid;
+    debugPrint("user id $uid");
+    db.collection("Patient").doc(uid).set({
+      "active": true,
+      "birthdate": DateTime(int.parse(birthdate[2]), int.parse(birthdate[0]), int.parse(birthdate[1])),
+      "deceasedBoolean": false,
+      "gender": payload["gender"].value,
+      "id": 1111111, //TODO How are we doing ids?
+      "name": {
+        "family": payload["lastName"],
+        "given": payload["firstName"],
+        "text": payload["firstName"] + " " + payload["lastName"],
+      }
+    });
   } on FirebaseAuthException catch (e) {
     if (e.code == 'weak-password') {
       print('The password provided is too weak.');
@@ -152,7 +166,6 @@ void createPatient(payload) async {
   } catch (e) {
     print(e);
   }
-  debugPrint("end createPatient");
 }
 
 FirebaseFirestore getDatabase() {
