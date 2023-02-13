@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pallinet/constants.dart';
 import 'package:pallinet/firestore/firestore.dart';
 import 'package:pallinet/utils.dart';
+import 'package:intl/intl.dart';
 
 class NewAccountPage extends StatefulWidget {
   const NewAccountPage({Key? key}) : super(key: key);
@@ -187,6 +188,7 @@ class _NewAccountState extends State<NewAccountPage> {
                           hint: const Text("Gender"),
                           decoration: const InputDecoration(
                             labelText: 'Gender',
+                            helperText: ' ',
                           ),
                           onChanged: (value) => {},
                           onSaved: (newValue) => gender = newValue,
@@ -198,10 +200,11 @@ class _NewAccountState extends State<NewAccountPage> {
                     Expanded(
                         flex: 5,
                         child: TextFormField(
-                          validator: (value) => requiredValue(value),
+                          validator: (value) => dateValidation(value),
                           decoration: const InputDecoration(
                             labelText: 'Birthdate',
                             hintText: 'Enter your birthdate',
+                            helperText: ' ',
                           ),
                           inputFormatters: [DateTextFormatter()],
                           onSaved: (newValue) => birthdate = newValue,
@@ -301,6 +304,25 @@ requiredValue(value) {
   } else if (value == null || value.isEmpty) {
     return 'Required field';
   }
+  return null;
+}
+
+dateValidation(value) {
+  if (value == null || value.isEmpty) {
+    return 'Required field';
+  } else {
+    try {
+      DateFormat format = DateFormat("MM/dd/yyyy");
+      DateTime time = format.parseStrict(value);
+      if (time.isAfter(DateTime.now())) {
+        return "Invalid date";
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      return "Invalid date";
+    }
+  }
+
   return null;
 }
 
