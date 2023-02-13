@@ -44,7 +44,7 @@ class ProfileContentState extends State<ProfileContent> {
             gap(),
             gap(),
             const Text(
-              'Change your profile description here',
+              'Update profile',
               textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
