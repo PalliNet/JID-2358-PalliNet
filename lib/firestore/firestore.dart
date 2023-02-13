@@ -136,12 +136,13 @@ void createAppointment(Map<String, dynamic> payload) async {
 //       debugPrint('DocumentSnapshot added with ID: ${doc.id}'));
 // }
 
-void createPatient() async {
+void createPatient(payload) async {
+  debugPrint("createPatient: $payload");
   try {
-    // final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-    //     // email: emailAddress,
-    //     // password: password,
-    //     );
+    final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      email: payload['email'],
+      password: payload['password'],
+    );
   } on FirebaseAuthException catch (e) {
     if (e.code == 'weak-password') {
       print('The password provided is too weak.');
@@ -151,6 +152,7 @@ void createPatient() async {
   } catch (e) {
     print(e);
   }
+  debugPrint("end createPatient");
 }
 
 FirebaseFirestore getDatabase() {

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pallinet/constants.dart';
+import 'package:pallinet/firestore/firestore.dart';
 
 class NewAccountPage extends StatefulWidget {
   const NewAccountPage({Key? key}) : super(key: key);
@@ -51,6 +52,15 @@ class _NewAccountState extends State<NewAccountPage> {
                 if (_formKeys[currentStep].currentState?.validate() ?? false) {
                   _formKeys[currentStep].currentState?.save();
                   if (isLastStep) {
+                    var payload = {
+                      "email": email,
+                      "password": password,
+                      "firstName": firstName,
+                      "lastName": lastName,
+                      "gender": gender,
+                      "birthdate": birthdate,
+                    };
+                    createPatient(payload);
                     debugPrint(
                         "Email: $email\nPassword: $password\nFirst name: $firstName\nLast name: $lastName\nGender: ${gender?.value}\nBirthdate: $birthdate");
                   } else {
