@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pallinet/constants.dart';
@@ -15,9 +14,16 @@ class NewAccountPage extends StatefulWidget {
 class _NewAccountState extends State<NewAccountPage> {
   final List<GlobalKey<FormState>> _formKeys = [GlobalKey<FormState>(), GlobalKey<FormState>(), GlobalKey<FormState>()];
 
-  bool isPasswordVissible = false;
+  bool isPasswordVisible = false;
 
-  String first = "";
+  String? first;
+
+  String? email;
+  String? password;
+  String? firstName;
+  String? lastName;
+  Gender? gender;
+  String? birthdate;
 
   int currentStep = 0;
   @override
@@ -42,15 +48,14 @@ class _NewAccountState extends State<NewAccountPage> {
                     }),
               onStepContinue: () {
                 bool isLastStep = (currentStep == getSteps().length - 1);
-                if (isLastStep) {
-                  debugPrint("OwO");
-                  //Do something with this information
-                } else {
-                  setState(() {
-                    if (_formKeys[currentStep].currentState?.validate() ?? false) {
-                      currentStep += 1;
-                    }
-                  });
+                if (_formKeys[currentStep].currentState?.validate() ?? false) {
+                  _formKeys[currentStep].currentState?.save();
+                  if (isLastStep) {
+                    debugPrint(
+                        "Email: $email\nPassword: $password\nFirst name: $firstName\nLast name: $lastName\nGender: ${gender?.value}\nBirthdate: $birthdate");
+                  } else {
+                    setState(() => currentStep += 1);
+                  }
                 }
               },
               onStepTapped: (step) => setState(() {
@@ -82,39 +87,41 @@ class _NewAccountState extends State<NewAccountPage> {
                     hintText: 'Enter your email',
                     border: OutlineInputBorder(),
                   ),
+                  onSaved: (newValue) => email = newValue,
                 ),
                 gap(),
                 TextFormField(
                   validator: ((value) => passwordValidation(value)),
-                  obscureText: !isPasswordVissible,
+                  obscureText: !isPasswordVisible,
                   decoration: InputDecoration(
                     labelText: 'Password',
                     hintText: 'Enter your password',
                     border: const OutlineInputBorder(),
                     suffixIcon: IconButton(
-                      icon: Icon(isPasswordVissible ? Icons.visibility_off : Icons.visibility),
+                      icon: Icon(isPasswordVisible ? Icons.visibility_off : Icons.visibility),
                       onPressed: () {
                         setState(() {
-                          isPasswordVissible = !isPasswordVissible;
+                          isPasswordVisible = !isPasswordVisible;
                         });
                       },
                     ),
                   ),
                   onChanged: (value) => {first = value},
+                  onSaved: (newValue) => password = newValue,
                 ),
                 gap(),
                 TextFormField(
                   validator: ((value) => passwordVerification(value, first)),
-                  obscureText: !isPasswordVissible,
+                  obscureText: !isPasswordVisible,
                   decoration: InputDecoration(
                     labelText: 'Verify Password',
                     hintText: 'Verify your password',
                     border: const OutlineInputBorder(),
                     suffixIcon: IconButton(
-                      icon: Icon(isPasswordVissible ? Icons.visibility_off : Icons.visibility),
+                      icon: Icon(isPasswordVisible ? Icons.visibility_off : Icons.visibility),
                       onPressed: () {
                         setState(() {
-                          isPasswordVissible = !isPasswordVissible;
+                          isPasswordVisible = !isPasswordVisible;
                         });
                       },
                     ),
@@ -139,6 +146,7 @@ class _NewAccountState extends State<NewAccountPage> {
                     hintText: 'Enter your first name',
                     border: OutlineInputBorder(),
                   ),
+                  onSaved: (newValue) => firstName = newValue,
                 ),
                 gap(),
                 TextFormField(
@@ -148,6 +156,7 @@ class _NewAccountState extends State<NewAccountPage> {
                     hintText: 'Enter your last name',
                     border: OutlineInputBorder(),
                   ),
+                  onSaved: (newValue) => lastName = newValue,
                 ),
                 gap(),
                 Row(
@@ -168,6 +177,7 @@ class _NewAccountState extends State<NewAccountPage> {
                             labelText: 'Gender',
                           ),
                           onChanged: (value) => {},
+                          onSaved: (newValue) => gender = newValue,
                         )),
                     const Expanded(
                       flex: 1,
@@ -183,6 +193,7 @@ class _NewAccountState extends State<NewAccountPage> {
                             // border: OutlineInputBorder(),
                           ),
                           inputFormatters: [DateTextFormatter()],
+                          onSaved: (newValue) => birthdate = newValue,
                           keyboardType: const TextInputType.numberWithOptions(),
                         )),
                   ],
@@ -240,40 +251,40 @@ class _NewAccountState extends State<NewAccountPage> {
 }
 
 emailValidation(value) {
-  // if (value == null || value.isEmpty) {
-  //   return 'Please enter some text';
-  // }
-  // bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value);
-  // if (!emailValid) {
-  //   return 'Please enter a valid email';
-  // }
+  if (value == null || value.isEmpty) {
+    return 'Please enter some text';
+  }
+  bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value);
+  if (!emailValid) {
+    return 'Please enter a valid email';
+  }
   return null;
 }
 
 passwordValidation(value) {
-  // if (value == null || value.isEmpty) {
-  //   return 'Please enter some text';
-  // }
-  // if (value.length < 6) {
-  //   return 'Password must be at least 6 characters';
-  // }
+  if (value == null || value.isEmpty) {
+    return 'Please enter some text';
+  }
+  if (value.length < 6) {
+    return 'Password must be at least 6 characters';
+  }
   return null;
 }
 
 passwordVerification(value, first) {
-  // if (value == null || value.isEmpty) {
-  //   return 'Please enter some text';
-  // }
-  // if (value != first) {
-  //   return "Password does not match";
-  // }
+  if (value == null || value.isEmpty) {
+    return 'Please enter some text';
+  }
+  if (value != first) {
+    return "Password does not match";
+  }
   return null;
 }
 
 requiredValue(value) {
   if (value.runtimeType == Gender) {
     return null;
-  } else if (value.runtimeType == null || value.isEmpty) {
+  } else if (value == null || value.isEmpty) {
     return 'Required field';
   }
   return null;

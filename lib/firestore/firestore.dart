@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:pallinet/constants.dart';
 import 'package:pallinet/models/patient_model.dart';
 import 'package:quiver/iterables.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -26,8 +27,7 @@ void addData(UnmodifiableMapView<int, int> entries) async {
       .doc("6827485") // un hard-code this
       .collection("PainDiary")
       .add(storedEntries)
-      .then((DocumentReference doc) =>
-          debugPrint('patient entry added with ID: ${doc.id}'));
+      .then((DocumentReference doc) => debugPrint('patient entry added with ID: ${doc.id}'));
   // [END get_started_add_data_1]
 }
 
@@ -44,11 +44,8 @@ void addData(UnmodifiableMapView<int, int> entries) async {
 Future<Map<dynamic, dynamic>>? retrieveQuestions() async {
   debugPrint("Retrieve Questions");
 
-  Map<dynamic, dynamic> list = await db
-      .collection("Pain Diary Questions")
-      .doc("S3tecvHL4Vivoe2EomXj")
-      .get()
-      .then((DocumentSnapshot doc) {
+  Map<dynamic, dynamic> list =
+      await db.collection("Pain Diary Questions").doc("S3tecvHL4Vivoe2EomXj").get().then((DocumentSnapshot doc) {
     debugPrint(doc.data().toString());
     return doc.data() as Map<String, dynamic>;
   }, onError: (e) => debugPrint("Error getting document: $e"));
@@ -61,11 +58,8 @@ Future<Map<dynamic, dynamic>>? retrieveQuestions() async {
 Future<List<dynamic>>? retrievePatients() async {
   debugPrint("Retrieve patients");
 
-  Map<dynamic, dynamic> list = await db
-      .collection("Practitioner")
-      .doc("ORVKtlLSLSovmRfxxPq5")
-      .get()
-      .then((DocumentSnapshot doc) {
+  Map<dynamic, dynamic> list =
+      await db.collection("Practitioner").doc("ORVKtlLSLSovmRfxxPq5").get().then((DocumentSnapshot doc) {
     debugPrint(doc.data().toString());
     return doc.data() as Map<String, dynamic>;
   }, onError: (e) => debugPrint("Error getting document: $e"));
@@ -120,26 +114,43 @@ void createAppointment(Map<String, dynamic> payload) async {
 }
 
 // Add Patients
-void addPatient() async {
-  final data = {
-    "active": true,
-    "deceasedBoolean": false,
-    "gender": "M",
-    "id": "6958493",
-    "birthdate": DateTime(2001, 12, 17),
-    "identifier": "293-58-2919",
-    "maritalStatus": "",
-    "name": {
-      "family": "Guo",
-      "given": "Jason",
-      "prefix": "",
-      "suffix": "",
-      "text": "Jason Guo",
-      "use": "legal"
+// void addPatient() async {
+//   final data = {
+//     "active": true,
+//     "deceasedBoolean": false,
+//     "gender": "M",
+//     "id": "6958493",
+//     "birthdate": DateTime(2001, 12, 17),
+//     "identifier": "111-11-1111",
+//     "maritalStatus": "",
+//     "name": {
+//       "family": "Guo",
+//       "given": "Jason",
+//       "prefix": "",
+//       "suffix": "",
+//       "text": "Jason Guo",
+//       "use": "legal"
+//     }
+//   };
+//   db.collection("Patient").add(data).then((DocumentReference doc) =>
+//       debugPrint('DocumentSnapshot added with ID: ${doc.id}'));
+// }
+
+void createPatient() async {
+  try {
+    // final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    //     // email: emailAddress,
+    //     // password: password,
+    //     );
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'weak-password') {
+      print('The password provided is too weak.');
+    } else if (e.code == 'email-already-in-use') {
+      print('The account already exists for that email.');
     }
-  };
-  db.collection("Patient").add(data).then((DocumentReference doc) =>
-      debugPrint('DocumentSnapshot added with ID: ${doc.id}'));
+  } catch (e) {
+    print(e);
+  }
 }
 
 FirebaseFirestore getDatabase() {
