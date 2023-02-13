@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pallinet/constants.dart';
 import 'package:pallinet/firestore/firestore.dart';
+import 'package:pallinet/utils.dart';
 
 class NewAccountPage extends StatefulWidget {
   const NewAccountPage({Key? key}) : super(key: key);
@@ -25,6 +26,8 @@ class _NewAccountState extends State<NewAccountPage> {
   String? lastName;
   Gender? gender;
   String? birthdate;
+  NumberType? phoneType;
+  String? phoneNumber;
 
   int currentStep = 0;
   @override
@@ -59,10 +62,12 @@ class _NewAccountState extends State<NewAccountPage> {
                       "lastName": lastName,
                       "gender": gender,
                       "birthdate": birthdate,
+                      "phoneNumber": phoneNumber,
+                      "type": phoneType,
                     };
-                    createPatient(payload);
-                    debugPrint(
-                        "Email: $email\nPassword: $password\nFirst name: $firstName\nLast name: $lastName\nGender: ${gender?.value}\nBirthdate: $birthdate");
+                    createPatient(payload).then((value) => {
+                          if (value) {Navigator.pushNamed(context, "/patient/home")} else {showAlertDialog(context)}
+                        });
                   } else {
                     setState(() => currentStep += 1);
                   }
@@ -234,6 +239,7 @@ class _NewAccountState extends State<NewAccountPage> {
                         }).toList(),
                         hint: const Text("Type"),
                         onChanged: (value) => {},
+                        onSaved: (newValue) => phoneType = newValue,
                       ),
                     ),
                     const Expanded(
@@ -249,7 +255,9 @@ class _NewAccountState extends State<NewAccountPage> {
                           ),
                           inputFormatters: [PhoneNumberFormatter()],
                           keyboardType: const TextInputType.numberWithOptions(),
+                          onSaved: (newValue) => phoneNumber = newValue,
                         )),
+
                     // TODO ability to add multiple contactss
                   ],
                 )
@@ -300,130 +308,28 @@ requiredValue(value) {
   return null;
 }
 
-class DateTextFormatter extends TextInputFormatter {
-  static const _maxChars = 8;
+showAlertDialog(BuildContext context) {
+  Widget okButton = TextButton(
+    child: const Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
 
-  @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
-    String separator = '/';
-    var text = _format(
-      newValue.text,
-      oldValue.text,
-      separator,
-    );
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: const Text("Error"),
+    content: const Text("Account was not created successfully, please try again later."),
+    actions: [
+      okButton,
+    ],
+  );
 
-    return newValue.copyWith(
-      text: text,
-      selection: updateCursorPosition(
-        oldValue,
-        text,
-      ),
-    );
-  }
-
-  String _format(
-    String value,
-    String oldValue,
-    String separator,
-  ) {
-    var isErasing = value.length < oldValue.length;
-    var isComplete = value.length > _maxChars + 2;
-
-    if (!isErasing && isComplete) {
-      return oldValue;
-    }
-
-    value = value.replaceAll(separator, '');
-    final result = <String>[];
-
-    for (int i = 0; i < min(value.length, _maxChars); i++) {
-      result.add(value[i]);
-      if ((i == 1 || i == 3) && i != value.length - 1) {
-        result.add(separator);
-      }
-    }
-
-    return result.join();
-  }
-
-  TextSelection updateCursorPosition(
-    TextEditingValue oldValue,
-    String text,
-  ) {
-    var endOffset = max(
-      oldValue.text.length - oldValue.selection.end,
-      0,
-    );
-
-    var selectionEnd = text.length - endOffset;
-
-    return TextSelection.fromPosition(TextPosition(offset: selectionEnd));
-  }
-}
-
-class PhoneNumberFormatter extends TextInputFormatter {
-  static const _maxChars = 10;
-
-  @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
-    String separator = '-';
-    var text = _format(
-      newValue.text,
-      oldValue.text,
-      separator,
-    );
-
-    return newValue.copyWith(
-      text: text,
-      selection: updateCursorPosition(
-        oldValue,
-        text,
-      ),
-    );
-  }
-
-  String _format(
-    String value,
-    String oldValue,
-    String separator,
-  ) {
-    var isErasing = value.length < oldValue.length;
-    var isComplete = value.length > _maxChars + 2;
-
-    if (!isErasing && isComplete) {
-      return oldValue;
-    }
-
-    value = value.replaceAll(separator, '');
-    final result = <String>[];
-
-    for (int i = 0; i < min(value.length, _maxChars); i++) {
-      result.add(value[i]);
-      if ((i == 2 || i == 5) && i != value.length - 1) {
-        result.add(separator);
-      }
-    }
-
-    return result.join();
-  }
-
-  TextSelection updateCursorPosition(
-    TextEditingValue oldValue,
-    String text,
-  ) {
-    var endOffset = max(
-      oldValue.text.length - oldValue.selection.end,
-      0,
-    );
-
-    var selectionEnd = text.length - endOffset;
-
-    return TextSelection.fromPosition(TextPosition(offset: selectionEnd));
-  }
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

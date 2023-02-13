@@ -135,7 +135,7 @@ void createAppointment(Map<String, dynamic> payload) async {
 //       debugPrint('DocumentSnapshot added with ID: ${doc.id}'));
 // }
 
-void createPatient(payload) async {
+Future<bool> createPatient(payload) async {
   List<String> birthdate = payload["birthdate"].split("/");
 
   try {
@@ -144,7 +144,8 @@ void createPatient(payload) async {
       password: payload['password'],
     );
     String uid = credential.user!.uid;
-    debugPrint("user id $uid");
+
+    // Create patient
     db.collection("Patient").doc(uid).set({
       "active": true,
       "birthdate": DateTime(int.parse(birthdate[2]), int.parse(birthdate[0]), int.parse(birthdate[1])),
@@ -157,15 +158,28 @@ void createPatient(payload) async {
         "text": payload["firstName"] + " " + payload["lastName"],
       }
     });
+
+    // Add phone number if included
+    if (payload["phoneNumber"] != null) {
+      db
+          .collection("Patient")
+          .doc(uid)
+          .collection("ContactPoint")
+          .add({"system": "phone", "use": payload["type"].value, "value": payload["phoneNumber"]});
+    }
   } on FirebaseAuthException catch (e) {
     if (e.code == 'weak-password') {
       print('The password provided is too weak.');
     } else if (e.code == 'email-already-in-use') {
       print('The account already exists for that email.');
     }
+    return false;
   } catch (e) {
     print(e);
+    return false;
   }
+
+  return true;
 }
 
 FirebaseFirestore getDatabase() {
