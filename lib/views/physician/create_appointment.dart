@@ -1,7 +1,4 @@
-import 'package:age_calculator/age_calculator.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:pallinet/components/patient_card.dart';
 import 'package:pallinet/constants.dart';
 import 'package:pallinet/firestore/firestore.dart';
 import 'package:pallinet/models/patient_model.dart';

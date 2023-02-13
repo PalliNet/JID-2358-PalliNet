@@ -1,7 +1,4 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:pallinet/constants.dart';
 import 'package:pallinet/firestore/firestore.dart';
 import 'package:pallinet/utils.dart';
@@ -205,7 +202,6 @@ class _NewAccountState extends State<NewAccountPage> {
                           decoration: const InputDecoration(
                             labelText: 'Birthdate',
                             hintText: 'Enter your birthdate',
-                            // border: OutlineInputBorder(),
                           ),
                           inputFormatters: [DateTextFormatter()],
                           onSaved: (newValue) => birthdate = newValue,

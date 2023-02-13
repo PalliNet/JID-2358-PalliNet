@@ -20,7 +20,6 @@ import 'package:pallinet/views/patient/patient_appointments.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pallinet/views/physician/physician_appointment_specifics.dart';
 import 'package:pallinet/views/symptoms.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
 
 void main() async {
