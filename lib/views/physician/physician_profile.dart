@@ -29,55 +29,51 @@ class ProfileContentState extends State<ProfileContent> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  PatientID? patient;
-  List? practitioners = [];
-  DateTime? date = DateTime.now();
   String? desc = "";
-  ServiceType? serviceType;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<PatientID>>(
-      future: retrievePatients2(),
-      builder: ((context, snapshot) {
-        List<PatientID> list = snapshot.data == null ? [] : snapshot.data as List<PatientID>;
-        return Container(
-          constraints: const BoxConstraints(maxWidth: 1000),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                gap(),
-                gap(),
-                const Text(
-                  'Change your profile description here',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                ),
-                gap(),
-                TextFormField(
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  minLines: 3,
-                  onSaved: (value) => {desc = value},
-                  decoration: const InputDecoration(
-                    hintText: 'Profile Description',
-                    prefixIcon: Icon(Icons.description),
-                  ),
-                ),
-                gap(),
-                ElevatedButton(
-                    onPressed: () {
-                      debugPrint("not implemented");
-                    },
-                    child: const Text("Change Profile"))
-              ],
+    return Container(
+      constraints: const BoxConstraints(maxWidth: 1000),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            gap(),
+            gap(),
+            const Text(
+              'Change your profile description here',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
-          ),
-        );
-      }),
+            gap(),
+            TextFormField(
+              keyboardType: TextInputType.multiline,
+              maxLines: null,
+              minLines: 3,
+              onSaved: (value) => {desc = value},
+              decoration: const InputDecoration(
+                hintText: 'Profile Description',
+                prefixIcon: Icon(Icons.description),
+              ),
+            ),
+            gap(),
+            ElevatedButton(
+                onPressed: () {
+                  _formKey.currentState?.save();
+                  Map<String, dynamic> payload = {
+                    "description": desc,
+                  };
+                  updatePhysicianProfile(payload);
+                  Navigator.pushNamed(context, "/physician/home");
+                },
+                child: const Text("Change Profile"))
+
+          ],
+        ),
+      ),
     );
   }
 

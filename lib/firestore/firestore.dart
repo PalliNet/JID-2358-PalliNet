@@ -142,6 +142,16 @@ void addPatient() async {
       debugPrint('DocumentSnapshot added with ID: ${doc.id}'));
 }
 
+void updatePhysicianProfile(Map<String, dynamic> payload) async {
+  debugPrint("Update physician");
+  // docRef = db.collection("Practitioner").doc(id); 
+
+  await db.collection("Practitioner").doc("ORVKtlLSLSovmRfxxPq5").update({
+    "description": payload["description"]
+  });
+
+}
+
 FirebaseFirestore getDatabase() {
   return db;
 }
