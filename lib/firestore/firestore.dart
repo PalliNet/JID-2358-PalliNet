@@ -28,7 +28,8 @@ void addData(UnmodifiableMapView<int, int> entries) async {
       .doc("6827485") // un hard-code this
       .collection("PainDiary")
       .add(storedEntries)
-      .then((DocumentReference doc) => debugPrint('patient entry added with ID: ${doc.id}'));
+      .then((DocumentReference doc) =>
+          debugPrint('patient entry added with ID: ${doc.id}'));
   // [END get_started_add_data_1]
 }
 
@@ -45,8 +46,11 @@ void addData(UnmodifiableMapView<int, int> entries) async {
 Future<Map<dynamic, dynamic>>? retrieveQuestions() async {
   debugPrint("Retrieve Questions");
 
-  Map<dynamic, dynamic> list =
-      await db.collection("Pain Diary Questions").doc("S3tecvHL4Vivoe2EomXj").get().then((DocumentSnapshot doc) {
+  Map<dynamic, dynamic> list = await db
+      .collection("Pain Diary Questions")
+      .doc("S3tecvHL4Vivoe2EomXj")
+      .get()
+      .then((DocumentSnapshot doc) {
     debugPrint(doc.data().toString());
     return doc.data() as Map<String, dynamic>;
   }, onError: (e) => debugPrint("Error getting document: $e"));
@@ -56,11 +60,29 @@ Future<Map<dynamic, dynamic>>? retrieveQuestions() async {
   // return questions;
 }
 
+Future<List<dynamic>>? retrieveEntries() async {
+  debugPrint("Retrieve entries");
+  QuerySnapshot querySnapshot = await db
+      .collection("Patient")
+      .doc("6827485")
+      .collection("PainDiary")
+      .get();
+  List<dynamic> list = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+  debugPrint("out");
+  debugPrint(list.toString());
+  return list;
+  // return questions;
+}
+
 Future<List<dynamic>>? retrievePatients() async {
   debugPrint("Retrieve patients");
 
-  Map<dynamic, dynamic> list =
-      await db.collection("Practitioner").doc("ORVKtlLSLSovmRfxxPq5").get().then((DocumentSnapshot doc) {
+  Map<dynamic, dynamic> list = await db
+      .collection("Practitioner")
+      .doc("ORVKtlLSLSovmRfxxPq5")
+      .get()
+      .then((DocumentSnapshot doc) {
     debugPrint(doc.data().toString());
     return doc.data() as Map<String, dynamic>;
   }, onError: (e) => debugPrint("Error getting document: $e"));
@@ -75,8 +97,11 @@ Future<List<dynamic>>? retrievePatients() async {
 Future<List<PatientID>>? retrievePatients2() async {
   debugPrint("Retrieve patients");
 
-  Map<dynamic, dynamic> list =
-      await db.collection("Practitioner").doc("ORVKtlLSLSovmRfxxPq5").get().then((DocumentSnapshot doc) {
+  Map<dynamic, dynamic> list = await db
+      .collection("Practitioner")
+      .doc("ORVKtlLSLSovmRfxxPq5")
+      .get()
+      .then((DocumentSnapshot doc) {
     return doc.data() as Map<String, dynamic>;
   }, onError: (e) => debugPrint("Error getting document: $e"));
 
@@ -106,10 +131,14 @@ void createAppointment(Map<String, dynamic> payload) async {
     "description": payload["description"],
     "created": DateTime.now(),
     "serviceCategory": "appointment",
-  }).then((value) => debugPrint(value.toString()), onError: (e) => debugPrint("Error occured: $e"));
+  }).then((value) => debugPrint(value.toString()),
+      onError: (e) => debugPrint("Error occured: $e"));
 
-  Map<dynamic, dynamic> list =
-      await db.collection("Practitioner").doc("ORVKtlLSLSovmRfxxPq5").get().then((DocumentSnapshot doc) {
+  Map<dynamic, dynamic> list = await db
+      .collection("Practitioner")
+      .doc("ORVKtlLSLSovmRfxxPq5")
+      .get()
+      .then((DocumentSnapshot doc) {
     return doc.data() as Map<String, dynamic>;
   }, onError: (e) => debugPrint("Error getting document: $e"));
 }
@@ -141,7 +170,8 @@ Future<bool> createPatient(payload) async {
   List<String> birthdate = payload["birthdate"].split("/");
 
   try {
-    final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    final credential =
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: payload['email'],
       password: payload['password'],
     );
@@ -150,7 +180,8 @@ Future<bool> createPatient(payload) async {
     // Create patient
     db.collection("Patient").doc(uid).set({
       "active": true,
-      "birthdate": DateTime(int.parse(birthdate[2]), int.parse(birthdate[0]), int.parse(birthdate[1])),
+      "birthdate": DateTime(int.parse(birthdate[2]), int.parse(birthdate[0]),
+          int.parse(birthdate[1])),
       "deceasedBoolean": false,
       "gender": payload["gender"].value,
       "id": 1111111, //TODO How are we doing ids?
@@ -163,11 +194,11 @@ Future<bool> createPatient(payload) async {
 
     // Add phone number if included
     if (payload["phoneNumber"] != null) {
-      db
-          .collection("Patient")
-          .doc(uid)
-          .collection("ContactPoint")
-          .add({"system": "phone", "use": payload["type"].value, "value": payload["phoneNumber"]});
+      db.collection("Patient").doc(uid).collection("ContactPoint").add({
+        "system": "phone",
+        "use": payload["type"].value,
+        "value": payload["phoneNumber"]
+      });
     }
   } on FirebaseAuthException catch (e) {
     if (e.code == 'weak-password') {
@@ -186,29 +217,33 @@ Future<bool> createPatient(payload) async {
 
 void updatePhysicianProfile(Map<String, dynamic> payload) async {
   // debugPrint("Update physician");
-  // docRef = db.collection("Practitioner").doc(id); 
+  // docRef = db.collection("Practitioner").doc(id);
 
-  await db.collection("Practitioner").doc("ORVKtlLSLSovmRfxxPq5").update({
-    "description": payload["description"]
-  });
+  await db
+      .collection("Practitioner")
+      .doc("ORVKtlLSLSovmRfxxPq5")
+      .update({"description": payload["description"]});
 }
 
 Future<Physician>? retrievePhysicianProfile() async {
   // debugPrint("Update physician");
 
-  Map<dynamic, dynamic> list =
-      await db.collection("Practitioner").doc("ORVKtlLSLSovmRfxxPq5").get().then((DocumentSnapshot doc) {
+  Map<dynamic, dynamic> list = await db
+      .collection("Practitioner")
+      .doc("ORVKtlLSLSovmRfxxPq5")
+      .get()
+      .then((DocumentSnapshot doc) {
     return doc.data() as Map<String, dynamic>;
   }, onError: (e) => debugPrint("Error getting document: $e"));
 
   // debugPrint(list.toString());
   // debugPrint("Success");
   Physician physician = Physician(
-    list["name"], 
-    list["gender"] == "M" ? Gender.male : Gender.female, 
-    list["id"], 
-    list["description"]);
-  
+      list["name"],
+      list["gender"] == "M" ? Gender.male : Gender.female,
+      list["id"],
+      list["description"]);
+
   // debugPrint("1");
   // debugPrint(list["description"]);
   // debugPrint("2");

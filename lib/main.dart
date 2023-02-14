@@ -64,8 +64,9 @@ class PalliNet extends StatelessWidget {
           '/patient/appointments': (context) => const PatientAppointments(),
           '/physician/appointments/new': (context) => const CreateAppointment(),
           '/patient/calendar': (context) => const CalendarView(),
-          '/forgotpassword': (context) => const ForgotPage()
-          '/physician/appointment/detail': (context) => const PhysicianAppointmentSpecifics(),
+          '/forgotpassword': (context) => const ForgotPage(),
+          '/physician/appointment/detail': (context) =>
+              const PhysicianAppointmentSpecifics(),
           '/symptoms': (context) => const SymptomsView(),
           '/physician/profile': (context) => const PhysicianProfile()
         },
