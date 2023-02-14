@@ -42,7 +42,7 @@ class ProfileContentState extends State<ProfileContent> {
           desc = physData!.description;
           // debugPrint("4");
           // debugPrint(desc);
-            return Container(
+          return Container(
           constraints: const BoxConstraints(maxWidth: 1000),
           child: Form(
             key: _formKey,
@@ -93,7 +93,23 @@ class ProfileContentState extends State<ProfileContent> {
           ),
         );
           } else {
-            return CircularProgressIndicator();
+            return Scaffold(
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const <Widget>[
+                    Text(
+                      "Loading Profile",
+                    ),
+                    SizedBox(height: 50),
+                    CircularProgressIndicator(
+                      semanticsLabel: "Loading Profile",
+                    ),
+                  ],
+                ),
+              ),
+            );
           }
       }),
     );
