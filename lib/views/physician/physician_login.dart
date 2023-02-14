@@ -160,6 +160,18 @@ class FormContentState extends State<FormContent> {
                 },
               ),
             ),
+            InkWell(
+              child: const Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text(
+                'Forgot Password?',
+                style: TextStyle(fontSize: 14)
+                ),
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, "/forgotpassword");
+              }
+            )
           ],
         ),
       ),

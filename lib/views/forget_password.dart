@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class PatientLogin extends StatelessWidget {
-  const PatientLogin({Key? key}) : super(key: key);
+class ForgotPage extends StatelessWidget {
+  const ForgotPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +47,24 @@ class Logo extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            "Patient Login",
+            "Forgot Password",
             textAlign: TextAlign.center,
             style: isSmallScreen
                 ? Theme.of(context).textTheme.headline5
-                : Theme.of(context).textTheme.headline4?.copyWith(color: Colors.black),
+                : Theme.of(context)
+                    .textTheme
+                    .headline4
+                    ?.copyWith(color: Colors.black),
           ),
         ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 40.0),
+            child: Text(
+            "Enter in your email. If there is an account associated, we will send you an email to reset your password",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 14)
+            ),
+          ),
         gap(),
       ],
     );
@@ -89,8 +100,9 @@ class FormContentState extends State<FormContent> {
                   return 'Please enter some text';
                 }
 
-                bool emailValid =
-                    RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value);
+                bool emailValid = RegExp(
+                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                    .hasMatch(value);
                 if (!emailValid) {
                   return 'Please enter a valid email';
                 }
@@ -105,38 +117,12 @@ class FormContentState extends State<FormContent> {
               ),
             ),
             gap(),
-            TextFormField(
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-
-                if (value.length < 6) {
-                  return 'Password must be at least 6 characters';
-                }
-                return null;
-              },
-              obscureText: !isPasswordVisible,
-              decoration: InputDecoration(
-                  labelText: 'Password',
-                  hintText: 'Enter your password',
-                  prefixIcon: const Icon(Icons.lock_outline_rounded),
-                  border: const OutlineInputBorder(),
-                  suffixIcon: IconButton(
-                    icon: Icon(isPasswordVisible ? Icons.visibility_off : Icons.visibility),
-                    onPressed: () {
-                      setState(() {
-                        isPasswordVisible = !isPasswordVisible;
-                      });
-                    },
-                  )),
-            ),
-            gap(),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4)),
                 ),
                 child: const Padding(
                   padding: EdgeInsets.all(10.0),
@@ -146,41 +132,13 @@ class FormContentState extends State<FormContent> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, "/patient/home");
+                  Navigator.pushNamed(context, "/physician/home");
+                  // if (_formKey.currentState?.validate() ?? false) {
+                  //   /// do something
+                  // }
                 },
               ),
             ),
-            gap(),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text(
-                    'First Time User?',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, "/new/patient");
-                },
-              ),
-            ),
-            InkWell(
-              child: const Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text(
-                'Forgot Password?',
-                style: TextStyle(fontSize: 14)
-                ),
-              ),
-              onTap: () {
-                Navigator.pushNamed(context, "/forgotpassword");
-              }
-            )
           ],
         ),
       ),
