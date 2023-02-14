@@ -1,11 +1,24 @@
 import 'package:pallinet/constants.dart';
 
-class PhysicianID {
+class Physician {
   final String name;
-  final DateTime birthDate;
+  // final DateTime birthDate;
   final Gender gender;
   final String id;
   final String description;
 
-  PhysicianID(this.name, this.birthDate, this.gender, this.id, this.description);
+  Physician(this.name, this.gender, this.id, this.description);
+}
+
+
+
+class Name {
+  final String family;
+  final String given;
+  final String prefix = "";
+  final String suffix = "";
+  final String text;
+  final String use;
+
+  Name(this.family, this.given, this.text, this.use);
 }
