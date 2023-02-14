@@ -137,60 +137,11 @@ void createAppointment(Map<String, dynamic> payload) async {
 //       debugPrint('DocumentSnapshot added with ID: ${doc.id}'));
 // }
 
-Future<bool> createPatient(payload) async {
-  List<String> birthdate = payload["birthdate"].split("/");
-
-  try {
-    final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: payload['email'],
-      password: payload['password'],
-    );
-    String uid = credential.user!.uid;
-
-    // Create patient
-    db.collection("Patient").doc(uid).set({
-      "active": true,
-      "birthdate": DateTime(int.parse(birthdate[2]), int.parse(birthdate[0]), int.parse(birthdate[1])),
-      "deceasedBoolean": false,
-      "gender": payload["gender"].value,
-      "id": 1111111, //TODO How are we doing ids?
-      "name": {
-        "family": payload["lastName"],
-        "given": payload["firstName"],
-        "text": payload["firstName"] + " " + payload["lastName"],
-      }
-    });
-
-    // Add phone number if included
-    if (payload["phoneNumber"] != null) {
-      db
-          .collection("Patient")
-          .doc(uid)
-          .collection("ContactPoint")
-          .add({"system": "phone", "use": payload["type"].value, "value": payload["phoneNumber"]});
-    }
-  } on FirebaseAuthException catch (e) {
-    if (e.code == 'weak-password') {
-      debugPrint('The password provided is too weak.');
-    } else if (e.code == 'email-already-in-use') {
-      debugPrint('The account already exists for that email.');
-    }
-    return false;
-  } catch (e) {
-    debugPrint(e.toString());
-    return false;
-  }
-
-  return true;
-}
-
 void updatePhysicianProfile(Map<String, dynamic> payload) async {
   // debugPrint("Update physician");
-  // docRef = db.collection("Practitioner").doc(id); 
+  // docRef = db.collection("Practitioner").doc(id);
 
-  await db.collection("Practitioner").doc("ORVKtlLSLSovmRfxxPq5").update({
-    "description": payload["description"]
-  });
+  await db.collection("Practitioner").doc("ORVKtlLSLSovmRfxxPq5").update({"description": payload["description"]});
 }
 
 Future<Physician>? retrievePhysicianProfile() async {
@@ -203,12 +154,9 @@ Future<Physician>? retrievePhysicianProfile() async {
 
   // debugPrint(list.toString());
   // debugPrint("Success");
-  Physician physician = Physician(
-    list["name"], 
-    list["gender"] == "M" ? Gender.male : Gender.female, 
-    list["id"], 
-    list["description"]);
-  
+  Physician physician =
+      Physician(list["name"], list["gender"] == "M" ? Gender.male : Gender.female, list["id"], list["description"]);
+
   // debugPrint("1");
   // debugPrint(list["description"]);
   // debugPrint("2");

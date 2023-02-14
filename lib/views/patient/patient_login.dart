@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pallinet/utils.dart';
+
+import 'package:pallinet/firestore/auth.dart';
 
 class PatientLogin extends StatelessWidget {
   const PatientLogin({Key? key}) : super(key: key);
@@ -8,27 +11,16 @@ class PatientLogin extends StatelessWidget {
     final bool isSmallScreen = MediaQuery.of(context).size.width < 600;
 
     return Scaffold(
+        // resizeToAvoidBottomInset: false,
         body: Center(
-            child: isSmallScreen
-                ? Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      Logo(),
-                      FormContent(),
-                    ],
-                  )
-                : Container(
-                    padding: const EdgeInsets.all(32.0),
-                    constraints: const BoxConstraints(maxWidth: 800),
-                    child: Row(
-                      children: const [
-                        Expanded(child: Logo()),
-                        Expanded(
-                          child: Center(child: FormContent()),
-                        ),
-                      ],
-                    ),
-                  )));
+            child: SingleChildScrollView(
+      child: Column(
+        children: const [
+          Logo(),
+          FormContent(),
+        ],
+      ),
+    )));
   }
 }
 
@@ -72,6 +64,9 @@ class FormContentState extends State<FormContent> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  String? email;
+  String? password;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -83,39 +78,18 @@ class FormContentState extends State<FormContent> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
-              validator: (value) {
-                // add email validation
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-
-                bool emailValid =
-                    RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value);
-                if (!emailValid) {
-                  return 'Please enter a valid email';
-                }
-
-                return null;
-              },
+              validator: (value) => emailValidation(value),
               decoration: const InputDecoration(
                 labelText: 'Email',
                 hintText: 'Enter your email',
                 prefixIcon: Icon(Icons.email_outlined),
                 border: OutlineInputBorder(),
               ),
+              onSaved: (newValue) => email = newValue,
             ),
             gap(),
             TextFormField(
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-
-                if (value.length < 6) {
-                  return 'Password must be at least 6 characters';
-                }
-                return null;
-              },
+              validator: (value) => requiredValue(value),
               obscureText: !isPasswordVisible,
               decoration: InputDecoration(
                   labelText: 'Password',
@@ -130,6 +104,7 @@ class FormContentState extends State<FormContent> {
                       });
                     },
                   )),
+              onSaved: (newValue) => password = newValue,
             ),
             gap(),
             SizedBox(
@@ -146,7 +121,16 @@ class FormContentState extends State<FormContent> {
                   ),
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, "/patient/home");
+                  _formKey.currentState?.save();
+                  var payload = {
+                    "email": email,
+                    "password": password,
+                  };
+                  if (_formKey.currentState?.validate() ?? false) {
+                    signIn(payload).then((value) => {
+                          if (value) {Navigator.pushNamed(context, "/patient/home")} else {showAlertDialog(context)}
+                        });
+                  }
                 },
               ),
             ),
@@ -170,17 +154,13 @@ class FormContentState extends State<FormContent> {
               ),
             ),
             InkWell(
-              child: const Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text(
-                'Forgot Password?',
-                style: TextStyle(fontSize: 14)
+                child: const Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Text('Forgot Password?', style: TextStyle(fontSize: 14)),
                 ),
-              ),
-              onTap: () {
-                Navigator.pushNamed(context, "/forgotpassword");
-              }
-            )
+                onTap: () {
+                  Navigator.pushNamed(context, "/forgotpassword");
+                })
           ],
         ),
       ),
@@ -188,4 +168,30 @@ class FormContentState extends State<FormContent> {
   }
 
   Widget gap() => const SizedBox(height: 16);
+}
+
+showAlertDialog(BuildContext context) {
+  Widget okButton = TextButton(
+    child: const Text("OK"),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: const Text("Error"),
+    content: const Text("Incorrect password or error!"),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
