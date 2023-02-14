@@ -14,7 +14,7 @@ class PatientList extends StatelessWidget {
     return FutureBuilder<List<dynamic>>(
       future: retrievePatients(),
       builder: ((context, snapshot) {
-        final list = (snapshot.data as List).map((e) => e as Map<String, dynamic>).toList();
+        final list = snapshot.data == null ? [] : (snapshot.data as List).map((e) => e as Map<String, dynamic>).toList();
         return Scaffold(
           appBar: AppBar(title: const Text("Patients")),
           body: ListView.builder(

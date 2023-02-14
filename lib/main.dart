@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pallinet/components/calendar.dart';
 import 'package:pallinet/views/calendar_card.dart';
-import 'package:pallinet/views/new_account.dart';
+import 'package:pallinet/views/patient/new_account.dart';
 import 'package:pallinet/views/patient/patient_home.dart';
 import 'package:pallinet/views/patient/patient_login.dart';
+import 'package:pallinet/views/physician/physician_profile.dart';
 import 'package:pallinet/views/physician/patient_detailed_info.dart';
+import 'package:pallinet/views/physician/edit_patient_info.dart';
 import 'package:pallinet/views/physician/create_appointment.dart';
 import 'package:pallinet/views/physician/physician_appointments.dart';
 import 'package:pallinet/views/physician/physician_home.dart';
@@ -46,24 +48,28 @@ class PalliNet extends StatelessWidget {
           '/login': (context) => const LoginLandingPage(),
           '/login/patient': (context) => const PatientLogin(),
           '/login/physician': (context) => const PhysicianLogin(),
-          '/new/patient': (context) => const NewAccount(),
+          '/new/patient': (context) => const NewAccountPage(),
           '/provider': (context) => const ProviderLandingPage(),
           '/patient/home': (context) => const PatientHome(),
           '/prescriptionssummary': (context) => const PrescriptionsSummary(),
-          '/prescriptionsdetailedview': (context) => const PrescriptionsDetailedView(),
+          '/prescriptionsdetailedview': (context) =>
+              const PrescriptionsDetailedView(),
           '/patient/diary/new': (context) => const NewPainDiaryEntry(),
           '/physician/home': (context) => const PhysicianHome(),
           '/patients': (context) => const PatientList(),
           '/physician/patient/details': (context) => const PatientDetails(),
+          '/physician/patient/edit_details': (context) =>
+              const EditPatientDetails(),
           '/physician/appointments': (context) => const PhysicianAppointments(),
           '/patient/appointments': (context) => const PatientAppointments(),
           '/physician/appointments/new': (context) => const CreateAppointment(),
           '/patient/calendar': (context) => const CalendarView(),
-          '/physician/appointment/detail': (context) =>
-              const PhysicianAppointmentSpecifics(),
-          '/symptoms': (context) => const SymptomsView(),
           '/forgotpassword': (context) => const ForgotPage()
+          '/physician/appointment/detail': (context) => const PhysicianAppointmentSpecifics(),
+          '/symptoms': (context) => const SymptomsView(),
+          '/physician/profile': (context) => const PhysicianProfile()
         },
-        onUnknownRoute: (settings) => MaterialPageRoute(builder: (context) => const HomePage()));
+        onUnknownRoute: (settings) =>
+            MaterialPageRoute(builder: (context) => const HomePage()));
   }
 }

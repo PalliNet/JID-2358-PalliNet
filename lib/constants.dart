@@ -9,10 +9,21 @@ enum ServiceType {
 }
 
 enum Gender {
-  male("M"),
-  female("F");
+  male("Male"),
+  female("Female");
 
   final String value;
 
   const Gender(this.value);
+}
+
+enum NumberType {
+  mobile("Mobile"),
+  home("Home"),
+  work("Work"),
+  other("Other");
+
+  final String value;
+
+  const NumberType(this.value);
 }

@@ -53,6 +53,27 @@ class PhysicianHome extends StatelessWidget {
                   )
                 ],
               )),
+          ElevatedButton(
+              onPressed: () => {Navigator.pushNamed(context, "/physician/profile")},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white, // Background color
+              ),
+              child: Row(
+                children: const [
+                  Icon(
+                    Icons.settings,
+                    color: Colors.pink,
+                    size: 120,
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    'Edit Profile',
+                    style: TextStyle(fontSize: 30, color: Colors.black),
+                  )
+                ],
+              )),
         ],
       ),
     );
