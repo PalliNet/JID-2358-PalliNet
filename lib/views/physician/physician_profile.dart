@@ -5,6 +5,7 @@ import 'package:pallinet/components/patient_card.dart';
 import 'package:pallinet/constants.dart';
 import 'package:pallinet/firestore/firestore.dart';
 import 'package:pallinet/models/patient_model.dart';
+import 'package:pallinet/models/physician_model.dart';
 
 class PhysicianProfile extends StatelessWidget {
   const PhysicianProfile({super.key});
@@ -29,19 +30,19 @@ class ProfileContentState extends State<ProfileContent> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  PatientID? patient;
-  List? practitioners = [];
-  DateTime? date = DateTime.now();
-  String? desc = "";
-  ServiceType? serviceType;
+  String? desc = "gkyhuiadfs";
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<PatientID>>(
-      future: retrievePatients2(),
+    return FutureBuilder<Physician> (
+      future: retrievePhysicianProfile(),
       builder: ((context, snapshot) {
-        List<PatientID> list = snapshot.data == null ? [] : snapshot.data as List<PatientID>;
-        return Container(
+        if (snapshot.hasData) {
+          Physician? physData = snapshot.data;
+          desc = physData!.description;
+          // debugPrint("4");
+          // debugPrint(desc);
+            return Container(
           constraints: const BoxConstraints(maxWidth: 1000),
           child: Form(
             key: _formKey,
@@ -52,8 +53,8 @@ class ProfileContentState extends State<ProfileContent> {
                 gap(),
                 gap(),
                 const Text(
-                  'Change your profile description here',
-                  textAlign: TextAlign.center,
+                  'Update profile',
+                  textAlign: TextAlign.left,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
                 gap(),
@@ -61,22 +62,39 @@ class ProfileContentState extends State<ProfileContent> {
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
                   minLines: 3,
+                  initialValue: desc,
                   onSaved: (value) => {desc = value},
                   decoration: const InputDecoration(
                     hintText: 'Profile Description',
                     prefixIcon: Icon(Icons.description),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12)
+                      ),
+                    ),
                   ),
                 ),
                 gap(),
                 ElevatedButton(
                     onPressed: () {
-                      debugPrint("not implemented");
+                      _formKey.currentState?.save();
+                      Map<String, dynamic> payload = {
+                        "description": desc,
+                      };
+                      // debugPrint("3");
+                      // debugPrint(desc);
+                      updatePhysicianProfile(payload);
+                      Navigator.pushNamed(context, "/physician/home");
                     },
-                    child: const Text("Change Profile"))
+                    child: const Text("Change Profile")
+                )
               ],
             ),
           ),
         );
+          } else {
+            return CircularProgressIndicator();
+          }
       }),
     );
   }

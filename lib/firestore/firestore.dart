@@ -5,6 +5,8 @@ import 'package:pallinet/constants.dart';
 import 'package:pallinet/models/patient_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../models/physician_model.dart';
+
 FirebaseFirestore db = FirebaseFirestore.instance;
 
 // Pain Diary
@@ -180,6 +182,48 @@ Future<bool> createPatient(payload) async {
   }
 
   return true;
+}
+
+void updatePhysicianProfile(Map<String, dynamic> payload) async {
+  // debugPrint("Update physician");
+  // docRef = db.collection("Practitioner").doc(id); 
+
+  await db.collection("Practitioner").doc("ORVKtlLSLSovmRfxxPq5").update({
+    "description": payload["description"]
+  });
+}
+
+Future<Physician>? retrievePhysicianProfile() async {
+  // debugPrint("Update physician");
+
+  Map<dynamic, dynamic> list =
+      await db.collection("Practitioner").doc("ORVKtlLSLSovmRfxxPq5").get().then((DocumentSnapshot doc) {
+    return doc.data() as Map<String, dynamic>;
+  }, onError: (e) => debugPrint("Error getting document: $e"));
+
+  // debugPrint(list.toString());
+  // debugPrint("Success");
+  Physician physician = Physician(
+    list["name"], 
+    list["gender"] == "M" ? Gender.male : Gender.female, 
+    list["id"], 
+    list["description"]);
+  
+  // debugPrint("1");
+  // debugPrint(list["description"]);
+  // debugPrint("2");
+  // debugPrint(physician.description);
+
+  // List<dynamic> data = list["id"] + list["description"] + list["gender"] + list["name"];
+  // debugPrint(data.toString());
+  // Physician physician = data.map((e) {
+  //   debugPrint(e.toString());
+  //   Gender gender = e["gender"] == "M" ? Gender.male : Gender.female;
+  //   return Physician(e["name"], gender, e["id"], e["description"]);
+
+  // }).toList();
+
+  return physician;
 }
 
 FirebaseFirestore getDatabase() {
