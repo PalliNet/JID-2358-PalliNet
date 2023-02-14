@@ -79,5 +79,4 @@ Future<AuthStatus> signIn(payload) async {
   }
 
   return AuthStatus.unknownError;
-  // return AuthStatus.success;
 }
