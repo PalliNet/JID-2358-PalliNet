@@ -23,7 +23,7 @@ Future<bool> createPatient(payload) async {
       "birthdate": DateTime(int.parse(birthdate[2]), int.parse(birthdate[0]), int.parse(birthdate[1])),
       "deceasedBoolean": false,
       "gender": payload["gender"].value,
-      "id": 1111111, //TODO How are we doing ids?
+      "id": "1111111", //TODO How are we doing ids?
       "name": {
         "family": payload["lastName"],
         "given": payload["firstName"],

@@ -2,7 +2,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SessionManager {
   final String uid = "auth_token";
-  late final SharedPreferences prefs;
+  late SharedPreferences prefs;
 
   // Set values
   Future<void> setUid(String uid) async {

@@ -72,6 +72,9 @@ Future<List<dynamic>>? retrievePatients() async {
   return patients;
 }
 
+// TODO this might be wrong? Check if still works with const.dart
+// TODO this is probably broken rn, need to fix database entries so that field
+// name is consistent (birthdate instead of birthDate)
 Future<List<PatientID>>? retrievePatients2() async {
   debugPrint("Retrieve patients");
 
@@ -86,7 +89,7 @@ Future<List<PatientID>>? retrievePatients2() async {
     // debugPrint(e.runtimeType.toString());
     debugPrint(e.toString());
     Gender gender = e["gender"] == "M" ? Gender.male : Gender.female;
-    Timestamp t = e["birthDate"] as Timestamp;
+    Timestamp t = e["birthdate"] as Timestamp;
     DateTime birthdate = t.toDate();
 
     return PatientID(e["name"], gender, e["id"], birthdate);
@@ -142,6 +145,20 @@ void updatePhysicianProfile(Map<String, dynamic> payload) async {
   // docRef = db.collection("Practitioner").doc(id);
 
   await db.collection("Practitioner").doc("ORVKtlLSLSovmRfxxPq5").update({"description": payload["description"]});
+}
+
+Future<PatientID>? retrievePatientProfile(uid) async {
+  Map<dynamic, dynamic> patientInfo = await db.collection("Patient").doc(uid).get().then((DocumentSnapshot doc) {
+    return doc.data() as Map<String, dynamic>;
+  }, onError: (e) => debugPrint("Error getting document: $e"));
+
+  Gender gender = patientInfo["gender"] == "Male" ? Gender.male : Gender.female;
+  Timestamp t = patientInfo["birthdate"] as Timestamp;
+  DateTime birthdate = t.toDate();
+
+  PatientID patient = PatientID(patientInfo["name"]["text"], gender, patientInfo["id"], birthdate);
+
+  return patient;
 }
 
 Future<Physician>? retrievePhysicianProfile() async {

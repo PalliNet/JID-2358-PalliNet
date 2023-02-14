@@ -168,7 +168,6 @@ class FormContentState extends State<FormContent> {
 
 attemptLogin(payload, context) {
   signIn(payload).then((status) => {
-        showSnackbar(context, status),
         if (status == AuthStatus.success)
           {Navigator.pushNamed(context, "/patient/home")}
         else
