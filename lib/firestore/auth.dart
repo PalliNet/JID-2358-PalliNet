@@ -1,7 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pallinet/constants.dart';
+import 'package:pallinet/models/session_manager.dart';
 
 import 'firestore.dart';
+
+SessionManager prefs = SessionManager();
 
 Future<bool> createPatient(payload) async {
   List<String> birthdate = payload["birthdate"].split("/");
@@ -50,19 +54,30 @@ Future<bool> createPatient(payload) async {
   return true;
 }
 
-Future<bool> signIn(payload) async {
+Future<AuthStatus> signIn(payload) async {
   try {
     final credential =
         await FirebaseAuth.instance.signInWithEmailAndPassword(email: payload["email"], password: payload["password"]);
     debugPrint("Signed in: $credential.user!.uid");
-    return true;
+
+    var snapshot = await db.collection("Patient").doc(credential.user!.uid).get();
+    if (!snapshot.exists) {
+      return AuthStatus.incorrectAccountType;
+    }
+
+    await prefs.setUid(credential.user!.uid);
+
+    return AuthStatus.success;
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {
-      print('No user found for that email.');
+      debugPrint('No user found for that email.');
+      return AuthStatus.unknownEmail;
     } else if (e.code == 'wrong-password') {
-      print('Wrong password provided for that user.');
+      debugPrint('Wrong password provided for that user.');
+      return AuthStatus.incorrectPassword;
     }
   }
 
-  return false;
+  return AuthStatus.unknownError;
+  // return AuthStatus.success;
 }

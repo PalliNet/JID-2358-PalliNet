@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pallinet/constants.dart';
 import 'package:pallinet/utils.dart';
 
 import 'package:pallinet/firestore/auth.dart';
@@ -8,8 +9,6 @@ class PatientLogin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isSmallScreen = MediaQuery.of(context).size.width < 600;
-
     return Scaffold(
         // resizeToAvoidBottomInset: false,
         body: Center(
@@ -122,14 +121,11 @@ class FormContentState extends State<FormContent> {
                 ),
                 onPressed: () {
                   _formKey.currentState?.save();
-                  var payload = {
-                    "email": email,
-                    "password": password,
-                  };
                   if (_formKey.currentState?.validate() ?? false) {
-                    signIn(payload).then((value) => {
-                          if (value) {Navigator.pushNamed(context, "/patient/home")} else {showAlertDialog(context)}
-                        });
+                    attemptLogin({
+                      "email": email,
+                      "password": password,
+                    }, context);
                   }
                 },
               ),
@@ -170,6 +166,16 @@ class FormContentState extends State<FormContent> {
   Widget gap() => const SizedBox(height: 16);
 }
 
+attemptLogin(payload, context) {
+  signIn(payload).then((status) => {
+        showSnackbar(context, status),
+        if (status == AuthStatus.success)
+          {Navigator.pushNamed(context, "/patient/home")}
+        else
+          {showSnackbar(context, status)}
+      });
+}
+
 showAlertDialog(BuildContext context) {
   Widget okButton = TextButton(
     child: const Text("OK"),
@@ -194,4 +200,16 @@ showAlertDialog(BuildContext context) {
       return alert;
     },
   );
+}
+
+showSnackbar(BuildContext context, AuthStatus status) {
+  final snackBar = status == AuthStatus.success
+      ? SnackBar(
+          content: Text(status.value),
+        )
+      : SnackBar(
+          content: Text(status.value),
+          backgroundColor: Colors.red,
+        );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
