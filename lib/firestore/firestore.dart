@@ -125,10 +125,11 @@ Future<PatientID>? retrievePatientProfile(uid) async {
 }
 
 //TODO Retrieve physician profile (currently hardcoded))
-Future<Physician>? retrievePhysicianProfile() async {
+Future<Physician> retrievePhysicianProfile(uid) async {
   debugPrint("retrievePhysicianProfile");
   // Get Physician
-  var docRef = db.collection("Practitioner").doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62");
+  uid = uid ?? "5nsl8S4wXoeNLc6OzVgwJGRBmv62"; // TODO Temp for other hardcoded portions
+  var docRef = db.collection("Practitioner").doc(uid);
 
   Map<dynamic, dynamic> list = await docRef.get().then((DocumentSnapshot doc) {
     return doc.data() as Map<String, dynamic>;
