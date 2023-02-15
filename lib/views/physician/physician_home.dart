@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pallinet/components/loading.dart';
 import 'package:pallinet/models/physician_model.dart';
 import 'package:pallinet/models/session_manager.dart';
 import 'package:pallinet/firestore/firestore.dart';
@@ -109,23 +110,7 @@ class _PhysicianHomeState extends State<PhysicianHome> {
               ),
             );
           } else {
-            return Scaffold(
-              body: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const <Widget>[
-                    Text(
-                      "Loading Home",
-                    ),
-                    SizedBox(height: 50),
-                    CircularProgressIndicator(
-                      semanticsLabel: "Loading Home",
-                    ),
-                  ],
-                ),
-              ),
-            );
+            return const LoadingScreen("Loading Home");
           }
         }));
   }
