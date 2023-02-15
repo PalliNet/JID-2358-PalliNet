@@ -135,8 +135,8 @@ Future<Physician>? retrievePhysicianProfile() async {
   }, onError: (e) => debugPrint("Error getting document: $e"));
 
   // Convert to Physician model and return
-  Physician physician =
-      Physician(list["name"], list["gender"] == "M" ? Gender.male : Gender.female, list["id"], list["description"]);
+  Physician physician = Physician(
+      list["name"]["text"], list["gender"] == "M" ? Gender.male : Gender.female, list["id"], list["description"]);
 
   return physician;
 }
@@ -144,14 +144,3 @@ Future<Physician>? retrievePhysicianProfile() async {
 FirebaseFirestore getDatabase() {
   return db;
 }
-
-// void copyPhysician() async {
-//   var docRef = db.collection("Practitioner").doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62");
-
-//   docRef.get().then((doc) {
-//     var data = doc.data();
-//     db.collection("Practitioner").doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62").set(data!).then((value) {
-//       db.collection("Practitioner").doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62").delete();
-//     });
-//   });
-// }
