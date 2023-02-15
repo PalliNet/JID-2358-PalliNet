@@ -145,13 +145,13 @@ FirebaseFirestore getDatabase() {
   return db;
 }
 
-void copyPhysician() async {
-  var docRef = db.collection("Practitioner").doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62");
+// void copyPhysician() async {
+//   var docRef = db.collection("Practitioner").doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62");
 
-  docRef.get().then((doc) {
-    var data = doc.data();
-    db.collection("Practitioner").doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62").set(data!).then((value) {
-      db.collection("Practitioner").doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62").delete();
-    });
-  });
-}
+//   docRef.get().then((doc) {
+//     var data = doc.data();
+//     db.collection("Practitioner").doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62").set(data!).then((value) {
+//       db.collection("Practitioner").doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62").delete();
+//     });
+//   });
+// }
