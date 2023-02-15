@@ -80,3 +80,13 @@ Future<AuthStatus> signIn(payload) async {
 
   return AuthStatus.unknownError;
 }
+
+Future<bool> debugPhysician() async {
+  await prefs.setUid("5nsl8S4wXoeNLc6OzVgwJGRBmv62");
+  return true;
+}
+
+Future<bool> debugPatient() async {
+  await prefs.setUid("mpMQADgfZqMPo25LQkw8ZcgKmTw2");
+  return true;
+}
