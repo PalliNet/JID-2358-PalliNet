@@ -60,7 +60,7 @@ Future<AuthStatus> signIn(payload) async {
         await FirebaseAuth.instance.signInWithEmailAndPassword(email: payload["email"], password: payload["password"]);
     debugPrint("Signed in: $credential.user!.uid");
 
-    var snapshot = await db.collection("Patient").doc(credential.user!.uid).get();
+    var snapshot = await db.collection(payload["userType"].value).doc(credential.user!.uid).get();
     if (!snapshot.exists) {
       return AuthStatus.incorrectAccountType;
     }
@@ -79,4 +79,14 @@ Future<AuthStatus> signIn(payload) async {
   }
 
   return AuthStatus.unknownError;
+}
+
+Future<bool> debugPhysician() async {
+  await prefs.setUid("5nsl8S4wXoeNLc6OzVgwJGRBmv62");
+  return true;
+}
+
+Future<bool> debugPatient() async {
+  await prefs.setUid("mpMQADgfZqMPo25LQkw8ZcgKmTw2");
+  return true;
 }

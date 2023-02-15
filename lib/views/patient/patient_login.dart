@@ -125,6 +125,7 @@ class FormContentState extends State<FormContent> {
                     attemptLogin({
                       "email": email,
                       "password": password,
+                      "userType": UserType.patient,
                     }, context);
                   }
                 },
@@ -146,6 +147,26 @@ class FormContentState extends State<FormContent> {
                 ),
                 onPressed: () {
                   Navigator.pushNamed(context, "/new/patient");
+                },
+              ),
+            ),
+            gap(),
+            SizedBox(
+              // DEBUGGING LOGIN
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Text(
+                    'DEBUGGING LOGIN',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                onPressed: () {
+                  debugLogin(context);
                 },
               ),
             ),
@@ -173,6 +194,10 @@ attemptLogin(payload, context) {
         else
           {showSnackbar(context, status)}
       });
+}
+
+debugLogin(context) {
+  debugPatient().then((val) => {Navigator.pushNamed(context, "/patient/home")});
 }
 
 showAlertDialog(BuildContext context) {
