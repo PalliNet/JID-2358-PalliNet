@@ -40,3 +40,13 @@ enum AuthStatus {
 
   const AuthStatus(this.value);
 }
+
+enum UserType {
+  patient("Patient"),
+  practitioner("Practitioner"),
+  administrator("Admin");
+
+  final String value;
+
+  const UserType(this.value);
+}

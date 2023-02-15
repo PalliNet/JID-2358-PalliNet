@@ -43,7 +43,7 @@ Future<List<dynamic>>? retrievePatients() async {
   debugPrint("retrievePatients");
 
   Map<dynamic, dynamic> list =
-      await db.collection("Practitioner").doc("ORVKtlLSLSovmRfxxPq5").get().then((DocumentSnapshot doc) {
+      await db.collection("Practitioner").doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62").get().then((DocumentSnapshot doc) {
     debugPrint(doc.data().toString());
     return doc.data() as Map<String, dynamic>;
   }, onError: (e) => debugPrint("Error getting document: $e"));
@@ -61,7 +61,7 @@ Future<List<PatientID>>? retrievePatients2() async {
   debugPrint("retrievePatients2");
 
   Map<dynamic, dynamic> list =
-      await db.collection("Practitioner").doc("ORVKtlLSLSovmRfxxPq5").get().then((DocumentSnapshot doc) {
+      await db.collection("Practitioner").doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62").get().then((DocumentSnapshot doc) {
     return doc.data() as Map<String, dynamic>;
   }, onError: (e) => debugPrint("Error getting document: $e"));
 
@@ -92,7 +92,7 @@ void createAppointment(Map<String, dynamic> payload) async {
   }).then((value) => debugPrint(value.toString()), onError: (e) => debugPrint("Error occured: $e"));
 
   Map<dynamic, dynamic> list =
-      await db.collection("Practitioner").doc("ORVKtlLSLSovmRfxxPq5").get().then((DocumentSnapshot doc) {
+      await db.collection("Practitioner").doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62").get().then((DocumentSnapshot doc) {
     return doc.data() as Map<String, dynamic>;
   }, onError: (e) => debugPrint("Error getting document: $e"));
 }
@@ -100,7 +100,7 @@ void createAppointment(Map<String, dynamic> payload) async {
 // TODO Update Physician profile (currently hardcoded)
 void updatePhysicianProfile(Map<String, dynamic> payload) async {
   debugPrint("updatePhysicianProfile");
-  var docRef = db.collection("Practitioner").doc("ORVKtlLSLSovmRfxxPq5");
+  var docRef = db.collection("Practitioner").doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62");
 
   await docRef.update({"description": payload["description"]});
 }
@@ -128,7 +128,7 @@ Future<PatientID>? retrievePatientProfile(uid) async {
 Future<Physician>? retrievePhysicianProfile() async {
   debugPrint("retrievePhysicianProfile");
   // Get Physician
-  var docRef = db.collection("Practitioner").doc("ORVKtlLSLSovmRfxxPq5");
+  var docRef = db.collection("Practitioner").doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62");
 
   Map<dynamic, dynamic> list = await docRef.get().then((DocumentSnapshot doc) {
     return doc.data() as Map<String, dynamic>;
@@ -143,4 +143,15 @@ Future<Physician>? retrievePhysicianProfile() async {
 
 FirebaseFirestore getDatabase() {
   return db;
+}
+
+void copyPhysician() async {
+  var docRef = db.collection("Practitioner").doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62");
+
+  docRef.get().then((doc) {
+    var data = doc.data();
+    db.collection("Practitioner").doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62").set(data!).then((value) {
+      db.collection("Practitioner").doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62").delete();
+    });
+  });
 }

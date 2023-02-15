@@ -125,6 +125,7 @@ class FormContentState extends State<FormContent> {
                     attemptLogin({
                       "email": email,
                       "password": password,
+                      "userType": UserType.patient,
                     }, context);
                   }
                 },

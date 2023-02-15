@@ -60,7 +60,7 @@ Future<AuthStatus> signIn(payload) async {
         await FirebaseAuth.instance.signInWithEmailAndPassword(email: payload["email"], password: payload["password"]);
     debugPrint("Signed in: $credential.user!.uid");
 
-    var snapshot = await db.collection("Patient").doc(credential.user!.uid).get();
+    var snapshot = await db.collection(payload["userType"].value).doc(credential.user!.uid).get();
     if (!snapshot.exists) {
       return AuthStatus.incorrectAccountType;
     }
