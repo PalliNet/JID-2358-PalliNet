@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pallinet/utils.dart';
+import 'package:pallinet/firestore/auth.dart';
 
 class ForgotPage extends StatelessWidget {
   const ForgotPage({super.key});
@@ -79,10 +81,8 @@ class FormContent extends StatefulWidget {
 }
 
 class FormContentState extends State<FormContent> {
-  bool isPasswordVisible = false;
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  String? email;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -94,27 +94,14 @@ class FormContentState extends State<FormContent> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextFormField(
-              validator: (value) {
-                // add email validation
-                if (value == null || value.isEmpty) {
-                  return 'Please enter some text';
-                }
-
-                bool emailValid = RegExp(
-                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                    .hasMatch(value);
-                if (!emailValid) {
-                  return 'Please enter a valid email';
-                }
-
-                return null;
-              },
+              validator: (value) => emailValidation(value),
               decoration: const InputDecoration(
                 labelText: 'Email',
                 hintText: 'Enter your email',
                 prefixIcon: Icon(Icons.email_outlined),
                 border: OutlineInputBorder(),
               ),
+              onSaved: (newValue) => debugPrint(newValue),
             ),
             gap(),
             SizedBox(
@@ -127,15 +114,15 @@ class FormContentState extends State<FormContent> {
                 child: const Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Text(
-                    'Sign in',
+                    'Reset Password',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
-                onPressed: () {
-                  Navigator.pushNamed(context, "/physician/home");
-                  // if (_formKey.currentState?.validate() ?? false) {
-                  //   /// do something
-                  // }
+                onPressed: () async {
+                  if (_formKey.currentState?.validate() ?? false) {
+                    debugPrint(email);
+                    resetPassword({"email": email});
+                  }
                 },
               ),
             ),
