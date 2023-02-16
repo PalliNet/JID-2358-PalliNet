@@ -2,27 +2,28 @@ import 'package:pallinet/constants.dart';
 
 class Patient {
   final bool active;
-  final DateTime birthDate;
+  final DateTime birthdate;
   final Gender gender;
   final String generalPractitioner;
   final String id;
   final String identifier;
   final Name name;
 
-  Patient(this.active, this.birthDate, this.gender, this.generalPractitioner, this.id, this.identifier, this.name);
+  Patient(this.active, this.birthdate, this.gender, this.generalPractitioner,
+      this.id, this.identifier, this.name);
 }
 
 class PatientID {
   final String name;
   final Gender gender;
   final String id;
-  final DateTime birthDate;
+  final DateTime birthdate;
 
-  PatientID(this.name, this.gender, this.id, this.birthDate);
+  PatientID(this.name, this.gender, this.id, this.birthdate);
 
   @override
   String toString() {
-    String bdate = birthDate.toString();
+    String bdate = birthdate.toString();
     return 'PatientID: $name $gender $id $bdate';
   }
 }

@@ -63,7 +63,7 @@ Future<List<dynamic>>? retrievePatients() async {
 
 // TODO this might be wrong? Check if still works with const.dart
 // TODO this is probably broken rn, need to fix database entries so that field
-// TODO name is consistent (birthdate instead of birthDate) (currently hardcoded)
+// TODO name is consistent (birthdate instead of birthdate) (currently hardcoded)
 Future<List<PatientID>>? retrievePatients2() async {
   debugPrint("retrievePatients2");
 
