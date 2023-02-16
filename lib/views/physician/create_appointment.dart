@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:pallinet/constants.dart';
 import 'package:pallinet/firestore/firestore.dart';
 import 'package:pallinet/models/patient_model.dart';
+import 'package:pallinet/models/physician_model.dart';
 import 'package:pallinet/utils.dart';
 
 class CreateAppointment extends StatelessWidget {
@@ -32,6 +33,7 @@ class AppointmentContentState extends State<AppointmentContent> {
 
   PatientID? patient;
   List? practitioners = [];
+  // Physician physician =
   DateTime appointmentDate = DateTime.now();
   DateTime appointmentTime = DateTime.now();
   String? desc = "";
@@ -72,8 +74,9 @@ class AppointmentContentState extends State<AppointmentContent> {
                     value: patient),
                 gap(),
                 TextFormField(
+                  enabled: false,
                   decoration: const InputDecoration(
-                    hintText: 'Practitioner(s)',
+                    hintText: 'Not currently functional Physician(s)',
                     prefixIcon: Icon(Icons.group_add),
                   ),
                 ),
@@ -157,7 +160,7 @@ class AppointmentContentState extends State<AppointmentContent> {
                       if (_formKey.currentState?.validate() == true && validateCombinedDateTime(scheduledTime)) {
                         Map<String, dynamic> payload = {
                           "patient": patient,
-                          "practitioners": practitioners,
+                          "practitioner": practitioners,
                           "description": desc,
                           "type": serviceType?.value,
                           "scheduledTime": scheduledTime,

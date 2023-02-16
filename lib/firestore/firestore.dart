@@ -78,13 +78,14 @@ Future<List<PatientID>>? retrievePatients2() async {
   return patients;
 }
 
-// TODO Create appointment (currently hardcoded)
+// TODO Create appointment (currently hardcoded) once schedule page has physician, pass uid on when click create appointment
 void createAppointment(Map<String, dynamic> payload) async {
   debugPrint("createAppointment");
 
   final docRef = db.collection("Appointment");
 
   await docRef.add({
+    "practitioner": "5nsl8S4wXoeNLc6OzVgwJGRBmv62",
     "appointmentType": payload["type"],
     "description": payload["description"],
     "created": DateTime.now(),
