@@ -35,28 +35,6 @@ class Symptoms extends StatelessWidget {
                   )
                 ],
               )),
-          // ElevatedButton(
-          //     onPressed: () =>
-          //         {Navigator.pushNamed(context, "/prescriptionsdetailedview")},
-          //     style: ElevatedButton.styleFrom(
-          //       backgroundColor: Colors.white, // Background color
-          //     ),
-          //     child: Row(
-          //       children: const [
-          //         Icon(
-          //           Icons.library_books,
-          //           color: Colors.purpleAccent,
-          //           size: 100,
-          //         ),
-          //         SizedBox(
-          //           width: 20,
-          //         ),
-          //         Text(
-          //           '  Detailed View',
-          //           style: TextStyle(fontSize: 30, color: Colors.black),
-          //         )
-          //   ],
-          // ))
         ],
       ),
     );
