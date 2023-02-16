@@ -89,6 +89,7 @@ void createAppointment(Map<String, dynamic> payload) async {
     "description": payload["description"],
     "created": DateTime.now(),
     "serviceCategory": "appointment",
+    "scheduledTime": payload["scheduledTime"],
   }).then((value) => debugPrint(value.toString()), onError: (e) => debugPrint("Error occured: $e"));
 
   Map<dynamic, dynamic> list =
