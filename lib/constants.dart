@@ -27,3 +27,26 @@ enum NumberType {
 
   const NumberType(this.value);
 }
+
+enum AuthStatus {
+  unknownEmail("The username/password combination does not match any existing entries."),
+  incorrectPassword("The username/password combination does not match any existing entries."),
+  incorrectAccountType("The username/password combination does not match any existing entries."),
+  serverError("There was a server error. Please try again later."),
+  unknownError("An unknown error has occured."),
+  success("The operation was a success.");
+
+  final String value;
+
+  const AuthStatus(this.value);
+}
+
+enum UserType {
+  patient("Patient"),
+  practitioner("Practitioner"),
+  administrator("Admin");
+
+  final String value;
+
+  const UserType(this.value);
+}

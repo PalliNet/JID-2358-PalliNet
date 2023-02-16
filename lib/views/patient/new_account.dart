@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pallinet/constants.dart';
-import 'package:pallinet/firestore/firestore.dart';
+import 'package:pallinet/firestore/auth.dart';
 import 'package:pallinet/utils.dart';
-import 'package:intl/intl.dart';
 
 class NewAccountPage extends StatefulWidget {
   const NewAccountPage({Key? key}) : super(key: key);
@@ -200,7 +199,7 @@ class _NewAccountState extends State<NewAccountPage> {
                     Expanded(
                         flex: 5,
                         child: TextFormField(
-                          validator: (value) => dateValidation(value),
+                          validator: (value) => birthdateValidation(value),
                           decoration: const InputDecoration(
                             labelText: 'Birthdate',
                             hintText: 'Enter your birthdate',
@@ -265,65 +264,6 @@ class _NewAccountState extends State<NewAccountPage> {
           )),
     ];
   }
-}
-
-emailValidation(value) {
-  if (value == null || value.isEmpty) {
-    return 'Please enter some text';
-  }
-  bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value);
-  if (!emailValid) {
-    return 'Please enter a valid email';
-  }
-  return null;
-}
-
-passwordValidation(value) {
-  if (value == null || value.isEmpty) {
-    return 'Please enter some text';
-  }
-  if (value.length < 6) {
-    return 'Password must be at least 6 characters';
-  }
-  return null;
-}
-
-passwordVerification(value, first) {
-  if (value == null || value.isEmpty) {
-    return 'Please enter some text';
-  }
-  if (value != first) {
-    return "Password does not match";
-  }
-  return null;
-}
-
-requiredValue(value) {
-  if (value.runtimeType == Gender) {
-    return null;
-  } else if (value == null || value.isEmpty) {
-    return 'Required field';
-  }
-  return null;
-}
-
-dateValidation(value) {
-  if (value == null || value.isEmpty) {
-    return 'Required field';
-  } else {
-    try {
-      DateFormat format = DateFormat("MM/dd/yyyy");
-      DateTime time = format.parseStrict(value);
-      if (time.isAfter(DateTime.now())) {
-        return "Invalid date";
-      }
-    } catch (e) {
-      debugPrint(e.toString());
-      return "Invalid date";
-    }
-  }
-
-  return null;
 }
 
 showAlertDialog(BuildContext context) {
