@@ -42,6 +42,20 @@ Future<Map<dynamic, dynamic>>? retrieveQuestions() async {
   return list;
 }
 
+Future<List<dynamic>>? retrieveEntries() async {
+  debugPrint("Retrieve entries");
+  QuerySnapshot querySnapshot = await db
+      .collection("Patient")
+      .doc("6827485")
+      .collection("PainDiary")
+      .get();
+  List<dynamic> list = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+  debugPrint("out");
+  debugPrint(list.toString());
+  return list;
+  // return questions;
+}
 
 // TODO used in patients_list consolidate w/ retrievePatients2 (currently hardcoded)
 Future<List<dynamic>>? retrievePatients() async {
@@ -117,7 +131,6 @@ void updatePhysicianProfile(Map<String, dynamic> payload) async {
   await docRef.update({"description": payload["description"]});
 }
 
-
 // Retrieve patient profile given uid
 Future<PatientID>? retrievePatientProfile(uid) async {
   debugPrint("retrievePatientsProfile");
@@ -150,14 +163,12 @@ Future<Physician> retrievePhysicianProfile(uid) async {
       "5nsl8S4wXoeNLc6OzVgwJGRBmv62"; // TODO Temp for other hardcoded portions
   var docRef = db.collection("Practitioner").doc(uid);
 
-
   Map<dynamic, dynamic> list = await docRef.get().then((DocumentSnapshot doc) {
     return doc.data() as Map<String, dynamic>;
   }, onError: (e) => debugPrint("Error getting document: $e"));
 
   // Convert to Physician model and return
   Physician physician = Physician(
-
       list["name"]["text"],
       list["gender"] == "M" ? Gender.male : Gender.female,
       list["id"],
