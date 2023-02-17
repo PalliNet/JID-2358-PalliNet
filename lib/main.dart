@@ -26,6 +26,7 @@ import 'package:pallinet/views/physician/physician_appointment_specifics.dart';
 import 'package:pallinet/views/symptoms.dart';
 import 'firebase_options.dart';
 import 'package:pallinet/views/forget_password.dart';
+import 'package:pallinet/views/forgot_password_success.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -72,7 +73,8 @@ class PalliNet extends StatelessWidget {
           '/physician/appointment/detail': (context) =>
               const PhysicianAppointmentSpecifics(),
           '/symptoms': (context) => const SymptomsView(),
-          '/physician/profile': (context) => const PhysicianProfile()
+          '/physician/profile': (context) => const PhysicianProfile(),
+          '/forgotsuccess': (context) => const ForgotSuccess()
         },
         onUnknownRoute: (settings) =>
             MaterialPageRoute(builder: (context) => const HomePage()));

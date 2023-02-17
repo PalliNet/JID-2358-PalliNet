@@ -5,8 +5,8 @@ import 'package:pallinet/views/patient/patient_login.dart';
 
 import '../constants.dart';
 
-class ForgotPage extends StatelessWidget {
-  const ForgotPage({super.key});
+class ForgotSuccess extends StatelessWidget {
+  const ForgotSuccess({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,6 @@ class ForgotPage extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: const [
                       Logo(),
-                      FormContent(),
                     ],
                   )
                 : Container(
@@ -28,13 +27,10 @@ class ForgotPage extends StatelessWidget {
                     child: Row(
                       children: const [
                         Expanded(child: Logo()),
-                        Expanded(
-                          child: Center(child: FormContent()),
-                        ),
                       ],
                     ),
                   )));
-  }
+      }
 }
 
 class Logo extends StatelessWidget {
@@ -52,7 +48,7 @@ class Logo extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(
-            "Forgot Password",
+            "Success!",
             textAlign: TextAlign.center,
             style: isSmallScreen
                 ? Theme.of(context).textTheme.headline5
@@ -65,53 +61,13 @@ class Logo extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 40.0),
             child: Text(
-            "Enter in your email. If there is an account associated, we will send you an email to reset your password",
+            "Please check your email to complete resetting your password. If you do not see an email within 5 minutes, then there is no accounted associated with the inputted email.",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 14)
             ),
           ),
         gap(),
-      ],
-    );
-  }
-}
-
-class FormContent extends StatefulWidget {
-  const FormContent({Key? key}) : super(key: key);
-
-  @override
-  State<FormContent> createState() => FormContentState();
-}
-
-class FormContentState extends State<FormContent> {
-
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String? email;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(maxWidth: 300),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextFormField(
-              validator: (value) => emailValidation(value),
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                hintText: 'Enter your email',
-                prefixIcon: Icon(Icons.email_outlined),
-                border: OutlineInputBorder(),
-              ),
-              onSaved: (newValue) => email = newValue,
-            ),
-            gap(),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
+        ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4)),
@@ -119,29 +75,15 @@ class FormContentState extends State<FormContent> {
                 child: const Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Text(
-                    'Reset Password',
+                    'Return to Login',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
                 onPressed: () async {
-                  _formKey.currentState?.save();
-                  if (_formKey.currentState?.validate() ?? false) {
-                    attemptResetPassword(
-                      {"email": email}, 
-                      context);
-                  }
+                  Navigator.pushNamed(context, '/login');
                 },
               ),
-            ),
-          ],
-        ),
-      ),
+      ],
     );
   }
-attemptResetPassword(payload, context) {
-  resetPassword(payload).then((status) => {
-        Navigator.pushNamed(context, '/forgotsuccess')
-      });
-}
-  Widget gap() => const SizedBox(height: 16);
 }
