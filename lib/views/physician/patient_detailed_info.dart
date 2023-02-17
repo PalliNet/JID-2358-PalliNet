@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pallinet/components/patient_card.dart';
+import 'package:intl/intl.dart';
+import 'package:pallinet/components/loading.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pallinet/firestore/firestore.dart';
+import 'package:age_calculator/age_calculator.dart';
 
 class PatientDetails extends StatelessWidget {
   const PatientDetails({super.key});
@@ -10,53 +14,70 @@ class PatientDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("John Smith")),
-      body: ListView(
-        padding: const EdgeInsets.all(10),
-        children: [
-          const Text('Sex:\nMale',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-          gap(),
-          const Text('Age:\n87',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-          gap(),
-          const Text('MRN:\n142617',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-          gap(),
-          const Text('DOB:\n12-17-1935',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-          gap(),
-          const Text('Pain Regiment:',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-          gap(),
-          const Text('Last Visit:\n 1-28-23',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-          gap(),
-          const Text('Last 3 pain scores / recent trends:\n 80,90,100',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-          gap(),
-          const Text('Medical History(Clickable):',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-          gap(),
-          const Text('Surgical History(Clickable):',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-          gap(),
-          SizedBox(
-            height: 100,
-            width: 100,
-            child: OutlinedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, "/physician/patient/edit_details");
-              },
-              child: const Text(
-                "Edit Details",
-                style: TextStyle(fontSize: 25),
-              ),
-            ),
-          )
-        ],
-      ),
+    debugPrint(ModalRoute.of(context)?.settings.arguments.toString());
+    final arguments = ModalRoute.of(context)?.settings.arguments ?? '';
+    return FutureBuilder<Map<dynamic, dynamic>>(
+      future: retrievePatientDetails(arguments),
+      builder: ((context, snapshot) {
+        if (snapshot.hasData) {
+          Map<String, dynamic> datas = snapshot.data as Map<String, dynamic>;
+          Timestamp t;
+          t = datas["birthdate"] as Timestamp;
+          DateTime birthdate = t.toDate();
+          return Scaffold(
+              appBar: AppBar(title: Text(datas['name']['text'])),
+              body: ListView(
+                children: [
+                  Text('Gender: ${datas['gender']}',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20)),
+                  gap(),
+                  Text('DOB: ${DateFormat('MM-dd-yyyy').format(birthdate)}',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20)),
+                  gap(),
+                  Text(
+                      'Age: ${((DateTime.now().difference(birthdate).inDays) ~/ 365.0)} years old',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20)),
+                  gap(),
+                  Text('MRN: ${datas['maritalStatus']}',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20)),
+                  gap(),
+                  Text('Pain Regiment: ${datas['maritalStatus']}',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20)),
+                  gap(),
+                  Text('Last 3 Pain Scores: ${datas['maritalStatus']}',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20)),
+                  gap(),
+                  TextButton(
+                      onPressed: () {}, child: const Text('Medical History')),
+                  gap(),
+                  TextButton(
+                      onPressed: () {}, child: const Text('Surgical History')),
+                  SizedBox(
+                    height: 100,
+                    width: 100,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                            context, "/physician/patient/edit_details");
+                      },
+                      child: const Text(
+                        "Edit Details",
+                        style: TextStyle(fontSize: 25),
+                      ),
+                    ),
+                  )
+                ],
+              ));
+        } else {
+          return const LoadingScreen('Loading Patient Details');
+        }
+      }),
     );
   }
 }

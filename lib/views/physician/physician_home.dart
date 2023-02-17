@@ -44,7 +44,8 @@ class _PhysicianHomeState extends State<PhysicianHome> {
                 padding: const EdgeInsets.all(8),
                 children: [
                   ElevatedButton(
-                      onPressed: () => {Navigator.pushNamed(context, "/patients")},
+                      onPressed: () =>
+                          {Navigator.pushNamed(context, "/patients")},
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white, // Background color
                       ),
@@ -65,7 +66,10 @@ class _PhysicianHomeState extends State<PhysicianHome> {
                         ],
                       )),
                   ElevatedButton(
-                      onPressed: () => {Navigator.pushNamed(context, "/physician/appointments")},
+                      onPressed: () => {
+                            Navigator.pushNamed(
+                                context, "/physician/appointments")
+                          },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white, // Background color
                       ),
@@ -86,7 +90,8 @@ class _PhysicianHomeState extends State<PhysicianHome> {
                         ],
                       )),
                   ElevatedButton(
-                      onPressed: () => {Navigator.pushNamed(context, "/physician/profile")},
+                      onPressed: () =>
+                          {Navigator.pushNamed(context, "/physician/profile")},
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white, // Background color
                       ),

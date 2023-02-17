@@ -161,6 +161,21 @@ Future<Physician> retrievePhysicianProfile(uid) async {
   return physician;
 }
 
+Future<Map<dynamic, dynamic>>? retrievePatientDetails(id) async {
+  debugPrint("retrievePatientDetails");
+  final patientRef = db.collection("Patient");
+  final idQuery = patientRef.where('id', isEqualTo: id);
+
+  Map<dynamic, dynamic> patientDetails = await db
+      .collection("Patient")
+      .where('id', isEqualTo: id)
+      .get()
+      .then((res) {
+    return res.docs.single.data();
+  });
+  return patientDetails;
+}
+
 FirebaseFirestore getDatabase() {
   return db;
 }
