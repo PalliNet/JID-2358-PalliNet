@@ -3,8 +3,8 @@ import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:pallinet/constants.dart';
 import 'package:pallinet/models/patient_model.dart';
-
 import '../models/physician_model.dart';
+import 'package:pallinet/models/name_model.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -79,9 +79,10 @@ Future<List<dynamic>>? retrievePatients() async {
 // TODO this might be wrong? Check if still works with const.dart
 // TODO this is probably broken rn, need to fix database entries so that field
 // TODO name is consistent (birthdate instead of birthdate) (currently hardcoded)
-Future<List<PatientID>>? retrievePatients2() async {
-  debugPrint("retrievePatients2");
+Future<Map<String, dynamic>>? retrieveAppointmentCreationInfo() async {
+  debugPrint("retrieveAppointmentCreationInfo");
 
+  //retrieving patients
   Map<dynamic, dynamic> list = await db
       .collection("Practitioner")
       .doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62")
@@ -90,6 +91,16 @@ Future<List<PatientID>>? retrievePatients2() async {
     return doc.data() as Map<String, dynamic>;
   }, onError: (e) => debugPrint("Error getting document: $e"));
 
+  // retrieving physcian availability
+  List<QueryDocumentSnapshot<Map<dynamic, dynamic>>> availability = await db
+      .collection("Appointment")
+      .where("practitioner", isEqualTo: "2222222")
+      .get()
+      .then((res) {
+    return res.docs;
+  }, onError: (e) => debugPrint("Error getting document: $e"));
+
+  // parsing patient list
   List<dynamic> data = list["patients"];
   debugPrint(data.toString());
   List<PatientID> patients = data.map((e) {
@@ -100,7 +111,27 @@ Future<List<PatientID>>? retrievePatients2() async {
     return PatientID(e["name"], gender, e["id"], birthdate);
   }).toList();
 
-  return patients;
+  // parsing physician availability
+  
+  List<Map<String, DateTime>> appointmentTime = availability.map((e) {
+    Map<String, DateTime> times = {};
+
+    Timestamp timestampStart = e["scheduledTimeStart"] as Timestamp;
+    Timestamp timestampEnd = e["scheduledTimeEnd"] as Timestamp;
+
+    DateTime timeStart = timestampStart.toDate();
+    DateTime timeEnd = timestampEnd.toDate();
+
+    times["timeStart"] = timeStart;
+    times["timeEnd"] = timeEnd;
+
+    return times;
+  }).toList();
+
+  Map<String, dynamic> map = {};
+  map["patients"] = patients;
+  map["appointmentTimes"] = appointmentTime;
+  return map;
 }
 
 // TODO Create appointment (currently hardcoded) once schedule page has physician, pass uid on when click create appointment
@@ -111,13 +142,15 @@ void createAppointment(Map<String, dynamic> payload) async {
 
   await docRef.add({
     "patient": "temp_value_patient", // TODO Haven't decided on how to do ids
-    "practitioner": "temp_value",
+    "practitioner": "2222222", // temp practicioner id
     "appointmentType": payload["type"],
     "description": payload["description"],
     "created": DateTime.now(),
     "serviceCategory": "appointment",
 
-    "scheduledTime": payload["scheduledTime"],
+    "scheduledTimeStart": payload["scheduledTimeStart"],
+    "scheduledTimeEnd": payload["scheduledTimeEnd"],
+
   }).then((value) => debugPrint(value.toString()),
       onError: (e) => debugPrint("Error occured: $e"));
 }
@@ -131,10 +164,19 @@ void updatePhysicianProfile(Map<String, dynamic> payload) async {
   await docRef.update({"description": payload["description"]});
 }
 
+// TODO Update Patient profile (currently hardcoded)
+void updateEndOfLifePlans(Map<String, dynamic> payload) async {
+  debugPrint("updateEndOfLifePlans");
+  var docRef = db.collection("Patient").doc("mpMQADgfZqMPo25LQkw8ZcgKmTw2");
+
+  await docRef.update({"description": payload["description"]});
+}
+
 // Retrieve patient profile given uid
 Future<PatientID>? retrievePatientProfile(uid) async {
   debugPrint("retrievePatientsProfile");
   // Retrieve patient using corresponding uid
+  debugPrint(uid);
   Map<dynamic, dynamic> patientInfo = await db
       .collection("Patient")
       .doc(uid)
@@ -151,6 +193,44 @@ Future<PatientID>? retrievePatientProfile(uid) async {
   // Convert to Patient model and return
   PatientID patient = PatientID(
       patientInfo["name"]["text"], gender, patientInfo["id"], birthdate);
+
+  return patient;
+}
+
+// TODO Hardcoded right now for debugging patient login
+// Retrieve patient profile given uid
+Future<Patient>? retrievePatientProfile2() async {
+  debugPrint("retrievePatientsProfile");
+  // Retrieve patient using corresponding uid
+  Map<dynamic, dynamic> patientInfo = await db
+      .collection("Patient")
+      .doc('mpMQADgfZqMPo25LQkw8ZcgKmTw2')
+      .get()
+      .then((DocumentSnapshot doc) {
+    return doc.data() as Map<String, dynamic>;
+  }, onError: (e) => debugPrint("Error getting document: $e"));
+
+  // Parse information to be usable for model
+  Gender gender = patientInfo["gender"] == "Male" ? Gender.male : Gender.female;
+  Timestamp t = patientInfo["birthdate"] as Timestamp;
+  DateTime birthdate = t.toDate();
+  Name patientName;
+  patientName = Name(
+      patientInfo["name"]["family"],
+      patientInfo["name"]["given"],
+      patientInfo["name"]["text"],
+      patientInfo["name"]["text"]);
+
+  // Convert to Patient model and return
+  Patient patient = Patient(
+      patientInfo['active'],
+      birthdate,
+      gender,
+      patientInfo['generalPractitioner'],
+      patientInfo["id"],
+      patientInfo["identifier"],
+      patientInfo["description"],
+      patientName);
 
   return patient;
 }
@@ -214,6 +294,7 @@ void updatePatientDetails(Map<dynamic, dynamic> data, id) async {
 
   // patientRef.update({"gender": data["gender"]});
 }
+
 
 FirebaseFirestore getDatabase() {
   return db;

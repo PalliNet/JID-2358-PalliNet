@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pallinet/constants.dart';
 import 'package:pallinet/firestore/auth.dart';
+import 'package:pallinet/models/session_manager.dart';
 import 'package:pallinet/utils.dart';
 
 class NewAccountPage extends StatefulWidget {
@@ -12,7 +13,7 @@ class NewAccountPage extends StatefulWidget {
 
 class _NewAccountState extends State<NewAccountPage> {
   final List<GlobalKey<FormState>> _formKeys = [GlobalKey<FormState>(), GlobalKey<FormState>(), GlobalKey<FormState>()];
-
+  
   bool isPasswordVisible = false;
 
   String? first;
@@ -62,8 +63,9 @@ class _NewAccountState extends State<NewAccountPage> {
                       "phoneNumber": phoneNumber,
                       "type": phoneType,
                     };
-                    createPatient(payload).then((value) => {
-                          if (value) {Navigator.pushNamed(context, "/patient/home")} else {showAlertDialog(context)}
+                    createPatient(payload).then((value) {
+                          if (value) {
+                            Navigator.pushNamed(context, "/patient/home");} else {showAlertDialog(context);}
                         });
                   } else {
                     setState(() => currentStep += 1);
