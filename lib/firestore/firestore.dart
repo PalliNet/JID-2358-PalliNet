@@ -272,6 +272,29 @@ Future<Map<dynamic, dynamic>>? retrievePatientDetails(id) async {
   return patientDetails;
 }
 
+void updatePatientDetails(Map<dynamic, dynamic> data, id) async {
+  debugPrint(id);
+  final patientRef = await db
+      .collection("Patient")
+      .where('id', isEqualTo: id)
+      .get()
+      .then((res) {
+    return res.docs.single.reference;
+  });
+
+  debugPrint("updateDetails");
+  data.forEach((key, value) {
+    debugPrint("$key . $value");
+
+    if (value != null && value != "") {
+      patientRef.update({"$key": value});
+    }
+  });
+  // for-each loop over keys in data, update if not null
+
+  // patientRef.update({"gender": data["gender"]});
+}
+
 
 FirebaseFirestore getDatabase() {
   return db;
