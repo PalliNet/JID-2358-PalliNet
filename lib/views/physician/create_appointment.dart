@@ -15,7 +15,10 @@ class CreateAppointment extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(title: const Text('Create Appointment')),
         body: const Center(
-            child: SingleChildScrollView(child: Padding(padding: EdgeInsets.all(16.0), child: AppointmentContent()))));
+            child: SingleChildScrollView(
+                child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: AppointmentContent()))));
   }
 }
 
@@ -47,7 +50,8 @@ class AppointmentContentState extends State<AppointmentContent> {
     return FutureBuilder<List<PatientID>>(
       future: retrievePatients2(),
       builder: ((context, snapshot) {
-        List<PatientID> list = snapshot.data == null ? [] : snapshot.data as List<PatientID>;
+        List<PatientID> list =
+            snapshot.data == null ? [] : snapshot.data as List<PatientID>;
         return Container(
           constraints: const BoxConstraints(maxWidth: 1000),
           child: Form(
@@ -65,7 +69,8 @@ class AppointmentContentState extends State<AppointmentContent> {
                       prefixIcon: Icon(Icons.person),
                     ),
                     items: list.map((e) {
-                      return DropdownMenuItem<PatientID>(value: e, child: Text(e.name));
+                      return DropdownMenuItem<PatientID>(
+                          value: e, child: Text(e.name));
                     }).toList(),
                     onChanged: (PatientID? value) {
                       debugPrint("temmp");
@@ -116,10 +121,12 @@ class AppointmentContentState extends State<AppointmentContent> {
                         validator: (value) => dateValidation(value),
                         controller: _dateController,
                         readOnly: true,
-                        onTap: () => DatePicker.showDatePicker(context, showTitleActions: true, onChanged: (date) {
+                        onTap: () => DatePicker.showDatePicker(context,
+                            showTitleActions: true, onChanged: (date) {
                           appointmentDate = date;
                         }, onConfirm: (date) {
-                          _dateController.text = DateFormat('MM/dd/yyyy').format(appointmentDate);
+                          _dateController.text =
+                              DateFormat('MM/dd/yyyy').format(appointmentDate);
                         }, currentTime: appointmentDate),
                         decoration: const InputDecoration(
                           hintText: 'Date',
@@ -135,13 +142,16 @@ class AppointmentContentState extends State<AppointmentContent> {
                     Expanded(
                       flex: 4,
                       child: TextFormField(
-                          validator: (value) => timeValidation(value, appointmentDate),
+                          validator: (value) =>
+                              timeValidation(value, appointmentDate),
                           controller: _timeController,
                           readOnly: true,
-                          onTap: () => DatePicker.showTime12hPicker(context, showTitleActions: true, onChanged: (time) {
+                          onTap: () => DatePicker.showTime12hPicker(context,
+                                  showTitleActions: true, onChanged: (time) {
                                 appointmentTime = time;
                               }, onConfirm: (time) {
-                                _timeController.text = DateFormat("h:mm aa").format(time);
+                                _timeController.text =
+                                    DateFormat("h:mm aa").format(time);
                               }, currentTime: appointmentTime),
                           decoration: const InputDecoration(
                             hintText: 'Time',
@@ -155,9 +165,11 @@ class AppointmentContentState extends State<AppointmentContent> {
                 ElevatedButton(
                     onPressed: () {
                       _formKey.currentState?.save();
-                      DateTime scheduledTime = combinedDateTime(appointmentDate, appointmentTime);
+                      DateTime scheduledTime =
+                          combinedDateTime(appointmentDate, appointmentTime);
 
-                      if (_formKey.currentState?.validate() == true && validateCombinedDateTime(scheduledTime)) {
+                      if (_formKey.currentState?.validate() == true &&
+                          validateCombinedDateTime(scheduledTime)) {
                         Map<String, dynamic> payload = {
                           "patient": patient,
                           "practitioner": practitioners,

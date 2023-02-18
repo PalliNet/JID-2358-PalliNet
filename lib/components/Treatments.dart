@@ -7,39 +7,61 @@ class Treatments extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Treatment Plan"),
-          automaticallyImplyLeading: false,
-          backgroundColor: const Color.fromARGB(255, 108, 125, 133),
-        ),
-        body: Container(
-          color: const Color.fromARGB(255, 211, 211, 211),
-          height: 200,
-          child: Column(children: [
-            const Text("temp holder"),
-            const Expanded(child: SizedBox.shrink()),
-            Row(
-              children: [
-                const Spacer(),
-                Padding(
-                    padding: const EdgeInsets.only(right: 10, bottom: 5),
-                    child: OutlinedButton(
-                        onPressed: () => {
-                              debugPrint("View entries not implemented"),
-                            },
-                        child: const Text("View Entries"))),
-                Padding(
-                    padding: const EdgeInsets.only(right: 10, bottom: 5),
-                    child: OutlinedButton(
-                        onPressed: () => {
-                              Navigator.pushNamed(
-                                  context, "/patient/diary/new"),
-                            },
-                        child: const Text("New Entry")))
-              ],
-            )
-          ]),
-        ));
+      appBar: AppBar(
+        title: const Text("Treatments"),
+        automaticallyImplyLeading: false,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(8),
+        children: [
+          ElevatedButton(
+              onPressed: () =>
+                  {Navigator.pushNamed(context, "/treatmentsrecommended")},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white, // Background color
+              ),
+              child: Row(
+                children: const [
+                  Icon(
+                    Icons.health_and_safety_outlined,
+                    color: Colors.red,
+                    size: 100,
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    'Reccomended',
+                    style: TextStyle(fontSize: 30, color: Colors.black),
+                  )
+                ],
+              )),
+          ElevatedButton(
+              onPressed: () =>
+                  {Navigator.pushNamed(context, "/treatmentsdetailed")},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white, // Background color
+              ),
+              child: Row(
+                children: const [
+                  Icon(
+                    Icons.healing,
+                    color: Colors.red,
+                    size: 100,
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    'Detailed View',
+                    style: TextStyle(fontSize: 30, color: Colors.black),
+                  )
+                ],
+              ))
+        ],
+      ),
+    );
   }
 }

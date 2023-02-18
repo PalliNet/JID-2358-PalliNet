@@ -90,3 +90,12 @@ Future<bool> debugPatient() async {
   await prefs.setUid("mpMQADgfZqMPo25LQkw8ZcgKmTw2");
   return true;
 }
+Future<AuthStatus> resetPassword(payload) async {
+  AuthStatus _status = AuthStatus.success;
+  String email = payload["email"];
+  await FirebaseAuth.instance
+      .sendPasswordResetEmail(email: email)
+      .then((value) => _status = AuthStatus.success)
+      .catchError((e) => _status = AuthStatus.unknownEmail);
+  return _status;
+}

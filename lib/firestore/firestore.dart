@@ -42,6 +42,21 @@ Future<Map<dynamic, dynamic>>? retrieveQuestions() async {
   return list;
 }
 
+Future<List<dynamic>>? retrieveEntries() async {
+  debugPrint("Retrieve entries");
+  QuerySnapshot querySnapshot = await db
+      .collection("Patient")
+      .doc("6827485")
+      .collection("PainDiary")
+      .get();
+  List<dynamic> list = querySnapshot.docs.map((doc) => doc.data()).toList();
+
+  debugPrint("out");
+  debugPrint(list.toString());
+  return list;
+  // return questions;
+}
+
 // TODO used in patients_list consolidate w/ retrievePatients2 (currently hardcoded)
 Future<List<dynamic>>? retrievePatients() async {
   debugPrint("retrievePatients");
@@ -101,6 +116,7 @@ void createAppointment(Map<String, dynamic> payload) async {
     "description": payload["description"],
     "created": DateTime.now(),
     "serviceCategory": "appointment",
+
     "scheduledTime": payload["scheduledTime"],
   }).then((value) => debugPrint(value.toString()),
       onError: (e) => debugPrint("Error occured: $e"));
@@ -159,6 +175,21 @@ Future<Physician> retrievePhysicianProfile(uid) async {
       list["description"]);
 
   return physician;
+}
+
+Future<Map<dynamic, dynamic>>? retrievePatientDetails(id) async {
+  debugPrint("retrievePatientDetails");
+  final patientRef = db.collection("Patient");
+  final idQuery = patientRef.where('id', isEqualTo: id);
+
+  Map<dynamic, dynamic> patientDetails = await db
+      .collection("Patient")
+      .where('id', isEqualTo: id)
+      .get()
+      .then((res) {
+    return res.docs.single.data();
+  });
+  return patientDetails;
 }
 
 FirebaseFirestore getDatabase() {
