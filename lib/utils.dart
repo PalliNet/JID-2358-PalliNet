@@ -145,7 +145,7 @@ timeValidationEnd(value, date, totalTimes, TextEditingController controller) {
       DateTime endTime = combinedDateTime(date, time1);
       DateTime startTime = combinedDateTime(date, time2);
 
-      if (startTime.isBefore(DateTime.now())) {
+      if (endTime.isBefore(DateTime.now())) {
         return "Invalid time";
       }
 
