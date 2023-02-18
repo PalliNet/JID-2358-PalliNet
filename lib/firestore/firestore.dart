@@ -79,9 +79,10 @@ Future<List<dynamic>>? retrievePatients() async {
 // TODO this might be wrong? Check if still works with const.dart
 // TODO this is probably broken rn, need to fix database entries so that field
 // TODO name is consistent (birthdate instead of birthdate) (currently hardcoded)
-Future<List<PatientID>>? retrievePatients2() async {
-  debugPrint("retrievePatients2");
+Future<Map<String, dynamic>>? retrieveAppointmentCreationInfo() async {
+  debugPrint("retrieveAppointmentCreationInfo");
 
+  //retrieving patients
   Map<dynamic, dynamic> list = await db
       .collection("Practitioner")
       .doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62")
@@ -90,6 +91,16 @@ Future<List<PatientID>>? retrievePatients2() async {
     return doc.data() as Map<String, dynamic>;
   }, onError: (e) => debugPrint("Error getting document: $e"));
 
+  // retrieving physcian availability
+  List<QueryDocumentSnapshot<Map<dynamic, dynamic>>> availability = await db
+      .collection("Appointment")
+      .where("practitioner", isEqualTo: "2222222")
+      .get()
+      .then((res) {
+    return res.docs;
+  }, onError: (e) => debugPrint("Error getting document: $e"));
+
+  // parsing patient list
   List<dynamic> data = list["patients"];
   debugPrint(data.toString());
   List<PatientID> patients = data.map((e) {
@@ -100,7 +111,27 @@ Future<List<PatientID>>? retrievePatients2() async {
     return PatientID(e["name"], gender, e["id"], birthdate);
   }).toList();
 
-  return patients;
+  // parsing physician availability
+  
+  List<Map<String, DateTime>> appointmentTime = availability.map((e) {
+    Map<String, DateTime> times = {};
+
+    Timestamp timestampStart = e["scheduledTimeStart"] as Timestamp;
+    Timestamp timestampEnd = e["scheduledTimeEnd"] as Timestamp;
+
+    DateTime timeStart = timestampStart.toDate();
+    DateTime timeEnd = timestampEnd.toDate();
+
+    times["timeStart"] = timeStart;
+    times["timeEnd"] = timeEnd;
+
+    return times;
+  }).toList();
+
+  Map<String, dynamic> map = {};
+  map["patients"] = patients;
+  map["appointmentTimes"] = appointmentTime;
+  return map;
 }
 
 // TODO Create appointment (currently hardcoded) once schedule page has physician, pass uid on when click create appointment
@@ -111,13 +142,15 @@ void createAppointment(Map<String, dynamic> payload) async {
 
   await docRef.add({
     "patient": "temp_value_patient", // TODO Haven't decided on how to do ids
-    "practitioner": "temp_value",
+    "practitioner": "2222222", // temp practicioner id
     "appointmentType": payload["type"],
     "description": payload["description"],
     "created": DateTime.now(),
     "serviceCategory": "appointment",
 
-    "scheduledTime": payload["scheduledTime"],
+    "scheduledTimeStart": payload["scheduledTimeStart"],
+    "scheduledTimeEnd": payload["scheduledTimeEnd"],
+
   }).then((value) => debugPrint(value.toString()),
       onError: (e) => debugPrint("Error occured: $e"));
 }
@@ -237,6 +270,7 @@ Future<Map<dynamic, dynamic>>? retrievePatientDetails(id) async {
   });
   return patientDetails;
 }
+
 
 FirebaseFirestore getDatabase() {
   return db;
