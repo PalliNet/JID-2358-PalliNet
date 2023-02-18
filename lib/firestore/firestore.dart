@@ -176,6 +176,7 @@ void updateEndOfLifePlans(Map<String, dynamic> payload) async {
 Future<PatientID>? retrievePatientProfile(uid) async {
   debugPrint("retrievePatientsProfile");
   // Retrieve patient using corresponding uid
+  debugPrint(uid);
   Map<dynamic, dynamic> patientInfo = await db
       .collection("Patient")
       .doc(uid)
@@ -269,6 +270,29 @@ Future<Map<dynamic, dynamic>>? retrievePatientDetails(id) async {
     return res.docs.single.data();
   });
   return patientDetails;
+}
+
+void updatePatientDetails(Map<dynamic, dynamic> data, id) async {
+  debugPrint(id);
+  final patientRef = await db
+      .collection("Patient")
+      .where('id', isEqualTo: id)
+      .get()
+      .then((res) {
+    return res.docs.single.reference;
+  });
+
+  debugPrint("updateDetails");
+  data.forEach((key, value) {
+    debugPrint("$key . $value");
+
+    if (value != null && value != "") {
+      patientRef.update({"$key": value});
+    }
+  });
+  // for-each loop over keys in data, update if not null
+
+  // patientRef.update({"gender": data["gender"]});
 }
 
 
