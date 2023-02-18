@@ -38,20 +38,24 @@ class AppointmentContentState extends State<AppointmentContent> {
   List? practitioners = [];
   // Physician physician =
   DateTime appointmentDate = DateTime.now();
-  DateTime appointmentTime = DateTime.now();
+  DateTime appointmentStart = DateTime.now();
+  DateTime appointmentEnd = DateTime.now();
   String? desc = "";
   ServiceType? serviceType;
 
   final TextEditingController _dateController = TextEditingController();
-  final TextEditingController _timeController = TextEditingController();
+  final TextEditingController _timeStartController = TextEditingController();
+  final TextEditingController _timeEndController = TextEditingController();
+
+
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<PatientID>>(
-      future: retrievePatients2(),
+    return FutureBuilder<Map<String, dynamic>>(
+      future: retrieveAppointmentCreationInfo(),
       builder: ((context, snapshot) {
         List<PatientID> list =
-            snapshot.data == null ? [] : snapshot.data as List<PatientID>;
+            snapshot.data == null ? [] : snapshot.data?["patients"] as List<PatientID>;
         return Container(
           constraints: const BoxConstraints(maxWidth: 1000),
           child: Form(
@@ -112,28 +116,45 @@ class AppointmentContentState extends State<AppointmentContent> {
                   value: serviceType,
                 ),
                 gap(),
+                TextFormField(
+                  validator: (value) => dateValidation(value),
+                  controller: _dateController,
+                  readOnly: true,
+                  onTap: () => DatePicker.showDatePicker(context,
+                      showTitleActions: true, onChanged: (date) {
+                    appointmentDate = date;
+                  }, onConfirm: (date) {
+                    _dateController.text =
+                        DateFormat('MM/dd/yyyy').format(appointmentDate);
+                  }, currentTime: appointmentDate),
+                  decoration: const InputDecoration(
+                    hintText: 'Date',
+                    prefixIcon: Icon(Icons.calendar_month),
+                    helperText: ' ',
+                  ),
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Expanded(
                       flex: 4,
                       child: TextFormField(
-                        validator: (value) => dateValidation(value),
-                        controller: _dateController,
-                        readOnly: true,
-                        onTap: () => DatePicker.showDatePicker(context,
-                            showTitleActions: true, onChanged: (date) {
-                          appointmentDate = date;
-                        }, onConfirm: (date) {
-                          _dateController.text =
-                              DateFormat('MM/dd/yyyy').format(appointmentDate);
-                        }, currentTime: appointmentDate),
-                        decoration: const InputDecoration(
-                          hintText: 'Date',
-                          prefixIcon: Icon(Icons.calendar_month),
-                          helperText: ' ',
-                        ),
-                      ),
+                          validator: (value) =>
+                              timeValidation(value, appointmentDate),
+                          controller: _timeStartController,
+                          readOnly: true,
+                          onTap: () => DatePicker.showTime12hPicker(context,
+                                  showTitleActions: true, onChanged: (time) {
+                                appointmentStart = time;
+                              }, onConfirm: (time) {
+                                _timeStartController.text =
+                                    DateFormat("h:mm aa").format(time);
+                              }, currentTime: appointmentStart),
+                          decoration: const InputDecoration(
+                            hintText: 'Time',
+                            prefixIcon: Icon(Icons.access_time),
+                            helperText: ' ',
+                          )),
                     ),
                     const Expanded(
                       flex: 1,
@@ -144,15 +165,15 @@ class AppointmentContentState extends State<AppointmentContent> {
                       child: TextFormField(
                           validator: (value) =>
                               timeValidation(value, appointmentDate),
-                          controller: _timeController,
+                          controller: _timeEndController,
                           readOnly: true,
                           onTap: () => DatePicker.showTime12hPicker(context,
                                   showTitleActions: true, onChanged: (time) {
-                                appointmentTime = time;
+                                appointmentEnd = time;
                               }, onConfirm: (time) {
-                                _timeController.text =
+                                _timeEndController.text =
                                     DateFormat("h:mm aa").format(time);
-                              }, currentTime: appointmentTime),
+                              }, currentTime: appointmentEnd),
                           decoration: const InputDecoration(
                             hintText: 'Time',
                             prefixIcon: Icon(Icons.access_time),
@@ -165,17 +186,22 @@ class AppointmentContentState extends State<AppointmentContent> {
                 ElevatedButton(
                     onPressed: () {
                       _formKey.currentState?.save();
-                      DateTime scheduledTime =
-                          combinedDateTime(appointmentDate, appointmentTime);
+                      DateTime scheduledTimeStart =
+                          combinedDateTime(appointmentDate, appointmentStart);
+                      
+                       DateTime scheduledTimeEnd =
+                          combinedDateTime(appointmentDate, appointmentEnd);
 
                       if (_formKey.currentState?.validate() == true &&
-                          validateCombinedDateTime(scheduledTime)) {
+                          validateCombinedDateTime(scheduledTimeStart) && 
+                          validateCombinedDateTime(scheduledTimeEnd)) {
                         Map<String, dynamic> payload = {
                           "patient": patient,
                           "practitioner": practitioners,
                           "description": desc,
                           "type": serviceType?.value,
-                          "scheduledTime": scheduledTime,
+                          "scheduledTimeStart": scheduledTimeStart,
+                          "scheduledTimeEnd": scheduledTimeEnd,
                         };
                         createAppointment(payload);
 
