@@ -176,6 +176,7 @@ void updateEndOfLifePlans(Map<String, dynamic> payload) async {
 Future<PatientID>? retrievePatientProfile(uid) async {
   debugPrint("retrievePatientsProfile");
   // Retrieve patient using corresponding uid
+  debugPrint(uid);
   Map<dynamic, dynamic> patientInfo = await db
       .collection("Patient")
       .doc(uid)
