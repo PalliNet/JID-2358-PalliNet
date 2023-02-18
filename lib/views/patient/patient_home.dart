@@ -9,6 +9,7 @@ import 'package:pallinet/firestore/firestore.dart';
 import 'package:pallinet/models/patient_model.dart';
 import 'package:pallinet/models/session_manager.dart';
 import 'package:pallinet/views/calendar_card.dart';
+import 'package:pallinet/components/end_of_life_plans.dart';
 
 class PatientHome extends StatefulWidget {
   const PatientHome({super.key});
@@ -71,7 +72,11 @@ class _PatientHomeState extends State<PatientHome> {
               Padding(
                   padding:
                       EdgeInsets.only(bottom: 10, top: 10, right: 20, left: 20),
-                  child: SizedBox(height: 300, child: Prescriptions()))
+                  child: SizedBox(height: 300, child: Prescriptions())),
+              Padding(
+                  padding:
+                      EdgeInsets.only(bottom: 10, top: 10, right: 20, left: 20),
+                  child: SizedBox(height: 300, child: EndOfLifePlans()))
             ],
           ),
         );

@@ -27,6 +27,7 @@ import 'package:pallinet/views/symptoms.dart';
 import 'firebase_options.dart';
 import 'package:pallinet/views/forget_password.dart';
 import 'package:pallinet/views/forgot_password_success.dart';
+import 'package:pallinet/views/patient/patient_end_of_life_plans.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,6 +58,8 @@ class PalliNet extends StatelessWidget {
           '/prescriptionssummary': (context) => const PrescriptionsSummary(),
           '/prescriptionsdetailedview': (context) =>
               const PrescriptionsDetailedView(),
+          '/patient/home/endoflifeplans': (context) =>
+              const EndOfLifePlansView(),
           '/treatmentsrecommended': (context) => const treatmentsRecommended(),
           '/treatmentsdetailed': (context) => const treatmentsDetailed(),
           '/patient/diary/new': (context) => const NewPainDiaryEntry(),
