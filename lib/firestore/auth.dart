@@ -31,6 +31,8 @@ Future<bool> createPatient(payload) async {
       }
     });
 
+    prefs.setUid(uid);
+
     // Add phone number if included
     if (payload["phoneNumber"] != null) {
       db
