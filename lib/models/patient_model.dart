@@ -1,4 +1,5 @@
 import 'package:pallinet/constants.dart';
+import 'package:pallinet/models/name_model.dart';
 
 class Patient {
   final bool active;
@@ -7,10 +8,11 @@ class Patient {
   final String generalPractitioner;
   final String id;
   final String identifier;
+  final String description;
   final Name name;
 
   Patient(this.active, this.birthdate, this.gender, this.generalPractitioner,
-      this.id, this.identifier, this.name);
+      this.id, this.identifier, this.description, this.name);
 }
 
 class PatientID {
@@ -26,15 +28,4 @@ class PatientID {
     String bdate = birthdate.toString();
     return 'PatientID: $name $gender $id $bdate';
   }
-}
-
-class Name {
-  final String family;
-  final String given;
-  final String prefix = "";
-  final String suffix = "";
-  final String text;
-  final String use;
-
-  Name(this.family, this.given, this.text, this.use);
 }

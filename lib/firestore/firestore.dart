@@ -3,8 +3,8 @@ import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:pallinet/constants.dart';
 import 'package:pallinet/models/patient_model.dart';
-
 import '../models/physician_model.dart';
+import 'package:pallinet/models/name_model.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -131,6 +131,14 @@ void updatePhysicianProfile(Map<String, dynamic> payload) async {
   await docRef.update({"description": payload["description"]});
 }
 
+// TODO Update Patient profile (currently hardcoded)
+void updateEndOfLifePlans(Map<String, dynamic> payload) async {
+  debugPrint("updateEndOfLifePlans");
+  var docRef = db.collection("Patient").doc("mpMQADgfZqMPo25LQkw8ZcgKmTw2");
+
+  await docRef.update({"description": payload["description"]});
+}
+
 // Retrieve patient profile given uid
 Future<PatientID>? retrievePatientProfile(uid) async {
   debugPrint("retrievePatientsProfile");
@@ -151,6 +159,44 @@ Future<PatientID>? retrievePatientProfile(uid) async {
   // Convert to Patient model and return
   PatientID patient = PatientID(
       patientInfo["name"]["text"], gender, patientInfo["id"], birthdate);
+
+  return patient;
+}
+
+// TODO Hardcoded right now for debugging patient login
+// Retrieve patient profile given uid
+Future<Patient>? retrievePatientProfile2() async {
+  debugPrint("retrievePatientsProfile");
+  // Retrieve patient using corresponding uid
+  Map<dynamic, dynamic> patientInfo = await db
+      .collection("Patient")
+      .doc('mpMQADgfZqMPo25LQkw8ZcgKmTw2')
+      .get()
+      .then((DocumentSnapshot doc) {
+    return doc.data() as Map<String, dynamic>;
+  }, onError: (e) => debugPrint("Error getting document: $e"));
+
+  // Parse information to be usable for model
+  Gender gender = patientInfo["gender"] == "Male" ? Gender.male : Gender.female;
+  Timestamp t = patientInfo["birthdate"] as Timestamp;
+  DateTime birthdate = t.toDate();
+  Name patientName;
+  patientName = Name(
+      patientInfo["name"]["family"],
+      patientInfo["name"]["given"],
+      patientInfo["name"]["text"],
+      patientInfo["name"]["text"]);
+
+  // Convert to Patient model and return
+  Patient patient = Patient(
+      patientInfo['active'],
+      birthdate,
+      gender,
+      patientInfo['generalPractitioner'],
+      patientInfo["id"],
+      patientInfo["identifier"],
+      patientInfo["description"],
+      patientName);
 
   return patient;
 }
