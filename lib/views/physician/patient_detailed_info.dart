@@ -16,6 +16,7 @@ class PatientDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     debugPrint(ModalRoute.of(context)?.settings.arguments.toString());
     final arguments = ModalRoute.of(context)?.settings.arguments ?? '';
+    debugPrint(arguments.toString());
     return FutureBuilder<Map<dynamic, dynamic>>(
       future: retrievePatientDetails(arguments),
       builder: ((context, snapshot) {
@@ -64,7 +65,8 @@ class PatientDetails extends StatelessWidget {
                     child: OutlinedButton(
                       onPressed: () {
                         Navigator.pushNamed(
-                            context, "/physician/patient/edit_details");
+                            context, "/physician/patient/edit_details",
+                            arguments: arguments);
                       },
                       child: const Text(
                         "Edit Details",
