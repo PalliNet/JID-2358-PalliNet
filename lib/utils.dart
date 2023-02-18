@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -88,19 +89,42 @@ dateValidation(value) {
   return null;
 }
 
-timeValidation(value, date) {
+timeValidationStart(value, date, totalTimes, TextEditingController controller) {
   if (value == null || value.isEmpty) {
     return 'Required field';
   } else {
     try {
+
       DateFormat format = DateFormat("h:mm aa");
-      DateTime time = format.parseStrict(value);
+      DateTime time1 = format.parseStrict(value);
+      DateTime time2 = format.parseStrict(controller.text);
+      DateTime startTime = combinedDateTime(date, time1);
+      DateTime endTime = combinedDateTime(date, time2);
 
-      DateTime combined = combinedDateTime(date, time);
-      debugPrint(combined.toString());
-
-      if (combined.isBefore(DateTime.now())) {
+      if (startTime.isBefore(DateTime.now())) {
         return "Invalid time";
+      }
+
+      if (startTime.isAfter(endTime)) {
+        return "Invalid time";
+      }
+
+      if (endTime.isBefore(startTime)) {
+        return "Invalid time";
+      }
+
+      List totalStart = totalTimes.map((e) => e["timeStart"]).toList();
+      List totalEnd = totalTimes.map((e) => e["timeEnd"]).toList();
+
+      for (int i = 0; i < totalTimes.length; i++) {
+        // if start is inside an existing appointment block
+        if (startTime.isAfter(totalStart[i]) && startTime.isBefore(totalEnd[i])) {
+          return "Overlapping appt time";
+        }
+        // if start and end overlap an existing appointment block
+        if (startTime.isBefore(totalStart[i]) && endTime.isAfter(totalEnd[i])) {
+          return "Overlapping appt times";
+        }
       }
     } catch (e) {
       debugPrint(e.toString());
@@ -108,6 +132,51 @@ timeValidation(value, date) {
     }
   }
 }
+
+timeValidationEnd(value, date, totalTimes, TextEditingController controller) {
+  if (value == null || value.isEmpty) {
+    return 'Required field';
+  } else {
+    try {
+
+      DateFormat format = DateFormat("h:mm aa");
+      DateTime time1 = format.parseStrict(value);
+      DateTime time2 = format.parseStrict(controller.text);
+      DateTime endTime = combinedDateTime(date, time1);
+      DateTime startTime = combinedDateTime(date, time2);
+
+      if (startTime.isBefore(DateTime.now())) {
+        return "Invalid time";
+      }
+
+      if (startTime.isAfter(endTime)) {
+        return "Invalid time";
+      }
+
+      if (endTime.isBefore(startTime)) {
+        return "Invalid time";
+      }
+
+      List totalStart = totalTimes.map((e) => e["timeStart"]).toList();
+      List totalEnd = totalTimes.map((e) => e["timeEnd"]).toList();
+
+      for (int i = 0; i < totalTimes.length; i++) {
+        // if end is inside an existing appointment block
+        if (endTime.isAfter(totalStart[i]) && endTime.isBefore(totalEnd[i])) {
+          return "Overlapping appt time";
+        }
+        // if the current appointment completely overlaps an existing appointment block
+        if (startTime.isBefore(totalStart[i]) && endTime.isAfter(totalEnd[i])) {
+          return "Overlapping appt times";
+        }
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      return "Invalid time";
+    }
+  }
+}
+
 
 DateTime combinedDateTime(
   DateTime date,

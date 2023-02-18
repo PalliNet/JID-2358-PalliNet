@@ -93,7 +93,7 @@ Future<Map<String, dynamic>>? retrieveAppointmentCreationInfo() async {
 
   // retrieving physcian availability
   List<QueryDocumentSnapshot<Map<dynamic, dynamic>>> availability = await db
-      .collection("Appoirntment")
+      .collection("Appointment")
       .where("practitioner", isEqualTo: "2222222")
       .get()
       .then((res) {
@@ -116,12 +116,15 @@ Future<Map<String, dynamic>>? retrieveAppointmentCreationInfo() async {
   List<Map<String, DateTime>> appointmentTime = availability.map((e) {
     Map<String, DateTime> times = {};
 
-    Timestamp timeStart = e["scheduledTimeStart"] as Timestamp;
-    Timestamp timeEnd = e["scheduledTimeEnd"] as Timestamp;
+    Timestamp timestampStart = e["scheduledTimeStart"] as Timestamp;
+    Timestamp timestampEnd = e["scheduledTimeEnd"] as Timestamp;
 
-    times["timeStart"] = timeStart.toDate();
-    times["timeEnd"] = timeEnd.toDate();
-    
+    DateTime timeStart = timestampStart.toDate();
+    DateTime timeEnd = timestampEnd.toDate();
+
+    times["timeStart"] = timeStart;
+    times["timeEnd"] = timeEnd;
+
     return times;
   }).toList();
 

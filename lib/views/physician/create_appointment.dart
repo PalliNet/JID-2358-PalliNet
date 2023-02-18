@@ -56,6 +56,7 @@ class AppointmentContentState extends State<AppointmentContent> {
       builder: ((context, snapshot) {
         List<PatientID> list =
             snapshot.data == null ? [] : snapshot.data?["patients"] as List<PatientID>;
+        List<Map> physicianAppointments = snapshot.data == null ? [] : snapshot.data?["appointmentTimes"] as List<Map>;
         return Container(
           constraints: const BoxConstraints(maxWidth: 1000),
           child: Form(
@@ -140,7 +141,7 @@ class AppointmentContentState extends State<AppointmentContent> {
                       flex: 4,
                       child: TextFormField(
                           validator: (value) =>
-                              timeValidation(value, appointmentDate),
+                              timeValidationStart(value, appointmentDate, physicianAppointments, _timeEndController),
                           controller: _timeStartController,
                           readOnly: true,
                           onTap: () => DatePicker.showTime12hPicker(context,
@@ -164,7 +165,7 @@ class AppointmentContentState extends State<AppointmentContent> {
                       flex: 4,
                       child: TextFormField(
                           validator: (value) =>
-                              timeValidation(value, appointmentDate),
+                              timeValidationEnd(value, appointmentDate, physicianAppointments, _timeStartController),
                           controller: _timeEndController,
                           readOnly: true,
                           onTap: () => DatePicker.showTime12hPicker(context,
@@ -193,8 +194,7 @@ class AppointmentContentState extends State<AppointmentContent> {
                           combinedDateTime(appointmentDate, appointmentEnd);
 
                       if (_formKey.currentState?.validate() == true &&
-                          validateCombinedDateTime(scheduledTimeStart) && 
-                          validateCombinedDateTime(scheduledTimeEnd)) {
+                          validateCombinedDateTime(scheduledTimeStart, scheduledTimeEnd)) {
                         Map<String, dynamic> payload = {
                           "patient": patient,
                           "practitioner": practitioners,
@@ -220,6 +220,6 @@ class AppointmentContentState extends State<AppointmentContent> {
   Widget gap() => const SizedBox(height: 16);
 }
 
-validateCombinedDateTime(DateTime time) {
-  return time.isAfter(DateTime.now());
+validateCombinedDateTime(DateTime timeStart, DateTime timeEnd) {
+  return timeStart.isAfter(DateTime.now()) && timeEnd.isAfter(DateTime.now()) && timeStart.isBefore(timeEnd);
 }
