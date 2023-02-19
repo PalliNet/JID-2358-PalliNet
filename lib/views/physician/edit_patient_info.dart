@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pallinet/components/loading.dart';
-import 'package:pallinet/components/patient_card.dart';
-import 'package:pallinet/views/physician/patient_detailed_info.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pallinet/firestore/firestore.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-
-import '../../utils.dart';
 
 class EditPatientDetails extends StatefulWidget {
   const EditPatientDetails({super.key});
@@ -210,7 +206,9 @@ class EditPatientDetailsState extends State<EditPatientDetails> {
                           helperText: ' ',
                         ),
                         validator: (value) {
-                          if (value != "M" && value != "F" && !value!.isEmpty) {
+                          if (value != "M" &&
+                              value != "F" &&
+                              value!.isNotEmpty) {
                             return "Enter valid input";
                           } else {
                             return null;

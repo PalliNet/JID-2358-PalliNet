@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:pallinet/components/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pallinet/firestore/firestore.dart';
-import 'package:age_calculator/age_calculator.dart';
 
 class PatientDetails extends StatelessWidget {
   const PatientDetails({super.key});

@@ -20,9 +20,9 @@ class PainDiary extends StatelessWidget {
       // debugPrint(map["q$i"].toString());
       if (map["q$i"] != null) {
         String s = map["q$i"].toString();
-        entries.add(DataCell(Text("$s")));
+        entries.add(DataCell(Text(s)));
       } else {
-        entries.add(DataCell(Text("NULL")));
+        entries.add(const DataCell(Text("NULL")));
       }
       // debugPrint("added $i");
     }
@@ -37,14 +37,10 @@ class PainDiary extends StatelessWidget {
     return FutureBuilder(
       future: retrieveEntries(),
       builder: ((context, snapshot) {
-        // final list = (snapshot.data as List)
-        //     .map((e) => e as Map<String, dynamic>)
-        //     .toList();
-        // final list = snapshot.data;
         if (snapshot.data == null) {
-          return SizedBox.shrink();
+          return const SizedBox.shrink();
         }
-        final list = snapshot.data == null ? [] : snapshot.data;
+        final list = snapshot.data ?? [];
         debugPrint("list");
         debugPrint(list.toString());
         debugPrint(list.runtimeType.toString());
@@ -59,8 +55,7 @@ class PainDiary extends StatelessWidget {
               color: const Color.fromARGB(255, 211, 211, 211),
               height: 650,
               child: Column(children: [
-                const Text("Recent Entries",
-                    style: const TextStyle(fontSize: 16.0)),
+                const Text("Recent Entries", style: TextStyle(fontSize: 16.0)),
                 // SizedBox(
                 //     height: 150,
                 //     child: ListView.builder(
@@ -93,22 +88,9 @@ class PainDiary extends StatelessWidget {
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: DataTable(
-                        // columns: <DataColumn>[
-                        //   DataColumn(label: Text("column")),
-                        //   DataColumn(label: Text("column2"))
-                        // ],
-                        columns: getCol(list?[0].keys.toList()),
-                        rows: List.generate(
-                            list?.length ?? 0,
-                            (index) =>
-                                // DataRow(cells: <DataCell>[
-                                //       DataCell(Text("1${list?[index]}")),
-                                //       DataCell(Text("2${list?[index]}")),
-                                //       DataCell(Text("3${list?[index]}")),
-                                //       DataCell(Text("4${list?[index]}")),
-                                //       DataCell(Text("5${list?[index]}"))
-                                //     ])
-                                getRow(list?[index], list?[0].length))),
+                        columns: getCol(list[0].keys.toList()),
+                        rows: List.generate(list.length,
+                            (index) => getRow(list[index], list[0].length))),
                   ),
                 ),
 

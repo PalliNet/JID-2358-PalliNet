@@ -11,7 +11,7 @@ class SymptomsView extends StatelessWidget {
       appBar: AppBar(title: const Text("Symptoms")),
       body: ListView(
         padding: const EdgeInsets.all(8),
-        children: [
+        children: const [
           Padding(
               padding:
                   EdgeInsets.only(bottom: 10, top: 10, right: 20, left: 20),

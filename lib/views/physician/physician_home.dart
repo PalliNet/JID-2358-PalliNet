@@ -41,7 +41,7 @@ class _PhysicianHomeState extends State<PhysicianHome> {
             return Scaffold(
               appBar: AppBar(title: Text("Dr. $name")),
               body: ListView(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(15),
                 children: [
                   ElevatedButton(
                       onPressed: () =>

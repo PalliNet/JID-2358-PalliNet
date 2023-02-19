@@ -31,7 +31,7 @@ class PatientCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Expanded(
+              const Expanded(
                 flex: 1,
                 child: Icon(Icons.account_circle, size: 48),
               ),

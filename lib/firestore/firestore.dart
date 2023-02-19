@@ -38,7 +38,6 @@ Future<Map<dynamic, dynamic>>? retrieveQuestions() async {
     return doc.data() as Map<String, dynamic>;
   }, onError: (e) => debugPrint("Error getting document: $e"));
 
-  List<dynamic> questions = list["questions"];
   return list;
 }
 
@@ -112,7 +111,7 @@ Future<Map<String, dynamic>>? retrieveAppointmentCreationInfo() async {
   }).toList();
 
   // parsing physician availability
-  
+
   List<Map<String, DateTime>> appointmentTime = availability.map((e) {
     Map<String, DateTime> times = {};
 
@@ -150,7 +149,6 @@ void createAppointment(Map<String, dynamic> payload) async {
 
     "scheduledTimeStart": payload["scheduledTimeStart"],
     "scheduledTimeEnd": payload["scheduledTimeEnd"],
-
   }).then((value) => debugPrint(value.toString()),
       onError: (e) => debugPrint("Error occured: $e"));
 }
@@ -259,8 +257,6 @@ Future<Physician> retrievePhysicianProfile(uid) async {
 
 Future<Map<dynamic, dynamic>>? retrievePatientDetails(id) async {
   debugPrint("retrievePatientDetails");
-  final patientRef = db.collection("Patient");
-  final idQuery = patientRef.where('id', isEqualTo: id);
 
   Map<dynamic, dynamic> patientDetails = await db
       .collection("Patient")
@@ -294,7 +290,6 @@ void updatePatientDetails(Map<dynamic, dynamic> data, id) async {
 
   // patientRef.update({"gender": data["gender"]});
 }
-
 
 FirebaseFirestore getDatabase() {
   return db;
