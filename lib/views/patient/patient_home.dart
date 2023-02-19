@@ -84,13 +84,6 @@ class _PatientHomeState extends State<PatientHome> {
                 route: '/patient/endoflifeplans',
                 text: 'End of Life Plans',
               ),
-              gap(),
-              const CustomButton(
-                icon: Icons.calendar_month_rounded,
-                iconColor: Color.fromRGBO(64, 192, 251, 1),
-                route: '/patient/calendar',
-                text: 'Calendar',
-              ),
             ],
           ),
         );
