@@ -1,11 +1,6 @@
-import 'package:age_calculator/age_calculator.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pallinet/components/loading.dart';
-import 'package:pallinet/components/patient_card.dart';
-import 'package:pallinet/constants.dart';
 import 'package:pallinet/firestore/firestore.dart';
-import 'package:pallinet/models/patient_model.dart';
 import 'package:pallinet/models/physician_model.dart';
 
 class PhysicianProfile extends StatelessWidget {
@@ -15,7 +10,8 @@ class PhysicianProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: const Text('Edit Physican Profile')),
-        body: const Padding(padding: EdgeInsets.all(16.0), child: ProfileContent()));
+        body: const Padding(
+            padding: EdgeInsets.all(16.0), child: ProfileContent()));
   }
 }
 
@@ -56,7 +52,8 @@ class ProfileContentState extends State<ProfileContent> {
                     const Text(
                       'Update profile',
                       textAlign: TextAlign.left,
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                     gap(),
                     TextFormField(

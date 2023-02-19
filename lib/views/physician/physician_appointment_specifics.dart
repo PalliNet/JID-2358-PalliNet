@@ -10,7 +10,7 @@ class PhysicianAppointmentSpecifics extends StatelessWidget {
       appBar: AppBar(title: const Text("Detailed View of Appointment")),
       body: ListView(
         padding: const EdgeInsets.all(8),
-        children: [Text("blah blah")],
+        children: const [Text("blah blah")],
       ),
     );
   }

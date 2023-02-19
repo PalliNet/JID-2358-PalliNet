@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
-// ignore: camel_case_types
-class treatmentsRecommended extends StatelessWidget {
-  const treatmentsRecommended({super.key});
+class Treatments extends StatelessWidget {
+  const Treatments({super.key});
 
   @override
   Widget build(BuildContext context) {

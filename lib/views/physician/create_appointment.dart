@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:pallinet/constants.dart';
 import 'package:pallinet/firestore/firestore.dart';
 import 'package:pallinet/models/patient_model.dart';
-import 'package:pallinet/models/physician_model.dart';
 import 'package:pallinet/utils.dart';
 
 class CreateAppointment extends StatelessWidget {
@@ -47,16 +46,17 @@ class AppointmentContentState extends State<AppointmentContent> {
   final TextEditingController _timeStartController = TextEditingController();
   final TextEditingController _timeEndController = TextEditingController();
 
-
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Map<String, dynamic>>(
       future: retrieveAppointmentCreationInfo(),
       builder: ((context, snapshot) {
-        List<PatientID> list =
-            snapshot.data == null ? [] : snapshot.data?["patients"] as List<PatientID>;
-        List<Map> physicianAppointments = snapshot.data == null ? [] : snapshot.data?["appointmentTimes"] as List<Map>;
+        List<PatientID> list = snapshot.data == null
+            ? []
+            : snapshot.data?["patients"] as List<PatientID>;
+        List<Map> physicianAppointments = snapshot.data == null
+            ? []
+            : snapshot.data?["appointmentTimes"] as List<Map>;
         return Container(
           constraints: const BoxConstraints(maxWidth: 1000),
           child: Form(
@@ -140,8 +140,11 @@ class AppointmentContentState extends State<AppointmentContent> {
                     Expanded(
                       flex: 4,
                       child: TextFormField(
-                          validator: (value) =>
-                              timeValidationStart(value, appointmentDate, physicianAppointments, _timeEndController),
+                          validator: (value) => timeValidationStart(
+                              value,
+                              appointmentDate,
+                              physicianAppointments,
+                              _timeEndController),
                           controller: _timeStartController,
                           readOnly: true,
                           onTap: () => DatePicker.showTime12hPicker(context,
@@ -164,8 +167,11 @@ class AppointmentContentState extends State<AppointmentContent> {
                     Expanded(
                       flex: 4,
                       child: TextFormField(
-                          validator: (value) =>
-                              timeValidationEnd(value, appointmentDate, physicianAppointments, _timeStartController),
+                          validator: (value) => timeValidationEnd(
+                              value,
+                              appointmentDate,
+                              physicianAppointments,
+                              _timeStartController),
                           controller: _timeEndController,
                           readOnly: true,
                           onTap: () => DatePicker.showTime12hPicker(context,
@@ -189,12 +195,13 @@ class AppointmentContentState extends State<AppointmentContent> {
                       _formKey.currentState?.save();
                       DateTime scheduledTimeStart =
                           combinedDateTime(appointmentDate, appointmentStart);
-                      
-                       DateTime scheduledTimeEnd =
+
+                      DateTime scheduledTimeEnd =
                           combinedDateTime(appointmentDate, appointmentEnd);
 
                       if (_formKey.currentState?.validate() == true &&
-                          validateCombinedDateTime(scheduledTimeStart, scheduledTimeEnd)) {
+                          validateCombinedDateTime(
+                              scheduledTimeStart, scheduledTimeEnd)) {
                         Map<String, dynamic> payload = {
                           "patient": patient,
                           "practitioner": practitioners,
@@ -221,5 +228,7 @@ class AppointmentContentState extends State<AppointmentContent> {
 }
 
 validateCombinedDateTime(DateTime timeStart, DateTime timeEnd) {
-  return timeStart.isAfter(DateTime.now()) && timeEnd.isAfter(DateTime.now()) && timeStart.isBefore(timeEnd);
+  return timeStart.isAfter(DateTime.now()) &&
+      timeEnd.isAfter(DateTime.now()) &&
+      timeStart.isBefore(timeEnd);
 }

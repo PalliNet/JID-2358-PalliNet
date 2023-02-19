@@ -70,7 +70,7 @@ class NewPainDiaryEntryState extends State<NewPainDiaryEntry> {
                             debugPrint(questionTypes.toString());
                             // return Scaffold(body: Text(list?.elementAt(questionNum)));
                           }
-                          return SizedBox.shrink();
+                          return const SizedBox.shrink();
                         }),
                       ),
                       Padding(

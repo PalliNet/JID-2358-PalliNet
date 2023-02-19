@@ -9,10 +9,10 @@ class CalendarView extends StatefulWidget {
 }
 
 class CalendarViewState extends State<CalendarView> {
-  final CalendarFormat _calendarFormat = CalendarFormat.month;
+  // final CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime focusedDay = DateTime.now();
   DateTime? selectedDay;
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

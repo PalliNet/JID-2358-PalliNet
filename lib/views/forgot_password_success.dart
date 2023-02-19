@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pallinet/utils.dart';
-import 'package:pallinet/firestore/auth.dart';
-import 'package:pallinet/views/patient/patient_login.dart';
-
-import '../constants.dart';
 
 class ForgotSuccess extends StatelessWidget {
   const ForgotSuccess({super.key});
@@ -30,7 +25,7 @@ class ForgotSuccess extends StatelessWidget {
                       ],
                     ),
                   )));
-      }
+  }
 }
 
 class Logo extends StatelessWidget {
@@ -58,31 +53,30 @@ class Logo extends StatelessWidget {
                     ?.copyWith(color: Colors.black),
           ),
         ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 40.0),
-            child: Text(
-            "Please check your email to complete resetting your password. If you do not see an email within 5 minutes, then there is no accounted associated with the inputted email.",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 14)
-            ),
-          ),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 40.0),
+          child: Text(
+              "Please check your email to complete resetting your password. If you do not see an email within 5 minutes, then there is no accounted associated with the inputted email.",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 14)),
+        ),
         gap(),
         ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4)),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text(
-                    'Return to Login',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                onPressed: () async {
-                  Navigator.pushNamed(context, '/login');
-                },
-              ),
+          style: ElevatedButton.styleFrom(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+          ),
+          child: const Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Text(
+              'Return to Login',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
+          onPressed: () async {
+            Navigator.pushNamed(context, '/login');
+          },
+        ),
       ],
     );
   }

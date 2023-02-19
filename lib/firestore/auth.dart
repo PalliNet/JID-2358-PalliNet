@@ -11,7 +11,8 @@ Future<bool> createPatient(payload) async {
   List<String> birthdate = payload["birthdate"].split("/");
 
   try {
-    final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    final credential =
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
       email: payload['email'],
       password: payload['password'],
     );
@@ -20,7 +21,8 @@ Future<bool> createPatient(payload) async {
     // Create patient
     db.collection("Patient").doc(uid).set({
       "active": true,
-      "birthdate": DateTime(int.parse(birthdate[2]), int.parse(birthdate[0]), int.parse(birthdate[1])),
+      "birthdate": DateTime(int.parse(birthdate[2]), int.parse(birthdate[0]),
+          int.parse(birthdate[1])),
       "deceasedBoolean": false,
       "gender": payload["gender"].value,
       "id": "1111111", //TODO How are we doing ids?
@@ -35,11 +37,11 @@ Future<bool> createPatient(payload) async {
 
     // Add phone number if included
     if (payload["phoneNumber"] != null) {
-      db
-          .collection("Patient")
-          .doc(uid)
-          .collection("ContactPoint")
-          .add({"system": "phone", "use": payload["type"].value, "value": payload["phoneNumber"]});
+      db.collection("Patient").doc(uid).collection("ContactPoint").add({
+        "system": "phone",
+        "use": payload["type"].value,
+        "value": payload["phoneNumber"]
+      });
     }
   } on FirebaseAuthException catch (e) {
     if (e.code == 'weak-password') {
@@ -58,11 +60,14 @@ Future<bool> createPatient(payload) async {
 
 Future<AuthStatus> signIn(payload) async {
   try {
-    final credential =
-        await FirebaseAuth.instance.signInWithEmailAndPassword(email: payload["email"], password: payload["password"]);
+    final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: payload["email"], password: payload["password"]);
     debugPrint("Signed in: $credential.user!.uid");
 
-    var snapshot = await db.collection(payload["userType"].value).doc(credential.user!.uid).get();
+    var snapshot = await db
+        .collection(payload["userType"].value)
+        .doc(credential.user!.uid)
+        .get();
     if (!snapshot.exists) {
       return AuthStatus.incorrectAccountType;
     }
@@ -92,12 +97,13 @@ Future<bool> debugPatient() async {
   await prefs.setUid("mpMQADgfZqMPo25LQkw8ZcgKmTw2");
   return true;
 }
+
 Future<AuthStatus> resetPassword(payload) async {
-  AuthStatus _status = AuthStatus.success;
+  AuthStatus status = AuthStatus.success;
   String email = payload["email"];
   await FirebaseAuth.instance
       .sendPasswordResetEmail(email: email)
-      .then((value) => _status = AuthStatus.success)
-      .catchError((e) => _status = AuthStatus.unknownEmail);
-  return _status;
+      .then((value) => status = AuthStatus.success)
+      .catchError((e) => status = AuthStatus.unknownEmail);
+  return status;
 }
