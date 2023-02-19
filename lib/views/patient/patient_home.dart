@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pallinet/components/appointments.dart';
+import 'package:pallinet/components/custom_button.dart';
 import 'package:pallinet/components/symptoms.dart';
 import 'package:pallinet/components/pain_diary.dart';
 import 'package:pallinet/components/prescriptions.dart';
@@ -47,124 +48,49 @@ class _PatientHomeState extends State<PatientHome> {
           body: ListView(
             padding: const EdgeInsets.all(15),
             children: [
-              ElevatedButton(
-                  onPressed: () =>
-                      {Navigator.pushNamed(context, "/patient/calendar")},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white, // Background color
-                  ),
-                  child: Row(
-                    children: const [
-                      Icon(
-                        Icons.calendar_month_rounded,
-                        color: Color.fromRGBO(64, 192, 251, 1),
-                        size: 130,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        'Calendar',
-                        style: TextStyle(fontSize: 30, color: Colors.black),
-                        textAlign: TextAlign.left,
-                      )
-                    ],
-                  )),
+              const CustomButton(
+                icon: Icons.calendar_month_rounded,
+                iconColor: Color.fromRGBO(64, 192, 251, 1),
+                route: '/patient/calendar',
+                text: 'Calendar',
+              ),
               gap(),
-              // const PainDiary(),
-              ElevatedButton(
-                  onPressed: () =>
-                      {Navigator.pushNamed(context, "/patient/appointments")},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white, // Background color
-                  ),
-                  child: Row(
-                    children: const [
-                      Icon(
-                        Icons.schedule,
-                        color: Color.fromRGBO(64, 192, 251, 1),
-                        size: 110,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Text(
-                        'Appointments',
-                        style: TextStyle(fontSize: 25, color: Colors.black),
-                      )
-                    ],
-                  )),
+              const SizedBox(height: 300, child: PainDiary()),
               gap(),
-              ElevatedButton(
-                  onPressed: () =>
-                      {Navigator.pushNamed(context, "/patient/treatments")},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white, // Background color
-                  ),
-                  child: Row(
-                    children: const [
-                      Icon(
-                        Icons.health_and_safety_outlined,
-                        color: Colors.red,
-                        size: 100,
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        'Treatments',
-                        style: TextStyle(fontSize: 30, color: Colors.black),
-                      )
-                    ],
-                  )),
+              const CustomButton(
+                icon: Icons.schedule,
+                iconColor: Color.fromRGBO(64, 192, 251, 1),
+                route: '/patient/appointments',
+                text: 'Appointments',
+              ),
               gap(),
-              ElevatedButton(
-                  onPressed: () =>
-                      {Navigator.pushNamed(context, "/patient/medications")},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white, // Background color
-                  ),
-                  child: Row(
-                    children: const [
-                      Icon(
-                        Icons.medication,
-                        color: Colors.purpleAccent,
-                        size: 120,
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        'Summary',
-                        style: TextStyle(fontSize: 30, color: Colors.black),
-                      )
-                    ],
-                  )),
+              const CustomButton(
+                icon: Icons.health_and_safety_outlined,
+                iconColor: Colors.red,
+                route: '/patient/treatments',
+                text: 'Treatments',
+              ),
               gap(),
-              ElevatedButton(
-                  onPressed: () => {
-                        Navigator.pushNamed(
-                            context, '/patient/home/endoflifeplans')
-                      },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white, // Background color
-                  ),
-                  child: Row(
-                    children: const [
-                      Icon(
-                        Icons.list_alt_sharp,
-                        color: Colors.redAccent,
-                        size: 120,
-                      ),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        'End of Life Plans',
-                        style: TextStyle(fontSize: 20, color: Colors.black),
-                      )
-                    ],
-                  )),
+              const CustomButton(
+                icon: Icons.medication,
+                iconColor: Colors.purpleAccent,
+                route: '/patient/medications',
+                text: 'Medications',
+              ),
+              gap(),
+              const CustomButton(
+                icon: Icons.list_alt_sharp,
+                iconColor: Colors.redAccent,
+                route: '/patient/endoflifeplans',
+                text: 'End of Life Plans',
+              ),
+              gap(),
+              const CustomButton(
+                icon: Icons.calendar_month_rounded,
+                iconColor: Color.fromRGBO(64, 192, 251, 1),
+                route: '/patient/calendar',
+                text: 'Calendar',
+              ),
             ],
           ),
         );

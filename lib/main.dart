@@ -57,8 +57,7 @@ class PalliNet extends StatelessWidget {
           // '/prescriptionssummary': (context) => const PrescriptionsSummary(),
           '/prescriptionsdetailedview': (context) =>
               const PrescriptionsDetailedView(),
-          '/patient/home/endoflifeplans': (context) =>
-              const EndOfLifePlansView(),
+          '/patient/endoflifeplans': (context) => const EndOfLifePlansView(),
           '/patient/treatments': (context) => const Treatments(),
           '/patient/diary/new': (context) => const NewPainDiaryEntry(),
           '/physician/home': (context) => const PhysicianHome(),

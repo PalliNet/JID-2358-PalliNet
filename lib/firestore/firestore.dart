@@ -50,10 +50,9 @@ Future<List<dynamic>>? retrieveEntries() async {
       .get();
   List<dynamic> list = querySnapshot.docs.map((doc) => doc.data()).toList();
 
-  debugPrint("out");
-  debugPrint(list.toString());
+  // debugPrint("out");
+  // debugPrint(list.toString());
   return list;
-  // return questions;
 }
 
 // TODO used in patients_list consolidate w/ retrievePatients2 (currently hardcoded)

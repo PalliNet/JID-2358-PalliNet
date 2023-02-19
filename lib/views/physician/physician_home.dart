@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pallinet/components/custom_button.dart';
 import 'package:pallinet/components/loading.dart';
 import 'package:pallinet/models/physician_model.dart';
 import 'package:pallinet/models/session_manager.dart';
@@ -28,6 +29,7 @@ class _PhysicianHomeState extends State<PhysicianHome> {
 
   @override
   Widget build(BuildContext context) {
+    Widget gap() => const SizedBox(height: 30);
     // double screenWidth = MediaQuery.of(context).size.width;
     String name;
 
@@ -43,74 +45,26 @@ class _PhysicianHomeState extends State<PhysicianHome> {
               body: ListView(
                 padding: const EdgeInsets.all(15),
                 children: [
-                  ElevatedButton(
-                      onPressed: () =>
-                          {Navigator.pushNamed(context, "/patients")},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white, // Background color
-                      ),
-                      child: Row(
-                        children: const [
-                          Icon(
-                            Icons.assignment_ind,
-                            color: Colors.pink,
-                            size: 120,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Text(
-                            'Patients',
-                            style: TextStyle(fontSize: 30, color: Colors.black),
-                          )
-                        ],
-                      )),
-                  ElevatedButton(
-                      onPressed: () => {
-                            Navigator.pushNamed(
-                                context, "/physician/appointments")
-                          },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white, // Background color
-                      ),
-                      child: Row(
-                        children: const [
-                          Icon(
-                            Icons.schedule,
-                            color: Colors.pink,
-                            size: 120,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Text(
-                            'Appointments',
-                            style: TextStyle(fontSize: 30, color: Colors.black),
-                          )
-                        ],
-                      )),
-                  ElevatedButton(
-                      onPressed: () =>
-                          {Navigator.pushNamed(context, "/physician/profile")},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white, // Background color
-                      ),
-                      child: Row(
-                        children: const [
-                          Icon(
-                            Icons.settings,
-                            color: Colors.pink,
-                            size: 120,
-                          ),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Text(
-                            'Edit Profile',
-                            style: TextStyle(fontSize: 30, color: Colors.black),
-                          )
-                        ],
-                      )),
+                  const CustomButton(
+                    icon: Icons.assignment_ind,
+                    iconColor: Colors.pink,
+                    route: '/patients',
+                    text: 'Patients',
+                  ),
+                  gap(),
+                  const CustomButton(
+                    icon: Icons.schedule,
+                    iconColor: Colors.pink,
+                    route: '/physician/appointments',
+                    text: 'Appointments',
+                  ),
+                  gap(),
+                  const CustomButton(
+                    icon: Icons.settings,
+                    iconColor: Colors.pink,
+                    route: '/physician/profile',
+                    text: 'Edit Profile',
+                  ),
                 ],
               ),
             );
