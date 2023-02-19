@@ -22,12 +22,6 @@ class _PatientHomeState extends State<PatientHome> {
   }
 
   @override
-  void dispose() {
-    _prefs.clearAll();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return FutureBuilder<PatientID?>(
       future: _prefs.getUid().then((uid) => retrievePatientProfile(uid)),
