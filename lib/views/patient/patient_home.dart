@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pallinet/components/appointments.dart';
 import 'package:pallinet/components/custom_button.dart';
-import 'package:pallinet/components/symptoms.dart';
 import 'package:pallinet/components/pain_diary.dart';
-import 'package:pallinet/components/prescriptions.dart';
-import 'package:pallinet/components/treatments.dart';
 import 'package:pallinet/firestore/firestore.dart';
 import 'package:pallinet/models/patient_model.dart';
 import 'package:pallinet/models/session_manager.dart';
-import 'package:pallinet/components/calendar_card.dart';
-import 'package:pallinet/components/eol_plans.dart';
 
 class PatientHome extends StatefulWidget {
   const PatientHome({super.key});
@@ -25,12 +19,6 @@ class _PatientHomeState extends State<PatientHome> {
   void initState() {
     _prefs = SessionManager();
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    _prefs.clearAll();
-    super.dispose();
   }
 
   @override

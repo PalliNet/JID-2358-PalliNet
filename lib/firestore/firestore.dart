@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:pallinet/constants.dart';
+import 'package:pallinet/models/medication_model.dart';
 import 'package:pallinet/models/patient_model.dart';
 import '../models/physician_model.dart';
 import 'package:pallinet/models/name_model.dart';
@@ -64,7 +65,7 @@ Future<List<dynamic>>? retrievePatients() async {
       .doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62")
       .get()
       .then((DocumentSnapshot doc) {
-    debugPrint(doc.data().toString());
+    // debugPrint(doc.data().toString());
     return doc.data() as Map<String, dynamic>;
   }, onError: (e) => debugPrint("Error getting document: $e"));
 
@@ -72,6 +73,24 @@ Future<List<dynamic>>? retrievePatients() async {
   debugPrint(patients.toString());
 
   return patients;
+}
+
+Future<List<Medication>>? retrieveMedications(uid) async {
+  List<QueryDocumentSnapshot<Map<dynamic, dynamic>>> medicationsQuery = await db
+      .collection("Patient")
+      .doc(uid)
+      .collection("Medication")
+      .get()
+      .then((res) {
+    return res.docs;
+  }, onError: (e) => debugPrint("Error getting document: $e"));
+
+  List<Medication> medications = medicationsQuery.map((e) {
+    return Medication(e["medication"], List<String>.from(e["brands"]),
+        e["dosage"], e["orderDetail"]);
+  }).toList();
+
+  return medications;
 }
 
 // TODO this might be wrong? Check if still works with const.dart
@@ -89,15 +108,6 @@ Future<Map<String, dynamic>>? retrieveAppointmentCreationInfo() async {
     return doc.data() as Map<String, dynamic>;
   }, onError: (e) => debugPrint("Error getting document: $e"));
 
-  // retrieving physcian availability
-  List<QueryDocumentSnapshot<Map<dynamic, dynamic>>> availability = await db
-      .collection("Appointment")
-      .where("practitioner", isEqualTo: "2222222")
-      .get()
-      .then((res) {
-    return res.docs;
-  }, onError: (e) => debugPrint("Error getting document: $e"));
-
   // parsing patient list
   List<dynamic> data = list["patients"];
   debugPrint(data.toString());
@@ -109,8 +119,16 @@ Future<Map<String, dynamic>>? retrieveAppointmentCreationInfo() async {
     return PatientID(e["name"], gender, e["id"], birthdate);
   }).toList();
 
-  // parsing physician availability
+  // retrieving physcian availability
+  List<QueryDocumentSnapshot<Map<dynamic, dynamic>>> availability = await db
+      .collection("Appointment")
+      .where("practitioner", isEqualTo: "2222222")
+      .get()
+      .then((res) {
+    return res.docs;
+  }, onError: (e) => debugPrint("Error getting document: $e"));
 
+  // parsing physician availability
   List<Map<String, DateTime>> appointmentTime = availability.map((e) {
     Map<String, DateTime> times = {};
 
