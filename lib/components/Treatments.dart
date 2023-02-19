@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 
-class Treatments extends StatelessWidget {
-  const Treatments({super.key});
+class Treatments2 extends StatelessWidget {
+  const Treatments2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,6 @@ class Treatments extends StatelessWidget {
         automaticallyImplyLeading: false,
       ),
       body: ListView(
-        padding: const EdgeInsets.all(8),
         children: [
           ElevatedButton(
               onPressed: () =>

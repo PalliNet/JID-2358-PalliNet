@@ -24,17 +24,14 @@ class AppointmentCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Expanded(
+              const Expanded(
                 flex: 1,
                 child: Icon(Icons.account_circle, size: 48),
               ),
               Expanded(
                 flex: 4,
-                child: _AppointmentDescription(
-                  name: name,
-                  time: time,
-                  date: date
-                ),
+                child:
+                    _AppointmentDescription(name: name, time: time, date: date),
               ),
               const Icon(
                 Icons.more_vert,
@@ -73,9 +70,9 @@ class _AppointmentDescription extends StatelessWidget {
             ),
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
-          Text(
+          const Text(
             'Appointment Type: Checkup',
-            style: const TextStyle(fontSize: 14.0),
+            style: TextStyle(fontSize: 14.0),
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
           Text(

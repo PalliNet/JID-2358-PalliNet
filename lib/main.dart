@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pallinet/components/calendar.dart';
-import 'package:pallinet/views/calendar_card.dart';
+import 'package:pallinet/views/patient/calendar.dart';
 import 'package:pallinet/views/patient/new_account.dart';
 import 'package:pallinet/views/patient/patient_home.dart';
 import 'package:pallinet/views/patient/patient_login.dart';
+import 'package:pallinet/views/patient/treatments_view.dart';
 import 'package:pallinet/views/physician/physician_profile.dart';
 import 'package:pallinet/views/physician/patient_detailed_info.dart';
 import 'package:pallinet/views/physician/edit_patient_info.dart';
@@ -17,9 +17,7 @@ import 'package:pallinet/views/login_view.dart';
 import 'package:pallinet/views/home_view.dart';
 import 'package:pallinet/views/physician/patients_list.dart';
 import 'package:pallinet/views/prescriptions_detailed_view.dart';
-import 'package:pallinet/views/treatments_recommended.dart';
-import 'package:pallinet/views/treatments_detailed.dart';
-import 'package:pallinet/views/prescriptions_summary.dart';
+import 'package:pallinet/views/medications_view.dart';
 import 'package:pallinet/views/patient/patient_appointments.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:pallinet/views/physician/physician_appointment_specifics.dart';
@@ -55,13 +53,12 @@ class PalliNet extends StatelessWidget {
           '/new/patient': (context) => const NewAccountPage(),
           '/provider': (context) => const ProviderLandingPage(),
           '/patient/home': (context) => const PatientHome(),
-          '/prescriptionssummary': (context) => const PrescriptionsSummary(),
+          '/patient/medications': (context) => const Medications(),
+          // '/prescriptionssummary': (context) => const PrescriptionsSummary(),
           '/prescriptionsdetailedview': (context) =>
               const PrescriptionsDetailedView(),
-          '/patient/home/endoflifeplans': (context) =>
-              const EndOfLifePlansView(),
-          '/treatmentsrecommended': (context) => const treatmentsRecommended(),
-          '/treatmentsdetailed': (context) => const treatmentsDetailed(),
+          '/patient/endoflifeplans': (context) => const EndOfLifePlansView(),
+          '/patient/treatments': (context) => const Treatments(),
           '/patient/diary/new': (context) => const NewPainDiaryEntry(),
           '/physician/home': (context) => const PhysicianHome(),
           '/patients': (context) => const PatientList(),

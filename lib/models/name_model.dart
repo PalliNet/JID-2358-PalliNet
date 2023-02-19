@@ -1,5 +1,3 @@
-import 'package:pallinet/constants.dart';
-
 class Name {
   final String family;
   final String given;

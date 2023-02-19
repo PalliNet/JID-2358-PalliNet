@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -12,7 +11,9 @@ emailValidation(value) {
   if (value == null || value.isEmpty) {
     return 'Please enter some text';
   }
-  bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value);
+  bool emailValid = RegExp(
+          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+      .hasMatch(value);
   if (!emailValid) {
     return 'Please enter a valid email';
   }
@@ -40,7 +41,9 @@ passwordVerification(value, first) {
 }
 
 requiredValue(value) {
-  if (value.runtimeType == Gender || value.runtimeType == PatientID || value.runtimeType == ServiceType) {
+  if (value.runtimeType == Gender ||
+      value.runtimeType == PatientID ||
+      value.runtimeType == ServiceType) {
     return null;
   } else if (value == null || value.isEmpty) {
     return 'Required field';
@@ -94,7 +97,6 @@ timeValidationStart(value, date, totalTimes, TextEditingController controller) {
     return 'Required field';
   } else {
     try {
-
       DateFormat format = DateFormat("h:mm aa");
       DateTime time1 = format.parseStrict(value);
       DateTime time2 = format.parseStrict(controller.text);
@@ -118,7 +120,8 @@ timeValidationStart(value, date, totalTimes, TextEditingController controller) {
 
       for (int i = 0; i < totalTimes.length; i++) {
         // if start is inside an existing appointment block
-        if (startTime.isAfter(totalStart[i]) && startTime.isBefore(totalEnd[i])) {
+        if (startTime.isAfter(totalStart[i]) &&
+            startTime.isBefore(totalEnd[i])) {
           return "Overlapping appt time";
         }
         // if start and end overlap an existing appointment block
@@ -138,7 +141,6 @@ timeValidationEnd(value, date, totalTimes, TextEditingController controller) {
     return 'Required field';
   } else {
     try {
-
       DateFormat format = DateFormat("h:mm aa");
       DateTime time1 = format.parseStrict(value);
       DateTime time2 = format.parseStrict(controller.text);
@@ -177,12 +179,12 @@ timeValidationEnd(value, date, totalTimes, TextEditingController controller) {
   }
 }
 
-
 DateTime combinedDateTime(
   DateTime date,
   DateTime time,
 ) {
-  return DateTime(date.year, date.month, date.day, time.hour, time.minute, time.second);
+  return DateTime(
+      date.year, date.month, date.day, time.hour, time.minute, time.second);
 }
 
 class DateTextFormatter extends TextInputFormatter {

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pallinet/constants.dart';
 import 'package:pallinet/firestore/auth.dart';
-import 'package:pallinet/models/session_manager.dart';
 import 'package:pallinet/utils.dart';
 
 class NewAccountPage extends StatefulWidget {
@@ -12,8 +11,12 @@ class NewAccountPage extends StatefulWidget {
 }
 
 class _NewAccountState extends State<NewAccountPage> {
-  final List<GlobalKey<FormState>> _formKeys = [GlobalKey<FormState>(), GlobalKey<FormState>(), GlobalKey<FormState>()];
-  
+  final List<GlobalKey<FormState>> _formKeys = [
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>()
+  ];
+
   bool isPasswordVisible = false;
 
   String? first;
@@ -64,9 +67,12 @@ class _NewAccountState extends State<NewAccountPage> {
                       "type": phoneType,
                     };
                     createPatient(payload).then((value) {
-                          if (value) {
-                            Navigator.pushNamed(context, "/patient/home");} else {showAlertDialog(context);}
-                        });
+                      if (value) {
+                        Navigator.pushNamed(context, "/patient/home");
+                      } else {
+                        showAlertDialog(context);
+                      }
+                    });
                   } else {
                     setState(() => currentStep += 1);
                   }
@@ -112,7 +118,9 @@ class _NewAccountState extends State<NewAccountPage> {
                     hintText: 'Enter your password',
                     border: const OutlineInputBorder(),
                     suffixIcon: IconButton(
-                      icon: Icon(isPasswordVisible ? Icons.visibility_off : Icons.visibility),
+                      icon: Icon(isPasswordVisible
+                          ? Icons.visibility_off
+                          : Icons.visibility),
                       onPressed: () {
                         setState(() {
                           isPasswordVisible = !isPasswordVisible;
@@ -132,7 +140,9 @@ class _NewAccountState extends State<NewAccountPage> {
                     hintText: 'Verify your password',
                     border: const OutlineInputBorder(),
                     suffixIcon: IconButton(
-                      icon: Icon(isPasswordVisible ? Icons.visibility_off : Icons.visibility),
+                      icon: Icon(isPasswordVisible
+                          ? Icons.visibility_off
+                          : Icons.visibility),
                       onPressed: () {
                         setState(() {
                           isPasswordVisible = !isPasswordVisible;
@@ -279,7 +289,8 @@ showAlertDialog(BuildContext context) {
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
     title: const Text("Error"),
-    content: const Text("Account was not created successfully, please try again later."),
+    content: const Text(
+        "Account was not created successfully, please try again later."),
     actions: [
       okButton,
     ],

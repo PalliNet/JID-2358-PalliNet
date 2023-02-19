@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pallinet/utils.dart';
 import 'package:pallinet/firestore/auth.dart';
-import 'package:pallinet/views/patient/patient_login.dart';
-
-import '../constants.dart';
 
 class ForgotPage extends StatelessWidget {
   const ForgotPage({super.key});
@@ -62,14 +59,13 @@ class Logo extends StatelessWidget {
                     ?.copyWith(color: Colors.black),
           ),
         ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 40.0),
-            child: Text(
-            "Enter in your email. If there is an account associated, we will send you an email to reset your password",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 14)
-            ),
-          ),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 40.0),
+          child: Text(
+              "Enter in your email. If there is an account associated, we will send you an email to reset your password",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 14)),
+        ),
         gap(),
       ],
     );
@@ -84,7 +80,6 @@ class FormContent extends StatefulWidget {
 }
 
 class FormContentState extends State<FormContent> {
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String? email;
 
@@ -126,9 +121,7 @@ class FormContentState extends State<FormContent> {
                 onPressed: () async {
                   _formKey.currentState?.save();
                   if (_formKey.currentState?.validate() ?? false) {
-                    attemptResetPassword(
-                      {"email": email}, 
-                      context);
+                    attemptResetPassword({"email": email}, context);
                   }
                 },
               ),
@@ -138,10 +131,11 @@ class FormContentState extends State<FormContent> {
       ),
     );
   }
-attemptResetPassword(payload, context) {
-  resetPassword(payload).then((status) => {
-        Navigator.pushNamed(context, '/forgotsuccess')
-      });
-}
+
+  attemptResetPassword(payload, context) {
+    resetPassword(payload)
+        .then((status) => {Navigator.pushNamed(context, '/forgotsuccess')});
+  }
+
   Widget gap() => const SizedBox(height: 16);
 }

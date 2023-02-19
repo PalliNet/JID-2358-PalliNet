@@ -10,7 +10,9 @@ class HomePage extends StatelessWidget {
       constraints: const BoxConstraints.expand(),
       decoration: const BoxDecoration(
           image: DecorationImage(
-              image: AssetImage("assets/images/naturebackground.jpg"), fit: BoxFit.cover, opacity: 0.35)),
+              image: AssetImage("assets/images/naturebackground.jpg"),
+              fit: BoxFit.cover,
+              opacity: 0.35)),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -33,7 +35,7 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 Navigator.pushNamed(context, "/login");
               },
-              child: const Text("Button"),
+              child: const Text("Get Started"),
             )
           ],
         ),
