@@ -26,6 +26,7 @@ PalliNet will not only provide access to palliative care specialists, but also p
 * Added null handling and loading screens
 ### :radioactive: Known Issues:
 * When creating a new profile, the user's name is stuck as loading instead of their name until they relog
+* When creating a new user account, the app will erroneously return an error saying account is not created if additional contact info is not filled out
 * Calendar UI has a two weeks button that will crash the app
 
 ## Version 0.1.0 
