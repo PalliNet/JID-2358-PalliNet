@@ -16,7 +16,7 @@ class PhysicianAppointments extends StatelessWidget {
             "Upcoming Appointments",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
-          AppointmentCard(name: "Kenny Hoang", date: DateTime(2023, 2, 12), time: "12:30PM"),
+          AppointmentCard(name: "Kenny Hoang", date: DateTime(2023, 2, 21), time: "12:30PM"),
           const Padding(padding: EdgeInsets.all(16.0)),
           const Text(
             "Past Appointments",
