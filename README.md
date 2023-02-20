@@ -11,6 +11,10 @@ We are creating PalliNet in order to make palliative care specialists more acces
 PalliNet will not only provide access to palliative care specialists, but also provide an easy way for primary healthcare providers to see how patients react to care and plan repeat appointments and/or referrals to specialists
 
 # Release Notes: 
+## Version 0.2.0 
+### 	:health_worker: New Features:
+### :hammer_and_wrench: Bug Fixes:
+### :radioactive: Known Issues:
 
 ## Version 0.1.0 
 ### 	:health_worker: New Features: 
@@ -27,8 +31,5 @@ PalliNet will not only provide access to palliative care specialists, but also p
 * Calendar UI has a two weeks button that will crash the app
 * Create appointment doesn't have all the data
 
-## Version 0.2.0 
-### 	:health_worker: New Features:
-### :hammer_and_wrench: Bug Fixes:
-### :radioactive: Known Issues:
+
 
