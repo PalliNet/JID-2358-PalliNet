@@ -12,17 +12,27 @@ PalliNet will not only provide access to palliative care specialists, but also p
 
 # Release Notes: 
 ## Version 0.2.0 
-### 	:health_worker: New Features:
+### :health_worker: New Features:
+* User email authentication
+* Pain diary history view
+* Medications/Treatments view
+* End of life planning page
+* Connected detailed patient view to database
+* Added additional fields to appointment scheduling view
+* Allows for editing of patient information from physician's view
+* Patient/Physician home redesign
 ### :hammer_and_wrench: Bug Fixes:
+* Fixed all known pixel overflow
+* Added null handling and loading screens
 ### :radioactive: Known Issues:
 
 ## Version 0.1.0 
-### 	:health_worker: New Features: 
-* Physican Patient List 
-* Detailed Patient Information View and Navigation 
-* Created Appointment information views 
-* Pain Diary Navigation and question setup 
-* Calendar Navigation and UI 
+### :health_worker: New Features: 
+* Physican patient list 
+* Detailed patient information view and navigation 
+* Created appointment information views 
+* Pain diary navigation and question setup 
+* Calendar navigation and UI 
 ### :hammer_and_wrench: Bug Fixes: 
 * Fixed pixel overflow on appointment button 
 ### :radioactive: Known Issues: 
