@@ -18,7 +18,7 @@ class PatientAppointments extends StatelessWidget {
           ),
           AppointmentCard(
             name: "Dr. Totally Real Doctor",
-            date: DateTime(2023, 2,  12),
+            date: DateTime(2023, 2,  21),
             time: "12:30PM"
             ),
           const Padding(padding: EdgeInsets.all(16.0)),
