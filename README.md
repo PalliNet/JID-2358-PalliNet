@@ -25,6 +25,8 @@ PalliNet will not only provide access to palliative care specialists, but also p
 * Fixed all known pixel overflow
 * Added null handling and loading screens
 ### :radioactive: Known Issues:
+* When creating a new profile, the user's name is stuck as loading instead of their name until they relog
+* Calendar UI has a two weeks button that will crash the app
 
 ## Version 0.1.0 
 ### :health_worker: New Features: 
