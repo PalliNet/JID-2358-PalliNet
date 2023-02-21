@@ -11,14 +11,30 @@ We are creating PalliNet in order to make palliative care specialists more acces
 PalliNet will not only provide access to palliative care specialists, but also provide an easy way for primary healthcare providers to see how patients react to care and plan repeat appointments and/or referrals to specialists
 
 # Release Notes: 
+## Version 0.2.0 
+### :health_worker: New Features:
+* User email authentication
+* Pain diary history view
+* Medications/Treatments view
+* End of life planning page
+* Connected detailed patient view to database
+* Added additional fields to appointment scheduling view
+* Allows for editing of patient information from physician's view
+* Patient/Physician home redesign
+### :hammer_and_wrench: Bug Fixes:
+* Fixed all known pixel overflow
+* Added null handling and loading screens
+### :radioactive: Known Issues:
+* When creating a new user account, the app will erroneously return an error saying account is not created if additional contact info is not filled out
+* Calendar UI has a two weeks button that will crash the app
 
 ## Version 0.1.0 
-### 	:health_worker: New Features: 
-* Physican Patient List 
-* Detailed Patient Information View and Navigation 
-* Created Appointment information views 
-* Pain Diary Navigation and question setup 
-* Calendar Navigation and UI 
+### :health_worker: New Features: 
+* Physican patient list 
+* Detailed patient information view and navigation 
+* Created appointment information views 
+* Pain diary navigation and question setup 
+* Calendar navigation and UI 
 ### :hammer_and_wrench: Bug Fixes: 
 * Fixed pixel overflow on appointment button 
 ### :radioactive: Known Issues: 
@@ -26,3 +42,6 @@ PalliNet will not only provide access to palliative care specialists, but also p
 * Errors while loading patient list view due to lack of null handling 
 * Calendar UI has a two weeks button that will crash the app
 * Create appointment doesn't have all the data
+
+
+
