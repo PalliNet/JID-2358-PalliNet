@@ -44,7 +44,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyC2KIUi6ZaRCuHSl7c_6xSsoHNQCo0E_5A',
+    apiKey: 'AIzaSyB2vEXmDTVGjgpJUA7YsDh-WSy7SJA658c',
     appId: '1:521193247291:web:36d9ccc26a63dc3805021e',
     messagingSenderId: '521193247291',
     projectId: 'pallinet-9db77',
@@ -67,7 +67,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '521193247291',
     projectId: 'pallinet-9db77',
     storageBucket: 'pallinet-9db77.appspot.com',
-    iosClientId: '521193247291-f0ms9pmfnqh4bhu368tg9pibtt6jt6j7.apps.googleusercontent.com',
+    iosClientId:
+        '521193247291-f0ms9pmfnqh4bhu368tg9pibtt6jt6j7.apps.googleusercontent.com',
     iosBundleId: 'com.example.pallinet',
   );
 
@@ -77,7 +78,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '521193247291',
     projectId: 'pallinet-9db77',
     storageBucket: 'pallinet-9db77.appspot.com',
-    iosClientId: '521193247291-f0ms9pmfnqh4bhu368tg9pibtt6jt6j7.apps.googleusercontent.com',
+    iosClientId:
+        '521193247291-f0ms9pmfnqh4bhu368tg9pibtt6jt6j7.apps.googleusercontent.com',
     iosBundleId: 'com.example.pallinet',
   );
 }
