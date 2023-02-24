@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:pallinet/constants.dart';
 import 'package:pallinet/models/medication_model.dart';
+import 'package:pallinet/models/treatment_model.dart';
 import 'package:pallinet/models/patient_model.dart';
 import '../models/physician_model.dart';
 import 'package:pallinet/models/name_model.dart';
@@ -91,6 +92,28 @@ Future<List<Medication>>? retrieveMedications(uid) async {
   }).toList();
 
   return medications;
+}
+
+//testing treatments
+Future<List<Treatment>>? retrieveTreatments(uid) async {
+  List<QueryDocumentSnapshot<Map<dynamic, dynamic>>> treatmentsQuery = await db
+      .collection("Patient")
+      .doc(uid)
+      .collection("Treatment")
+      .get()
+      .then((res) {
+    return res.docs;
+  }, onError: (e) => debugPrint("Error getting document: $e"));
+
+  List<Treatment> treatments = treatmentsQuery.map((e) {
+    return Treatment(
+      e["typetreatment"],
+      e["schedule"],
+      e["durationToComplete"],
+    );
+  }).toList();
+
+  return treatments;
 }
 
 // TODO this might be wrong? Check if still works with const.dart
