@@ -107,7 +107,7 @@ Future<List<Treatment>>? retrieveTreatments(uid) async {
 
   List<Treatment> treatments = treatmentsQuery.map((e) {
     return Treatment(
-      e["typetreatment"],
+      e["treatmentType"],
       e["schedule"],
       e["durationToComplete"],
     );

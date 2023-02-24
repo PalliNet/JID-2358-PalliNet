@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class treatmentsRecommended extends StatelessWidget {
-  const treatmentsRecommended({super.key});
+class TreatmentsRecommended extends StatelessWidget {
+  const TreatmentsRecommended({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -35,7 +35,7 @@ class _TreatmentsState extends State<Treatments> {
                 itemBuilder: (BuildContext context, int index) {
                   Treatment data = treatments[index];
                   return TreatmentsCard(
-                    typetreatment: data.typetreatment,
+                    treatmentType: data.treatmentType,
                     schedule: data.schedule,
                     durationToComplete: data.durationToComplete,
                   );

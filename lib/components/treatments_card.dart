@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class TreatmentsCard extends StatelessWidget {
   const TreatmentsCard({
     super.key,
-    required this.typetreatment,
+    required this.treatmentType,
     required this.schedule,
     required this.durationToComplete,
   });
 
   final String schedule;
-  final String typetreatment;
+  final String treatmentType;
   final String durationToComplete;
 
   @override
@@ -25,7 +25,7 @@ class TreatmentsCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      typetreatment,
+                      treatmentType,
                       style: Theme.of(context).textTheme.headline5,
                     ),
                     Text(schedule),
