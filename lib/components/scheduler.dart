@@ -20,37 +20,84 @@ class _SchedulerState extends State<Scheduler> {
 
     double screenheight = MediaQuery.of(context).size.height;
 
+    PanelController _pc = PanelController();
+
     return Scaffold(
         appBar: AppBar(
           title: const Text("Temporary"),
         ),
         body: SlidingUpPanel(
+            isDraggable: true,
             maxHeight: .8 * screenheight,
-            panel: Column(children: [
-              _ControlBar(
-                monthValueNotifier: monthValueNotifier,
-              ),
-              const Text("Recent Entries", style: TextStyle(fontSize: 16.0)),
-              OutlinedButton(
-                  onPressed: () => {
-                        monthValueNotifier.value = DateTime(2023, 3, 1),
-                      },
-                  child: const Text("test")),
-              const Expanded(
-                  flex: 5,
-                  child: SizedBox(
-                      height: 170,
-                      child: SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          child: Text("temp")))),
-              Expanded(
-                  flex: 1,
-                  child: Row(
-                    children: const [Text("temp")],
-                  ))
-            ]),
+            controller: _pc,
+            panelBuilder: (ScrollController sc) {
+              return Column(children: [
+                _ControlBar(
+                  monthValueNotifier: monthValueNotifier,
+                ),
+                Flexible(
+                    child: SingleChildScrollView(
+                        controller: sc,
+                        scrollDirection: Axis.vertical,
+                        child: GridView.builder(
+                          physics: const ScrollPhysics(),
+                          shrinkWrap: true,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 8,
+                                  mainAxisSpacing: 0,
+                                  crossAxisSpacing: 0,
+                                  childAspectRatio: (0.6 / 1.0)),
+                          itemCount: 72,
+                          itemBuilder: (BuildContext context, int index) {
+                            if (index % 8 == 0) {
+                              DateTime open = DateTime(2001, 12, 17, 9);
+                              DateTime time =
+                                  open.add(Duration(hours: index ~/ 8));
+                              String formattedTime =
+                                  DateFormat.Hm().format(time);
+
+                              return Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                    color: Colors.grey,
+                                    width: 0.125,
+                                  )),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Expanded(
+                                          child: SizedBox(
+                                        height: 10,
+                                      )),
+                                      Align(
+                                        widthFactor: 1.4,
+                                        alignment: Alignment.bottomRight,
+                                        child: Text(formattedTime,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall),
+                                      )
+                                    ],
+                                  ));
+                            } else {
+                              return Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                    color: Colors.grey,
+                                    width: 0.125,
+                                  )),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: const [],
+                                  ));
+                            }
+                          },
+                        )))
+              ]);
+            },
             body: const Center(
-              child: Text("OwO"),
+              child: Text("Temp"),
             )));
   }
 }
@@ -62,55 +109,61 @@ class _ControlBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
+    List<String> daysOfWeek = ["", "S", "M", "T", "W", "T", "F", "S"];
 
-    return Row(
-      children: [
-        AnimatedBuilder(
-            animation: monthValueNotifier,
-            builder: (BuildContext context, Widget? child) {
-              return Column(children: [
-                Padding(
-                    padding: const EdgeInsets.only(left: 20.0, top: 12.0),
-                    child: Text(getMonth(monthValueNotifier.value),
-                        style: Theme.of(context).textTheme.subtitle1)),
-                Padding(
-                    padding: const EdgeInsets.only(
-                        left: 20.0, top: 8.0, right: 20.0),
-                    child: Expanded(
-                        child: SizedBox(
-                      width: MediaQuery.of(context).size.width - 40,
-                      height: 60,
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: 7,
-                          itemBuilder: ((context, index) {
-                            var width =
-                                (MediaQuery.of(context).size.width - 40) / 7;
-                            var height =
-                                MediaQuery.of(context).size.height * 0.01;
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
 
-                            return Container(
-                                width: width,
-                                height: height,
-                                child: Card(
-                                    child: Column(children: [
+    return AnimatedBuilder(
+        animation: monthValueNotifier,
+        builder: (BuildContext context, Widget? child) {
+          return Column(children: [
+            Text(getMonth(monthValueNotifier.value),
+                style: Theme.of(context).textTheme.subtitle1),
+            Center(
+              child: SizedBox(
+                  // width: MediaQuery.of(context).size.width,
+                  height: height * 0.08,
+                  child: GridView.count(
+                      childAspectRatio: (1 / 0.941),
+                      scrollDirection: Axis.horizontal,
+                      crossAxisCount: 1,
+                      children: List.generate(8, (index) {
+                        if (index != 0) {
+                          return Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                color: Colors.grey,
+                                width: 0.125,
+                              )),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
                                   Text(daysOfWeek[index],
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall),
                                   Text(
-                                      "${getDay(monthValueNotifier.value) + index}",
+                                      "${getDay(monthValueNotifier.value) + index - 1}",
                                       style:
                                           Theme.of(context).textTheme.subtitle1)
-                                ])));
-                          })),
-                    )))
-              ]);
-            })
-      ],
-    );
+                                ],
+                              ));
+                        } else {
+                          return Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                color: Colors.grey,
+                                width: 0.125,
+                              )),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                              ));
+                        }
+                      }))),
+            ),
+          ]);
+        });
   }
 }
 
