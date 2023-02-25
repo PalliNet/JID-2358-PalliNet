@@ -20,7 +20,7 @@ class _SchedulerState extends State<Scheduler> {
 
     double screenheight = MediaQuery.of(context).size.height;
 
-    PanelController _pc = PanelController();
+    PanelController pc = PanelController();
 
     return Scaffold(
         appBar: AppBar(
@@ -29,7 +29,7 @@ class _SchedulerState extends State<Scheduler> {
         body: SlidingUpPanel(
             isDraggable: true,
             maxHeight: .8 * screenheight,
-            controller: _pc,
+            controller: pc,
             panelBuilder: (ScrollController sc) {
               return Column(children: [
                 _ControlBar(
@@ -103,7 +103,7 @@ class _SchedulerState extends State<Scheduler> {
 }
 
 class _ControlBar extends StatelessWidget {
-  const _ControlBar({required this.monthValueNotifier, super.key});
+  const _ControlBar({required this.monthValueNotifier});
 
   final ValueNotifier<DateTime> monthValueNotifier;
 
@@ -111,7 +111,6 @@ class _ControlBar extends StatelessWidget {
   Widget build(BuildContext context) {
     List<String> daysOfWeek = ["", "S", "M", "T", "W", "T", "F", "S"];
 
-    var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
 
     return AnimatedBuilder(
