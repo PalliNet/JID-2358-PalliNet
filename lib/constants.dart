@@ -29,9 +29,12 @@ enum NumberType {
 }
 
 enum AuthStatus {
-  unknownEmail("The username/password combination does not match any existing entries."),
-  incorrectPassword("The username/password combination does not match any existing entries."),
-  incorrectAccountType("The username/password combination does not match any existing entries."),
+  unknownEmail(
+      "The username/password combination does not match any existing entries."),
+  incorrectPassword(
+      "The username/password combination does not match any existing entries."),
+  incorrectAccountType(
+      "The username/password combination does not match any existing entries."),
   serverError("There was a server error. Please try again later."),
   unknownError("An unknown error has occured."),
   success("The operation was a success.");
