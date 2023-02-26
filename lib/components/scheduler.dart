@@ -15,7 +15,7 @@ class _SchedulerState extends State<Scheduler> {
   Widget build(BuildContext context) {
     DateTime sunday = mostRecentSunday(DateTime.now());
 
-    final ValueNotifier<DateTime> monthValueNotifier =
+    final ValueNotifier<DateTime> dateNotifier =
         ValueNotifier<DateTime>(sunday);
 
     double screenheight = MediaQuery.of(context).size.height;
@@ -33,7 +33,7 @@ class _SchedulerState extends State<Scheduler> {
             panelBuilder: (ScrollController sc) {
               return Column(children: [
                 _ControlBar(
-                  monthValueNotifier: monthValueNotifier,
+                  dateNotifier: dateNotifier,
                 ),
                 Flexible(
                     child: SingleChildScrollView(
@@ -103,9 +103,9 @@ class _SchedulerState extends State<Scheduler> {
 }
 
 class _ControlBar extends StatelessWidget {
-  const _ControlBar({required this.monthValueNotifier});
+  const _ControlBar({required this.dateNotifier});
 
-  final ValueNotifier<DateTime> monthValueNotifier;
+  final ValueNotifier<DateTime> dateNotifier;
 
   @override
   Widget build(BuildContext context) {
@@ -114,11 +114,40 @@ class _ControlBar extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
 
     return AnimatedBuilder(
-        animation: monthValueNotifier,
+        animation: dateNotifier,
         builder: (BuildContext context, Widget? child) {
           return Column(children: [
-            Text(getMonth(monthValueNotifier.value),
-                style: Theme.of(context).textTheme.subtitle1),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 15.0, horizontal: 20.0),
+                  child: Text(getMonth(dateNotifier.value),
+                      style: Theme.of(context).textTheme.titleLarge),
+                ),
+                const Expanded(
+                  child: SizedBox(height: 10),
+                ),
+                Material(
+                    color: Colors.transparent,
+                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                    child: IconButton(
+                        onPressed: () {
+                          dateNotifier.value = dateNotifier.value
+                              .subtract(const Duration(days: 7));
+                        },
+                        icon: const Icon(Icons.arrow_left))),
+                Material(
+                    color: Colors.transparent,
+                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                    child: IconButton(
+                        onPressed: () {
+                          dateNotifier.value =
+                              dateNotifier.value.add(const Duration(days: 7));
+                        },
+                        icon: const Icon(Icons.arrow_right))),
+              ], // https://stackoverflow.com/questions/72931476/splash-animation-on-icon-button-is-always-behind-the-stack
+            ),
             Center(
               child: SizedBox(
                   // width: MediaQuery.of(context).size.width,
@@ -143,7 +172,7 @@ class _ControlBar extends StatelessWidget {
                                           .textTheme
                                           .bodySmall),
                                   Text(
-                                      "${getDay(monthValueNotifier.value) + index - 1}",
+                                      "${getDay(dateNotifier.value) + index - 1}",
                                       style:
                                           Theme.of(context).textTheme.subtitle1)
                                 ],
