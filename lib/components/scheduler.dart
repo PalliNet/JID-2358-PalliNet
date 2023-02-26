@@ -113,6 +113,8 @@ class _ControlBar extends StatelessWidget {
 
     var height = MediaQuery.of(context).size.height;
 
+    bool backButtonEnabled = false;
+
     return AnimatedBuilder(
         animation: dateNotifier,
         builder: (BuildContext context, Widget? child) {
@@ -122,7 +124,8 @@ class _ControlBar extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: 15.0, horizontal: 20.0),
-                  child: Text(getMonth(dateNotifier.value),
+                  child: Text(
+                      "${getMonth(dateNotifier.value)} ${dateNotifier.value.year}",
                       style: Theme.of(context).textTheme.titleLarge),
                 ),
                 const Expanded(
@@ -132,10 +135,16 @@ class _ControlBar extends StatelessWidget {
                     color: Colors.transparent,
                     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                     child: IconButton(
-                        onPressed: () {
-                          dateNotifier.value = dateNotifier.value
-                              .subtract(const Duration(days: 7));
-                        },
+                        disabledColor: Colors.grey,
+                        onPressed: backButtonEnabled
+                            ? () {
+                                dateNotifier.value = dateNotifier.value
+                                    .subtract(const Duration(days: 7));
+                                if (isCurrentWeek(dateNotifier.value)) {
+                                  backButtonEnabled = false;
+                                }
+                              }
+                            : null,
                         icon: const Icon(Icons.arrow_left))),
                 Material(
                     color: Colors.transparent,
@@ -144,6 +153,9 @@ class _ControlBar extends StatelessWidget {
                         onPressed: () {
                           dateNotifier.value =
                               dateNotifier.value.add(const Duration(days: 7));
+                          if (!isCurrentWeek(dateNotifier.value)) {
+                            backButtonEnabled = true;
+                          }
                         },
                         icon: const Icon(Icons.arrow_right))),
               ], // https://stackoverflow.com/questions/72931476/splash-animation-on-icon-button-is-always-behind-the-stack
@@ -202,3 +214,7 @@ String getMonth(DateTime date) =>
 
 DateTime mostRecentSunday(DateTime date) =>
     DateTime(date.year, date.month, date.day - date.weekday % 7);
+
+bool isCurrentWeek(DateTime date) =>
+    DateTime.now().isAfter(date) &&
+    DateTime.now().isBefore(date.add(const Duration(days: 7)));
