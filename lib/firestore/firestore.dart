@@ -11,7 +11,7 @@ import 'package:pallinet/models/name_model.dart';
 FirebaseFirestore db = FirebaseFirestore.instance;
 
 // Pain Diary
-void addData(UnmodifiableMapView<int, int> entries) async {
+void addData(UnmodifiableMapView<int, int> entries, uid) async {
   // Create a new user with a first and last name
   final storedEntries = <String, dynamic>{};
   for (int i = 0; i < entries.length; i++) {
@@ -21,7 +21,7 @@ void addData(UnmodifiableMapView<int, int> entries) async {
   //add entry into patient database
   db
       .collection("Patient")
-      .doc("6827485") // un hard-code this
+      .doc(uid)
       .collection("PainDiary")
       .add(storedEntries)
       .then((DocumentReference doc) =>
@@ -43,13 +43,10 @@ Future<Map<dynamic, dynamic>>? retrieveQuestions() async {
   return list;
 }
 
-Future<List<dynamic>>? retrieveEntries() async {
+Future<List<dynamic>>? retrieveEntries(uid) async {
   debugPrint("Retrieve entries");
-  QuerySnapshot querySnapshot = await db
-      .collection("Patient")
-      .doc("6827485")
-      .collection("PainDiary")
-      .get();
+  QuerySnapshot querySnapshot =
+      await db.collection("Patient").doc(uid).collection("PainDiary").get();
   List<dynamic> list = querySnapshot.docs.map((doc) => doc.data()).toList();
 
   // debugPrint("out");
