@@ -76,7 +76,7 @@ class PalliNet extends StatelessWidget {
           '/symptoms': (context) => const SymptomsView(),
           '/physician/profile': (context) => const PhysicianProfile(),
           '/forgotsuccess': (context) => const ForgotSuccess(),
-          '/temp': (context) => const Scheduler(),
+          // '/temp': (context) => const Scheduler(),
         },
         onUnknownRoute: (settings) =>
             MaterialPageRoute(builder: (context) => const HomePage()));

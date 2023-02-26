@@ -3,14 +3,14 @@ import 'package:intl/intl.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class Scheduler extends StatefulWidget {
-  const Scheduler({super.key});
+  final PanelController pc;
+  const Scheduler({super.key, required this.pc});
 
   @override
   State<Scheduler> createState() => _SchedulerState();
 }
 
 class _SchedulerState extends State<Scheduler> {
-  // const Scheduler({required this.appointments, super.key});
   @override
   Widget build(BuildContext context) {
     DateTime sunday = mostRecentSunday(DateTime.now());
@@ -20,92 +20,87 @@ class _SchedulerState extends State<Scheduler> {
 
     double screenheight = MediaQuery.of(context).size.height;
 
-    PanelController pc = PanelController();
+    // PanelController pc = PanelController();
 
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Temporary"),
-        ),
-        body: SlidingUpPanel(
-            isDraggable: true,
-            maxHeight: .8 * screenheight,
-            controller: pc,
-            panelBuilder: (ScrollController sc) {
-              return Column(children: [
-                _ControlBar(
-                  dateNotifier: dateNotifier,
-                ),
-                Flexible(
-                    child: SingleChildScrollView(
-                        controller: sc,
-                        scrollDirection: Axis.vertical,
-                        child: GridView.builder(
-                          physics: const ScrollPhysics(),
-                          shrinkWrap: true,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 8,
-                                  mainAxisSpacing: 0,
-                                  crossAxisSpacing: 0,
-                                  childAspectRatio: (0.6 / 1.0)),
-                          itemCount: 72,
-                          itemBuilder: (BuildContext context, int index) {
-                            if (index % 8 == 0) {
-                              DateTime open = DateTime(2001, 12, 17, 9);
-                              DateTime time =
-                                  open.add(Duration(hours: index ~/ 8));
-                              String formattedTime =
-                                  DateFormat.Hm().format(time);
+    return SlidingUpPanel(
+      isDraggable: false,
+      minHeight: 0,
+      maxHeight: screenheight * 0.85,
+      controller: widget.pc,
+      panelBuilder: (ScrollController sc) {
+        return Column(children: [
+          _ControlBar(
+            dateNotifier: dateNotifier,
+            closeCallback: () => widget.pc.close(),
+          ),
+          Flexible(
+              child: SingleChildScrollView(
+                  controller: sc,
+                  scrollDirection: Axis.vertical,
+                  child: GridView.builder(
+                    physics: const ScrollPhysics(),
+                    shrinkWrap: true,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 8,
+                            mainAxisSpacing: 0,
+                            crossAxisSpacing: 0,
+                            childAspectRatio: (0.6 / 1.0)),
+                    itemCount: 72,
+                    itemBuilder: (BuildContext context, int index) {
+                      if (index % 8 == 0) {
+                        DateTime open = DateTime(2001, 12, 17, 9);
+                        DateTime time = open.add(Duration(hours: index ~/ 8));
+                        String formattedTime = DateFormat.Hm().format(time);
 
-                              return Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                    color: Colors.grey,
-                                    width: 0.125,
-                                  )),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Expanded(
-                                          child: SizedBox(
-                                        height: 10,
-                                      )),
-                                      Align(
-                                        widthFactor: 1.4,
-                                        alignment: Alignment.bottomRight,
-                                        child: Text(formattedTime,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall),
-                                      )
-                                    ],
-                                  ));
-                            } else {
-                              return Container(
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                    color: Colors.grey,
-                                    width: 0.125,
-                                  )),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: const [],
-                                  ));
-                            }
-                          },
-                        )))
-              ]);
-            },
-            body: const Center(
-              child: Text("Temp"),
-            )));
+                        return Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                              color: Colors.grey,
+                              width: 0.125,
+                            )),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Expanded(
+                                    child: SizedBox(
+                                  height: 10,
+                                )),
+                                Align(
+                                  widthFactor: 1.4,
+                                  alignment: Alignment.bottomRight,
+                                  child: Text(formattedTime,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall),
+                                )
+                              ],
+                            ));
+                      } else {
+                        return Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                              color: Colors.grey,
+                              width: 0.125,
+                            )),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [],
+                            ));
+                      }
+                    },
+                  )))
+        ]);
+      },
+    );
   }
 }
 
 class _ControlBar extends StatelessWidget {
-  const _ControlBar({required this.dateNotifier});
-
+  final closeCallback;
   final ValueNotifier<DateTime> dateNotifier;
+
+  const _ControlBar({required this.dateNotifier, required this.closeCallback});
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +153,14 @@ class _ControlBar extends StatelessWidget {
                           }
                         },
                         icon: const Icon(Icons.arrow_right))),
-              ], // https://stackoverflow.com/questions/72931476/splash-animation-on-icon-button-is-always-behind-the-stack
+                Material(
+                    color: Colors.transparent,
+                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                    child: IconButton(
+                        disabledColor: Colors.grey,
+                        onPressed: () => {closeCallback()},
+                        icon: const Icon(Icons.cancel))),
+              ],
             ),
             Center(
               child: SizedBox(

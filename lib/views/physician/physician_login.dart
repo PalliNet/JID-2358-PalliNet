@@ -42,7 +42,10 @@ class Logo extends StatelessWidget {
             textAlign: TextAlign.center,
             style: isSmallScreen
                 ? Theme.of(context).textTheme.headline5
-                : Theme.of(context).textTheme.headline4?.copyWith(color: Colors.black),
+                : Theme.of(context)
+                    .textTheme
+                    .headline4
+                    ?.copyWith(color: Colors.black),
           ),
         ),
         gap(),
@@ -96,7 +99,9 @@ class FormContentState extends State<FormContent> {
                   prefixIcon: const Icon(Icons.lock_outline_rounded),
                   border: const OutlineInputBorder(),
                   suffixIcon: IconButton(
-                    icon: Icon(isPasswordVisible ? Icons.visibility_off : Icons.visibility),
+                    icon: Icon(isPasswordVisible
+                        ? Icons.visibility_off
+                        : Icons.visibility),
                     onPressed: () {
                       setState(() {
                         isPasswordVisible = !isPasswordVisible;
@@ -110,7 +115,8 @@ class FormContentState extends State<FormContent> {
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4)),
                 ),
                 child: const Padding(
                   padding: EdgeInsets.all(10.0),
@@ -132,29 +138,31 @@ class FormContentState extends State<FormContent> {
               ),
             ),
             gap(),
-            // SizedBox(
-            //   // DEBUGGING LOGIN
-            //   width: double.infinity,
-            //   child: ElevatedButton(
-            //     style: ElevatedButton.styleFrom(
-            //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-            //     ),
-            //     child: const Padding(
-            //       padding: EdgeInsets.all(10.0),
-            //       child: Text(
-            //         'DEBUGGING LOGIN',
-            //         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            //       ),
-            //     ),
-            //     onPressed: () {
-            //       debugLogin(context);
-            //     },
-            //   ),
-            // ),
+            SizedBox(
+              // DEBUGGING LOGIN
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4)),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Text(
+                    'DEBUGGING LOGIN',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                onPressed: () {
+                  debugLogin(context);
+                },
+              ),
+            ),
             InkWell(
                 child: const Padding(
                   padding: EdgeInsets.all(10.0),
-                  child: Text('Forgot Password?', style: TextStyle(fontSize: 14)),
+                  child:
+                      Text('Forgot Password?', style: TextStyle(fontSize: 14)),
                 ),
                 onTap: () {
                   Navigator.pushNamed(context, "/forgotpassword");
@@ -178,7 +186,8 @@ attemptLogin(payload, context) {
 }
 
 debugLogin(context) {
-  debugPhysician().then((val) => {Navigator.pushNamed(context, "/physician/home")});
+  debugPhysician()
+      .then((val) => {Navigator.pushNamed(context, "/physician/home")});
 }
 
 showAlertDialog(BuildContext context) {
