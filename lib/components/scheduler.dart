@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pallinet/components/scheduler_appointment.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class Scheduler extends StatefulWidget {
   final PanelController pc;
-  const Scheduler({super.key, required this.pc});
+  final List<Map> physicianAppointments;
+  const Scheduler(
+      {super.key, required this.pc, required this.physicianAppointments});
 
   @override
   State<Scheduler> createState() => _SchedulerState();
@@ -20,7 +23,8 @@ class _SchedulerState extends State<Scheduler> {
 
     double screenheight = MediaQuery.of(context).size.height;
 
-    // PanelController pc = PanelController();
+    debugPrint(
+        "PHYSICIAN APPOINTMENTS: ${widget.physicianAppointments.toString()}");
 
     return SlidingUpPanel(
       isDraggable: false,
@@ -37,59 +41,65 @@ class _SchedulerState extends State<Scheduler> {
               child: SingleChildScrollView(
                   controller: sc,
                   scrollDirection: Axis.vertical,
-                  child: GridView.builder(
-                    physics: const ScrollPhysics(),
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 8,
-                            mainAxisSpacing: 0,
-                            crossAxisSpacing: 0,
-                            childAspectRatio: (0.6 / 1.0)),
-                    itemCount: 72,
-                    itemBuilder: (BuildContext context, int index) {
-                      if (index % 8 == 0) {
-                        DateTime open = DateTime(2001, 12, 17, 9);
-                        DateTime time = open.add(Duration(hours: index ~/ 8));
-                        String formattedTime = DateFormat.Hm().format(time);
+                  child: Stack(children: [
+                    GridView.builder(
+                      physics: const ScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 8,
+                              mainAxisSpacing: 0,
+                              crossAxisSpacing: 0,
+                              childAspectRatio: (0.6 / 1.0)),
+                      itemCount: 72,
+                      itemBuilder: (BuildContext context, int index) {
+                        if (index % 8 == 0) {
+                          DateTime open = DateTime(2001, 12, 17, 9);
+                          DateTime time = open.add(Duration(hours: index ~/ 8));
+                          String formattedTime = DateFormat.Hm().format(time);
 
-                        return Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                              color: Colors.grey,
-                              width: 0.125,
-                            )),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Expanded(
-                                    child: SizedBox(
-                                  height: 10,
-                                )),
-                                Align(
-                                  widthFactor: 1.4,
-                                  alignment: Alignment.bottomRight,
-                                  child: Text(formattedTime,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall),
-                                )
-                              ],
-                            ));
-                      } else {
-                        return Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                              color: Colors.grey,
-                              width: 0.125,
-                            )),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [],
-                            ));
-                      }
-                    },
-                  )))
+                          return Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                color: Colors.grey,
+                                width: 0.125,
+                              )),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Expanded(
+                                      child: SizedBox(
+                                    height: 10,
+                                  )),
+                                  Align(
+                                    widthFactor: 1.4,
+                                    alignment: Alignment.bottomRight,
+                                    child: Text(formattedTime,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall),
+                                  )
+                                ],
+                              ));
+                        } else {
+                          return Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                color: Colors.grey,
+                                width: 0.125,
+                              )),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [],
+                              ));
+                        }
+                      },
+                    ),
+                    SchedulerAppointmentCard(
+                        name: "temp",
+                        timeStart: widget.physicianAppointments[2]["timeStart"],
+                        timeEnd: widget.physicianAppointments[2]["timeEnd"]),
+                  ])))
         ]);
       },
     );

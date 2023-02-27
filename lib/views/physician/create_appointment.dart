@@ -52,9 +52,12 @@ class AppointmentContentState extends State<AppointmentContent> {
     return FutureBuilder<Map<String, dynamic>>(
       future: retrieveAppointmentCreationInfo(),
       builder: ((context, snapshot) {
+        // List of physician's patients
         List<PatientID> list = snapshot.data == null
             ? []
             : snapshot.data?["patients"] as List<PatientID>;
+
+        // List of current physician appointments
         List<Map> physicianAppointments = snapshot.data == null
             ? []
             : snapshot.data?["appointmentTimes"] as List<Map>;
@@ -115,7 +118,7 @@ class AppointmentContentState extends State<AppointmentContent> {
                       }).toList(),
                       hint: const Text("Visit Type"),
                       onChanged: (ServiceType? value) {
-                        debugPrint(value.toString());
+                        // debugPrint(value.toString());
                       },
                       onSaved: (value) => {serviceType = value},
                       value: serviceType,
@@ -233,6 +236,7 @@ class AppointmentContentState extends State<AppointmentContent> {
             ),
           ),
           Scheduler(
+            physicianAppointments: physicianAppointments,
             pc: pc,
           )
         ]);

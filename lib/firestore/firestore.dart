@@ -28,7 +28,7 @@ void addData(UnmodifiableMapView<int, int> entries) async {
 }
 
 Future<Map<dynamic, dynamic>>? retrieveQuestions() async {
-  debugPrint("Retrieve Questions");
+  // debugPrint("Retrieve Questions");
 
   Map<dynamic, dynamic> list = await db
       .collection("Pain Diary Questions")
@@ -43,7 +43,7 @@ Future<Map<dynamic, dynamic>>? retrieveQuestions() async {
 }
 
 Future<List<dynamic>>? retrieveEntries() async {
-  debugPrint("Retrieve entries");
+  // debugPrint("Retrieve entries");
   QuerySnapshot querySnapshot = await db
       .collection("Patient")
       .doc("6827485")
@@ -110,7 +110,7 @@ Future<Map<String, dynamic>>? retrieveAppointmentCreationInfo() async {
 
   // parsing patient list
   List<dynamic> data = list["patients"];
-  debugPrint(data.toString());
+  // debugPrint(data.toString());
   List<PatientID> patients = data.map((e) {
     Gender gender = e["gender"] == "M" ? Gender.male : Gender.female;
     Timestamp t = e["birthdate"] as Timestamp;
@@ -252,7 +252,7 @@ Future<Patient>? retrievePatientProfile2() async {
 
 //TODO Retrieve physician profile (currently hardcoded))
 Future<Physician> retrievePhysicianProfile(uid) async {
-  debugPrint("retrievePhysicianProfile");
+  // debugPrint("retrievePhysicianProfile");
   // Get Physician
   uid = uid ??
       "5nsl8S4wXoeNLc6OzVgwJGRBmv62"; // TODO Temp for other hardcoded portions
@@ -273,7 +273,7 @@ Future<Physician> retrievePhysicianProfile(uid) async {
 }
 
 Future<Map<dynamic, dynamic>>? retrievePatientDetails(id) async {
-  debugPrint("retrievePatientDetails");
+  // debugPrint("retrievePatientDetails");
 
   Map<dynamic, dynamic> patientDetails = await db
       .collection("Patient")
