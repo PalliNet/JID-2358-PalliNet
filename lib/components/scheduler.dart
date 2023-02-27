@@ -26,6 +26,8 @@ class _SchedulerState extends State<Scheduler> {
     debugPrint(
         "PHYSICIAN APPOINTMENTS: ${widget.physicianAppointments.toString()}");
 
+    final gridview = GlobalKey();
+
     return SlidingUpPanel(
       isDraggable: false,
       minHeight: 0,
@@ -43,6 +45,7 @@ class _SchedulerState extends State<Scheduler> {
                   scrollDirection: Axis.vertical,
                   child: Stack(children: [
                     GridView.builder(
+                      key: gridview,
                       physics: const ScrollPhysics(),
                       shrinkWrap: true,
                       gridDelegate:
@@ -95,10 +98,8 @@ class _SchedulerState extends State<Scheduler> {
                         }
                       },
                     ),
-                    SchedulerAppointmentCard(
-                        name: "temp",
-                        timeStart: widget.physicianAppointments[2]["timeStart"],
-                        timeEnd: widget.physicianAppointments[2]["timeEnd"]),
+                    SchedulerAppointments(
+                        physicianAppointments: widget.physicianAppointments)
                   ])))
         ]);
       },
@@ -196,7 +197,7 @@ class _ControlBar extends StatelessWidget {
                                           .textTheme
                                           .bodySmall),
                                   Text(
-                                      "${getDay(dateNotifier.value) + index - 1}",
+                                      "${getDay(dateNotifier.value.add(Duration(days: index - 1)))}",
                                       style:
                                           Theme.of(context).textTheme.subtitle1)
                                 ],
