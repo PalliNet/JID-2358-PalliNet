@@ -36,10 +36,10 @@ Future<bool> createPatient(payload) async {
     prefs.setUid(uid);
 
     // Add phone number if included
-    if (payload["phoneNumber"] != null) {
+    if (!payload["phoneNumber"]?.isEmpty && payload["type"] != null) {
       db.collection("Patient").doc(uid).collection("ContactPoint").add({
         "system": "phone",
-        "use": payload["type"].value,
+        "use": payload["type"]?.value,
         "value": payload["phoneNumber"]
       });
     }
