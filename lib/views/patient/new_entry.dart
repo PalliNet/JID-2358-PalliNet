@@ -4,6 +4,8 @@ import 'package:pallinet/models/entry_model.dart';
 // import 'package:pallinet/pain_index.dart';
 import 'package:provider/provider.dart';
 
+import '../../models/session_manager.dart';
+
 class NewPainDiaryEntry extends StatefulWidget {
   const NewPainDiaryEntry({super.key});
 
@@ -12,6 +14,14 @@ class NewPainDiaryEntry extends StatefulWidget {
 }
 
 class NewPainDiaryEntryState extends State<NewPainDiaryEntry> {
+  late final SessionManager _prefs;
+  String? uid = "";
+  @override
+  void initState() {
+    _prefs = SessionManager();
+    super.initState();
+  }
+
   List<dynamic> painDiaryQuestions = <String>[
     // "'Question 1",
     // "Question 2",
@@ -29,7 +39,14 @@ class NewPainDiaryEntryState extends State<NewPainDiaryEntry> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    final arguments = ModalRoute.of(context)?.settings.arguments ?? '';
+    debugPrint(arguments.toString());
     double screenheight = MediaQuery.of(context).size.height;
+    _prefs.getUid().then((id) {
+      setState(() {
+        uid = id;
+      });
+    });
     return Scaffold(
         appBar: AppBar(
           title: const Text("New Pain Diary Entry"),
@@ -127,9 +144,9 @@ class NewPainDiaryEntryState extends State<NewPainDiaryEntry> {
                                                           fontSize: 25)),
                                                 )),
                                             onTap: () => {
-                                                  debugPrint(model
-                                                      .entries[questionNum]
-                                                      .toString()),
+                                                  // debugPrint(model
+                                                  //     .entries[questionNum]
+                                                  //     .toString()),
                                                   if (model.entries[
                                                           questionNum] !=
                                                       index)
@@ -184,7 +201,7 @@ class NewPainDiaryEntryState extends State<NewPainDiaryEntry> {
                                           onPressed: () => {
                                                 model.update(
                                                     questionNum, input.round()),
-                                                model.submit(),
+                                                model.submit(uid),
                                                 Navigator.pushNamed(
                                                     context, "/patient/home")
                                               },
