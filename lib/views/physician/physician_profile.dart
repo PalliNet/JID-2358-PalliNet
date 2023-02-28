@@ -85,9 +85,9 @@ class ProfileContentState extends State<ProfileContent> {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.all(16.0)
-                        ),
+                      // const Padding(
+                      //   padding: EdgeInsets.all(8.0)
+                      //   ),
                       gap(),
                       gap(),
                       const Text(
