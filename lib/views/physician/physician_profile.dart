@@ -46,13 +46,12 @@ class ProfileContentState extends State<ProfileContent> {
         title: const Text('Profile'),
         centerTitle: true,
         actions: <Widget> [
-          ElevatedButton.icon(
+          TextButton.icon(
             label: const Text("Edit"),
             icon: const Icon(Icons.edit),
-            style: ElevatedButton.styleFrom(
-              side: const BorderSide(
-                color: Color.fromRGBO(40, 148, 244, 100),
-              ),
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.only(right: 20)
             ),
             onPressed: () {
               if (_edit == false) {
