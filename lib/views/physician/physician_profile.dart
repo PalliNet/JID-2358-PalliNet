@@ -43,11 +43,17 @@ class ProfileContentState extends State<ProfileContent> {
             Navigator.of(context, rootNavigator: true).pop(context);
           },
         ),
-        title: const Text('Edit Physican Profile'),
+        title: const Text('Profile'),
         centerTitle: true,
         actions: <Widget> [
-          IconButton(
+          ElevatedButton.icon(
+            label: const Text("Edit"),
             icon: const Icon(Icons.edit),
+            style: ElevatedButton.styleFrom(
+              side: const BorderSide(
+                color: Color.fromRGBO(40, 148, 244, 100),
+              ),
+            ),
             onPressed: () {
               if (_edit == false) {
                 setState(() {
@@ -65,8 +71,8 @@ class ProfileContentState extends State<ProfileContent> {
                 // debugPrint(desc);
                 updatePhysicianProfile(payload);}
               }
-            }, 
-          )
+            },
+          ),
         ],
       ),
       body: FutureBuilder<Physician>(
