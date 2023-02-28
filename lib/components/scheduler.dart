@@ -50,10 +50,7 @@ class _SchedulerState extends State<Scheduler> {
                       shrinkWrap: true,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 8,
-                              mainAxisSpacing: 0,
-                              crossAxisSpacing: 0,
-                              childAspectRatio: (0.6 / 1.0)),
+                              crossAxisCount: 8, childAspectRatio: (0.6 / 1.0)),
                       itemCount: 72,
                       itemBuilder: (BuildContext context, int index) {
                         if (index % 8 == 0) {
@@ -70,10 +67,7 @@ class _SchedulerState extends State<Scheduler> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Expanded(
-                                      child: SizedBox(
-                                    height: 10,
-                                  )),
+                                  const Expanded(child: SizedBox()),
                                   Align(
                                     widthFactor: 1.4,
                                     alignment: Alignment.bottomRight,
@@ -99,7 +93,9 @@ class _SchedulerState extends State<Scheduler> {
                       },
                     ),
                     SchedulerAppointments(
-                        physicianAppointments: widget.physicianAppointments)
+                      physicianAppointments: widget.physicianAppointments,
+                      dateNotifier: dateNotifier,
+                    )
                   ])))
         ]);
       },
@@ -108,7 +104,7 @@ class _SchedulerState extends State<Scheduler> {
 }
 
 class _ControlBar extends StatelessWidget {
-  final closeCallback;
+  final Function closeCallback;
   final ValueNotifier<DateTime> dateNotifier;
 
   const _ControlBar({required this.dateNotifier, required this.closeCallback});

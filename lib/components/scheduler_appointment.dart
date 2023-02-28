@@ -6,51 +6,72 @@ class SchedulerAppointments extends StatelessWidget {
   const SchedulerAppointments({
     super.key,
     required this.physicianAppointments,
+    required this.dateNotifier,
   });
 
-  // final String name;
-  // final DateTime timeStart;
-  // final DateTime timeEnd;
+  final ValueNotifier<DateTime> dateNotifier;
   final List<Map> physicianAppointments;
 
   final String name = "temp";
-  // 3 to 4:15
+
   @override
   Widget build(BuildContext context) {
     debugPrint("Inside scheduler appointment");
-    debugPrint(physicianAppointments.toString());
     return Positioned.fill(
-      child: Container(
-          color: Colors.transparent,
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              double unitWidth = constraints.biggest.width / 8.0;
-              double unitHeight = constraints.biggest.height /
-                  9.0; // 9.0 is hardcoded for timerange of 8-5
-              return Stack(
-                children: getChildren(unitWidth, unitHeight),
-              );
-            },
-          )),
-    );
+        child: AnimatedBuilder(
+      animation: dateNotifier,
+      builder: (context, child) {
+        return Container(
+            color: Colors.transparent,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                double unitWidth = constraints.biggest.width / 8.0;
+                double unitHeight = constraints.biggest.height /
+                    9.0; // 9.0 is hardcoded for timerange of 8-5
+                return Stack(
+                  children: getChildren(
+                      dateNotifier.value, unitWidth, unitHeight, context),
+                );
+              },
+            ));
+      },
+    ));
   }
 
-  getChildren(unitWidth, unitHeight) {
+  getChildren(date, unitWidth, unitHeight, context) {
     List<Positioned> children = [];
+
     for (var appointment in physicianAppointments) {
-      children.add(Positioned(
-          top: unitHeight * topOffsetFactor(appointment["timeStart"]),
-          left: unitWidth * leftOffsetFactor(appointment["timeStart"]),
-          child: Container(
-            color: Colors.red,
-            height: unitHeight *
-                lengthFactor(
-                    appointment["timeStart"],
-                    appointment[
-                        "timeEnd"]), // depends on appointment length needs math
-            width: unitWidth,
-            child: Text(name),
-          )));
+      DateTime start = appointment["timeStart"];
+      DateTime end = appointment["timeEnd"];
+      if (start.isAfter(date) &&
+          start.isBefore(date.add(const Duration(days: 7)))) {
+        children.add(Positioned(
+            top: unitHeight * topOffsetFactor(start),
+            left: unitWidth * leftOffsetFactor(start),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColorLight,
+                  border: Border.all(
+                    color: Theme.of(context).primaryColorLight,
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(4))),
+              height: unitHeight *
+                  lengthFactor(
+                      start, end), // depends on appointment length needs math
+              width: unitWidth - 2,
+              child: Column(
+                children: [
+                  Text(
+                    appointment["patient"],
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
+                  Text(appointment["appointmentType"],
+                      style: Theme.of(context).textTheme.labelMedium)
+                ],
+              ),
+            )));
+      }
     }
     return children;
   }

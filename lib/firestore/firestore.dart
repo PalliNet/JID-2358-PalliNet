@@ -129,8 +129,8 @@ Future<Map<String, dynamic>>? retrieveAppointmentCreationInfo() async {
   }, onError: (e) => debugPrint("Error getting document: $e"));
 
   // parsing physician availability
-  List<Map<String, DateTime>> appointmentTime = availability.map((e) {
-    Map<String, DateTime> times = {};
+  List<Map<String, dynamic>> appointmentTime = availability.map((e) {
+    Map<String, dynamic> times = {};
 
     Timestamp timestampStart = e["scheduledTimeStart"] as Timestamp;
     Timestamp timestampEnd = e["scheduledTimeEnd"] as Timestamp;
@@ -140,6 +140,8 @@ Future<Map<String, dynamic>>? retrieveAppointmentCreationInfo() async {
 
     times["timeStart"] = timeStart;
     times["timeEnd"] = timeEnd;
+    times["appointmentType"] = e["appointmentType"];
+    times["patient"] = e["patient"];
 
     return times;
   }).toList();
