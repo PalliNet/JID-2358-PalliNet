@@ -26,9 +26,9 @@ class _SchedulerState extends State<Scheduler> {
     // debugPrint(
     //     "PHYSICIAN APPOINTMENTS: ${widget.physicianAppointments.toString()}");
 
-    final gridview = GlobalKey();
-
     return SlidingUpPanel(
+      slideDirection: SlideDirection.DOWN,
+      parallaxEnabled: true,
       isDraggable: false,
       minHeight: 0,
       maxHeight: screenheight * 0.85,
@@ -45,7 +45,6 @@ class _SchedulerState extends State<Scheduler> {
                   scrollDirection: Axis.vertical,
                   child: Stack(children: [
                     GridView.builder(
-                      key: gridview,
                       physics: const ScrollPhysics(),
                       shrinkWrap: true,
                       gridDelegate:
@@ -113,8 +112,6 @@ class _ControlBar extends StatelessWidget {
   Widget build(BuildContext context) {
     List<String> daysOfWeek = ["", "S", "M", "T", "W", "T", "F", "S"];
 
-    var height = MediaQuery.of(context).size.height;
-
     bool backButtonEnabled = false;
 
     return AnimatedBuilder(
@@ -131,7 +128,7 @@ class _ControlBar extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleLarge),
                 ),
                 const Expanded(
-                  child: SizedBox(height: 10),
+                  child: SizedBox(),
                 ),
                 Material(
                     color: Colors.transparent,
@@ -170,47 +167,45 @@ class _ControlBar extends StatelessWidget {
               ],
             ),
             Center(
-              child: SizedBox(
-                  // width: MediaQuery.of(context).size.width,
-                  height: height * 0.08,
-                  child: GridView.count(
-                      childAspectRatio: (1 / 0.941),
-                      scrollDirection: Axis.horizontal,
-                      crossAxisCount: 1,
-                      children: List.generate(8, (index) {
-                        if (index != 0) {
-                          return Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                color: Colors.grey,
-                                width: 0.125,
-                              )),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(daysOfWeek[index],
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall),
-                                  Text(
-                                      "${getDay(dateNotifier.value.add(Duration(days: index - 1)))}",
-                                      style:
-                                          Theme.of(context).textTheme.subtitle1)
-                                ],
-                              ));
-                        } else {
-                          return Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                color: Colors.grey,
-                                width: 0.125,
-                              )),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                              ));
-                        }
-                      }))),
-            ),
+                child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: GridView.builder(
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 8),
+                itemCount: 8,
+                itemBuilder: (context, index) {
+                  if (index != 0) {
+                    return Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                          color: Colors.grey,
+                          width: 0.125,
+                        )),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(daysOfWeek[index],
+                                style: Theme.of(context).textTheme.bodySmall),
+                            Text(
+                                "${getDay(dateNotifier.value.add(Duration(days: index - 1)))}",
+                                style: Theme.of(context).textTheme.subtitle1)
+                          ],
+                        ));
+                  } else {
+                    return Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                          color: Colors.grey,
+                          width: 0.125,
+                        )),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                        ));
+                  }
+                },
+              ),
+            ))
           ]);
         });
   }

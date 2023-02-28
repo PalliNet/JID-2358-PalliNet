@@ -38,18 +38,6 @@ class LoginLandingPage extends StatelessWidget {
               child: const Text("Physician Login"),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-            child: SizedBox(
-              width: 200,
-              child: OutlinedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, "/temp");
-                },
-                child: const Text("Temp"),
-              ),
-            ),
-          ),
         ],
       ),
     ));
