@@ -28,12 +28,12 @@ class ProfileContentState extends State<ProfileContent> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // leading: IconButton(
-        //   icon: const Icon(Icons.arrow_back),
-        //   onPressed: () {
-        //     Navigator.of(context, rootNavigator: true).pop(context);
-        //   },
-        // ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.popAndPushNamed(context, "/physician/home");
+          },
+        ),
         title: const Text('Profile'),
         centerTitle: true,
         actions: <Widget> [
