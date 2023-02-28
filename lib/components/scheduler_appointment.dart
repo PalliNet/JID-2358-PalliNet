@@ -16,7 +16,7 @@ class SchedulerAppointments extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Inside scheduler appointment");
+    // debugPrint("Inside scheduler appointment");
     return Positioned.fill(
         child: AnimatedBuilder(
       animation: dateNotifier,

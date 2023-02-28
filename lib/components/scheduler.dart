@@ -23,8 +23,8 @@ class _SchedulerState extends State<Scheduler> {
 
     double screenheight = MediaQuery.of(context).size.height;
 
-    debugPrint(
-        "PHYSICIAN APPOINTMENTS: ${widget.physicianAppointments.toString()}");
+    // debugPrint(
+    //     "PHYSICIAN APPOINTMENTS: ${widget.physicianAppointments.toString()}");
 
     final gridview = GlobalKey();
 
