@@ -190,15 +190,6 @@ void createAppointment(Map<String, dynamic> payload) async {
       onError: (e) => debugPrint("Error occured: $e"));
 }
 
-// TODO Update Physician profile (currently hardcoded)
-void updatePhysicianProfile(Map<String, dynamic> payload) async {
-  debugPrint("updatePhysicianProfile");
-  var docRef =
-      db.collection("Practitioner").doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62");
-
-  await docRef.update({"description": payload["description"]});
-}
-
 // TODO Update Patient profile (currently hardcoded)
 void updateEndOfLifePlans(Map<String, dynamic> payload) async {
   debugPrint("updateEndOfLifePlans");
@@ -287,9 +278,25 @@ Future<Physician> retrievePhysicianProfile(uid) async {
       list["name"]["text"],
       list["gender"] == "M" ? Gender.male : Gender.female,
       list["id"],
-      list["description"]);
+      list["description"],
+      list["email"],
+      list["phone"]);
 
   return physician;
+}
+
+// TODO Update Physician profile (currently hardcoded)
+void updatePhysicianProfile(Map<String, dynamic> payload) async {
+  debugPrint("updatePhysicianProfile");
+  var docRef =
+      db.collection("Practitioner").doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62");
+
+  await docRef.update({
+    "description": payload["description"], 
+    "name.text": payload["name"],
+    "email": payload["email"],
+    "phone": payload["phone"]
+    });
 }
 
 Future<Map<dynamic, dynamic>>? retrievePatientDetails(id) async {
