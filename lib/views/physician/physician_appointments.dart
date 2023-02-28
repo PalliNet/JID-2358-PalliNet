@@ -45,6 +45,50 @@ class PhysicianAppointments extends StatelessWidget {
                   )
                 ],
               )),
+          const Padding(padding: EdgeInsets.all(2.0)),
+          ElevatedButton(
+            onPressed: () => {Navigator.pushNamed(context, "/physician/appointments/new")},
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white, // Background color
+            ),
+            child: Row(
+              children: const [
+                Icon(
+                  Icons.schedule,
+                  color: Colors.pink,
+                  size: 40,
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Text(
+                  'Reschedule Appointment',
+                  style: TextStyle(fontSize: 15, color: Colors.black),
+                )
+              ],
+            )),
+          const Padding(padding: EdgeInsets.all(2.0)),
+          ElevatedButton(
+              onPressed: () => {Navigator.pushNamed(context, "/physician/appointments/new")},
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white, // Background color
+              ),
+              child: Row(
+                children: const [
+                  Icon(
+                    Icons.schedule,
+                    color: Colors.pink,
+                    size: 40,
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    'Cancel Appointment',
+                    style: TextStyle(fontSize: 15, color: Colors.black),
+                  )
+                ],
+              )),
         ],
       ),
     );
