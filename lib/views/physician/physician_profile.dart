@@ -73,116 +73,118 @@ class ProfileContentState extends State<ProfileContent> {
               phoneNumber = physData!.phoneNumber;
               // debugPrint("4");
               // debugPrint(desc);
-              return Container(
-                padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                constraints: const BoxConstraints(maxWidth: 1000),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      gap(),
-                      gap(),
-                      const Text(
-                        'Name',
-                        textAlign: TextAlign.left,
-                        style:
-                            TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                      gap(),
-                      TextFormField(
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        minLines: 1,
-                        initialValue: name,
-                        enabled:  _edit,
-                        onSaved: (value) => {name = value},
-                        decoration: const InputDecoration(
-                          hintText: 'Name',
-                          prefixIcon: Icon(Icons.person),
-                          contentPadding: EdgeInsets.all(16.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
+              return SingleChildScrollView(
+                child: Container(
+                  padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+                  constraints: const BoxConstraints(maxWidth: 1000),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        gap(),
+                        gap(),
+                        const Text(
+                          'Name',
+                          textAlign: TextAlign.left,
+                          style:
+                              TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                        gap(),
+                        TextFormField(
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
+                          minLines: 1,
+                          initialValue: name,
+                          enabled:  _edit,
+                          onSaved: (value) => {name = value},
+                          decoration: const InputDecoration(
+                            hintText: 'Name',
+                            prefixIcon: Icon(Icons.person),
+                            contentPadding: EdgeInsets.all(16.0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(12)),
+                            ),
                           ),
                         ),
-                      ),
-                      gap(),
-                      const Text(
-                        'Phone Number',
-                        textAlign: TextAlign.left,
-                        style:
-                            TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                      gap(),
-                      TextFormField(
-                        maxLines: null,
-                        minLines: 1,
-                        initialValue: phoneNumber,
-                        enabled:  _edit,
-                        keyboardType: TextInputType.number,
-                        onSaved: (value) => {phoneNumber = value},
-                        decoration: const InputDecoration(
-                          hintText: 'Phone Number',
-                          prefixIcon: Icon(Icons.phone),
-                          contentPadding: EdgeInsets.all(16.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                        gap(),
+                        const Text(
+                          'Phone Number',
+                          textAlign: TextAlign.left,
+                          style:
+                              TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                        gap(),
+                        TextFormField(
+                          maxLines: null,
+                          minLines: 1,
+                          initialValue: phoneNumber,
+                          enabled:  _edit,
+                          keyboardType: TextInputType.number,
+                          onSaved: (value) => {phoneNumber = value},
+                          decoration: const InputDecoration(
+                            hintText: 'Phone Number',
+                            prefixIcon: Icon(Icons.phone),
+                            contentPadding: EdgeInsets.all(16.0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(12)),
+                            ),
                           ),
                         ),
-                      ),
-                      gap(),
-                      const Text(
-                        'Email',
-                        textAlign: TextAlign.left,
-                        style:
-                            TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                      gap(),
-                      TextFormField(
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        minLines: 1,
-                        initialValue: email,
-                        enabled:  _edit,
-                        onSaved: (value) => {email = value},
-                        decoration: const InputDecoration(
-                          hintText: 'Email',
-                          prefixIcon: Icon(Icons.email),
-                          contentPadding: EdgeInsets.all(16.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                        gap(),
+                        const Text(
+                          'Email',
+                          textAlign: TextAlign.left,
+                          style:
+                              TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                        gap(),
+                        TextFormField(
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
+                          minLines: 1,
+                          initialValue: email,
+                          enabled:  _edit,
+                          onSaved: (value) => {email = value},
+                          decoration: const InputDecoration(
+                            hintText: 'Email',
+                            prefixIcon: Icon(Icons.email),
+                            contentPadding: EdgeInsets.all(16.0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(12)),
+                            ),
                           ),
                         ),
-                      ),
-                      gap(),
-                      const Text(
-                        'Description',
-                        textAlign: TextAlign.left,
-                        style:
-                            TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                      gap(),
-                      TextFormField(
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        minLines: 3,
-                        initialValue: desc,
-                        enabled:  _edit,
-                        onSaved: (value) => {desc = value},
-                        decoration: const InputDecoration(
-                          hintText: 'Profile Description',
-                          prefixIcon: Icon(Icons.description),
-                          contentPadding: EdgeInsets.all(16.0),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                        gap(),
+                        const Text(
+                          'Description',
+                          textAlign: TextAlign.left,
+                          style:
+                              TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                        gap(),
+                        TextFormField(
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
+                          minLines: 3,
+                          initialValue: desc,
+                          enabled:  _edit,
+                          onSaved: (value) => {desc = value},
+                          decoration: const InputDecoration(
+                            hintText: 'Profile Description',
+                            prefixIcon: Icon(Icons.description),
+                            contentPadding: EdgeInsets.all(16.0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(12)),
+                            ),
                           ),
                         ),
-                      ),
-                      gap(),
-                    ],
+                        gap(),
+                      ],
+                    ),
                   ),
-                ),
+                )
               );
             } else {
               return const LoadingScreen("Loading Profile");
