@@ -37,7 +37,7 @@ class LoginLandingPage extends StatelessWidget {
               },
               child: const Text("Physician Login"),
             ),
-          )
+          ),
         ],
       ),
     ));

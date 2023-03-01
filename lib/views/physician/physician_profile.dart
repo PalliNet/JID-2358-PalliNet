@@ -4,7 +4,6 @@ import 'package:pallinet/components/loading.dart';
 import 'package:pallinet/firestore/firestore.dart';
 import 'package:pallinet/models/physician_model.dart';
 
-
 class ProfileContent extends StatefulWidget {
   const ProfileContent({Key? key}) : super(key: key);
 
@@ -13,8 +12,6 @@ class ProfileContent extends StatefulWidget {
 }
 
 class ProfileContentState extends State<ProfileContent> {
-  bool isPasswordVisible = false;
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String? desc = "gkyhuiadfs";
@@ -22,6 +19,7 @@ class ProfileContentState extends State<ProfileContent> {
   String? email = "fdafadsfdasf";
   String? phoneNumber = "fdafasddasfasd";
   String? location = "fadfdasf";
+
   bool _edit = false; // false means cannot edit, true means can edit
 
   @override
@@ -32,6 +30,7 @@ class ProfileContentState extends State<ProfileContent> {
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.popAndPushNamed(context, "/physician/home");
+
           },
         ),
         title: const Text('Profile'),
@@ -40,6 +39,7 @@ class ProfileContentState extends State<ProfileContent> {
           TextButton.icon(
             label: _edit ? const Text("Save") : const Text("Edit"),
             icon: _edit ? const Icon(Icons.save) : const Icon(Icons.edit),
+
             style: TextButton.styleFrom(
               foregroundColor: Colors.white,
               padding: const EdgeInsets.only(right: 20)
@@ -190,6 +190,7 @@ class ProfileContentState extends State<ProfileContent> {
               return const LoadingScreen("Loading Profile");
             }
         })));
+
   }
 
   Widget gap() => const SizedBox(height: 16);

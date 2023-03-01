@@ -63,7 +63,7 @@ class _PhysicianHomeState extends State<PhysicianHome> {
                     icon: Icons.settings,
                     iconColor: Colors.pink,
                     route: '/physician/profile',
-                    text: 'Edit Profile',
+                    text: 'View Profile',
                   ),
                 ],
               ),

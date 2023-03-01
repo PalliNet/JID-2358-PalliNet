@@ -29,7 +29,7 @@ void addData(UnmodifiableMapView<int, int> entries, uid) async {
 }
 
 Future<Map<dynamic, dynamic>>? retrieveQuestions() async {
-  debugPrint("Retrieve Questions");
+  // debugPrint("Retrieve Questions");
 
   Map<dynamic, dynamic> list = await db
       .collection("Pain Diary Questions")
@@ -130,7 +130,7 @@ Future<Map<String, dynamic>>? retrieveAppointmentCreationInfo() async {
 
   // parsing patient list
   List<dynamic> data = list["patients"];
-  debugPrint(data.toString());
+  // debugPrint(data.toString());
   List<PatientID> patients = data.map((e) {
     Gender gender = e["gender"] == "M" ? Gender.male : Gender.female;
     Timestamp t = e["birthdate"] as Timestamp;
@@ -149,8 +149,8 @@ Future<Map<String, dynamic>>? retrieveAppointmentCreationInfo() async {
   }, onError: (e) => debugPrint("Error getting document: $e"));
 
   // parsing physician availability
-  List<Map<String, DateTime>> appointmentTime = availability.map((e) {
-    Map<String, DateTime> times = {};
+  List<Map<String, dynamic>> appointmentTime = availability.map((e) {
+    Map<String, dynamic> times = {};
 
     Timestamp timestampStart = e["scheduledTimeStart"] as Timestamp;
     Timestamp timestampEnd = e["scheduledTimeEnd"] as Timestamp;
@@ -160,6 +160,8 @@ Future<Map<String, dynamic>>? retrieveAppointmentCreationInfo() async {
 
     times["timeStart"] = timeStart;
     times["timeEnd"] = timeEnd;
+    times["appointmentType"] = e["appointmentType"];
+    times["patient"] = e["patient"];
 
     return times;
   }).toList();
@@ -263,7 +265,7 @@ Future<Patient>? retrievePatientProfile2() async {
 
 //TODO Retrieve physician profile (currently hardcoded))
 Future<Physician> retrievePhysicianProfile(uid) async {
-  debugPrint("retrievePhysicianProfile");
+  // debugPrint("retrievePhysicianProfile");
   // Get Physician
   uid = uid ??
       "5nsl8S4wXoeNLc6OzVgwJGRBmv62"; // TODO Temp for other hardcoded portions
@@ -300,7 +302,7 @@ void updatePhysicianProfile(Map<String, dynamic> payload) async {
 }
 
 Future<Map<dynamic, dynamic>>? retrievePatientDetails(id) async {
-  debugPrint("retrievePatientDetails");
+  // debugPrint("retrievePatientDetails");
 
   Map<dynamic, dynamic> patientDetails = await db
       .collection("Patient")
