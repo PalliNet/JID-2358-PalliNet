@@ -4,12 +4,14 @@ class TreatmentsDetailed extends StatelessWidget {
   final String treatmentType;
   final String schedule;
   final String durationToComplete;
+  final String detailedInstructions;
 
   const TreatmentsDetailed({
     Key? key,
     required this.treatmentType,
     required this.schedule,
     required this.durationToComplete,
+    required this.detailedInstructions,
   }) : super(key: key);
 
   @override
@@ -56,6 +58,20 @@ class TreatmentsDetailed extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               durationToComplete,
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 16),
+            const Divider(),
+            const Text(
+              'Detailed Instructions:',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              detailedInstructions,
               style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),

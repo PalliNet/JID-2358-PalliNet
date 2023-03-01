@@ -7,11 +7,13 @@ class TreatmentsCard extends StatelessWidget {
     required this.treatmentType,
     required this.schedule,
     required this.durationToComplete,
+    required this.detailedInstructions,
   });
 
   final String schedule;
   final String treatmentType;
   final String durationToComplete;
+  final String detailedInstructions;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class TreatmentsCard extends StatelessWidget {
                       treatmentType: treatmentType,
                       schedule: schedule,
                       durationToComplete: durationToComplete,
+                      detailedInstructions: detailedInstructions,
                     )),
           );
         },
