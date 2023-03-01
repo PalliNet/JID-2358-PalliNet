@@ -8,10 +8,15 @@ class PhysicianProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: const Text('Edit Physican Profile')),
-        body: const Padding(
-            padding: EdgeInsets.all(16.0), child: ProfileContent()));
+    return const MaterialApp(
+      home: ProfileContent()
+    );
+    // return Scaffold(
+    //     appBar: AppBar(title: const Text('Edit Physican Profile')),
+    //     body: const Padding(
+    //         padding: EdgeInsets.all(16.0), child: ProfileContent()
+    //       )
+    //     );
   }
 }
 
@@ -23,74 +28,106 @@ class ProfileContent extends StatefulWidget {
 }
 
 class ProfileContentState extends State<ProfileContent> {
-  bool isPasswordVisible = false;
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String? desc = "gkyhuiadfs";
+  bool _edit = false; // false means cannot edit, true means can edit
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Physician>(
-        future: retrievePhysicianProfile(null),
-        builder: ((context, snapshot) {
-          if (snapshot.hasData) {
-            Physician? physData = snapshot.data;
-            desc = physData!.description;
-            // debugPrint("4");
-            // debugPrint(desc);
-            return Container(
-              constraints: const BoxConstraints(maxWidth: 1000),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    gap(),
-                    gap(),
-                    const Text(
-                      'Update profile',
-                      textAlign: TextAlign.left,
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                    gap(),
-                    TextFormField(
-                      keyboardType: TextInputType.multiline,
-                      maxLines: null,
-                      minLines: 3,
-                      initialValue: desc,
-                      onSaved: (value) => {desc = value},
-                      decoration: const InputDecoration(
-                        hintText: 'Profile Description',
-                        prefixIcon: Icon(Icons.description),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(12)),
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context, rootNavigator: true).pop(context);
+          },
+        ),
+        title: const Text('Profile'),
+        centerTitle: true,
+        actions: <Widget> [
+          TextButton.icon(
+            label: const Text("Edit"),
+            icon: const Icon(Icons.edit),
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.only(right: 20)
+            ),
+            onPressed: () {
+              if (_edit == false) {
+                setState(() {
+                  _edit = true;
+                });
+              } else {
+                setState(() {
+                  _edit = false;
+                });
+                _formKey.currentState?.save();
+                {Map<String, dynamic> payload = {
+                  "description": desc,
+                };
+                // debugPrint("3");
+                // debugPrint(desc);
+                updatePhysicianProfile(payload);}
+              }
+            },
+          ),
+        ],
+      ),
+      body: FutureBuilder<Physician>(
+          future: retrievePhysicianProfile(null),
+          builder: ((context, snapshot) {
+            if (snapshot.hasData) {
+              Physician? physData = snapshot.data;
+              desc = physData!.description;
+              // debugPrint("4");
+              // debugPrint(desc);
+              return Container(
+                constraints: const BoxConstraints(maxWidth: 1000),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // const Padding(
+                      //   padding: EdgeInsets.all(8.0)
+                      //   ),
+                      gap(),
+                      gap(),
+                      const Text(
+                        'View profile',
+                        textAlign: TextAlign.left,
+                        style:
+                            TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                      ),
+                      gap(),
+                      TextFormField(
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
+                        minLines: 3,
+                        initialValue: desc,
+                        enabled:  _edit,
+                        onSaved: (value) => {desc = value},
+                        decoration: const InputDecoration(
+                          hintText: 'Profile Description',
+                          prefixIcon: Icon(Icons.description),
+                          contentPadding: EdgeInsets.all(16.0),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                          ),
                         ),
                       ),
-                    ),
-                    gap(),
-                    ElevatedButton(
-                        onPressed: () {
-                          _formKey.currentState?.save();
-                          Map<String, dynamic> payload = {
-                            "description": desc,
-                          };
-                          // debugPrint("3");
-                          // debugPrint(desc);
-                          updatePhysicianProfile(payload);
-                          Navigator.pushNamed(context, "/physician/home");
-                        },
-                        child: const Text("Change Profile"))
-                  ],
+                      gap(),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          } else {
-            return const LoadingScreen("Loading Profile");
-          }
-        }));
+              );
+            } else {
+              return const LoadingScreen("Loading Profile");
+            }
+          })),
+    );
   }
 
   Widget gap() => const SizedBox(height: 16);
