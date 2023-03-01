@@ -1,16 +1,66 @@
 import 'package:flutter/material.dart';
 
 class TreatmentsDetailed extends StatelessWidget {
-  const TreatmentsDetailed({super.key});
+  final String treatmentType;
+  final String schedule;
+  final String durationToComplete;
+
+  const TreatmentsDetailed({
+    Key? key,
+    required this.treatmentType,
+    required this.schedule,
+    required this.durationToComplete,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(title: const Text("Detailed Treatments")),
-      body: ListView(
-        padding: const EdgeInsets.all(8),
-        children: const [Text("testing")],
+      appBar: AppBar(
+        title: Text(
+          '$treatmentType Details',
+          style: const TextStyle(color: Colors.white),
+        ),
+      ),
+      body: Container(
+        color: Colors.white,
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            Text(
+              treatmentType,
+              style: Theme.of(context).textTheme.headline5,
+            ),
+            const SizedBox(height: 16),
+            const Divider(),
+            const Text(
+              'Visitation Time:',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              schedule,
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 16),
+            const Divider(),
+            const Text(
+              'Duration:',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              durationToComplete,
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 16),
+          ],
+        ),
       ),
     );
   }
