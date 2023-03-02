@@ -98,9 +98,9 @@ FlTitlesData title() {
         showTitles: true,
         getTitlesWidget: (value, meta) {
           if (value.runtimeType == int) {
-            return Text(style: TextStyle(fontSize: 18), value.toString());
+            return Text(style: const TextStyle(fontSize: 18), value.toString());
           }
-          return SizedBox.shrink();
+          return const SizedBox.shrink();
         },
       )),
       bottomTitles: AxisTitles(
@@ -114,12 +114,12 @@ FlTitlesData title() {
                 String label =
                     "${date.year}-${date.month}-${date.day} ${date.hour}:${date.minute}";
 
-                return Text(style: TextStyle(fontSize: 14), label);
+                return Text(style: const TextStyle(fontSize: 14), label);
               }),
               interval: (Duration.millisecondsPerDay / 2).toDouble())));
 }
 
 String _twoDigits(int n) {
-  if (n >= 10) return "${n}";
-  return "0${n}";
+  if (n >= 10) return "$n";
+  return "0$n";
 }
