@@ -38,6 +38,7 @@ class _TreatmentsState extends State<Treatments> {
                     treatmentType: data.treatmentType,
                     schedule: data.schedule,
                     durationToComplete: data.durationToComplete,
+                    detailedInstructions: data.detailedInstructions,
                   );
                 },
               ),

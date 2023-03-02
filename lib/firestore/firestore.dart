@@ -107,6 +107,7 @@ Future<List<Treatment>>? retrieveTreatments(uid) async {
       e["treatmentType"],
       e["schedule"],
       e["durationToComplete"],
+      e["detailedInstructions"],
     );
   }).toList();
 
