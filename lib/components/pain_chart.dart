@@ -68,13 +68,13 @@ class _PainChart extends State<PainChart> {
           }
 
           final list = snapshot.data as List;
-          if (list.length == 0) {
+          if (list.isEmpty) {
             return const SizedBox.shrink();
           }
           debugPrint(list.toString());
           debugPrint(list[0]["timestamp"].runtimeType.toString());
           return Scaffold(
-            appBar: AppBar(title: Text("Pain Chart")),
+            appBar: AppBar(title: const Text("Pain Chart")),
             body: Container(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
                 child: LineChart(LineChartData(
