@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:pallinet/constants.dart';
@@ -14,6 +15,10 @@ FirebaseFirestore db = FirebaseFirestore.instance;
 void addData(UnmodifiableMapView<int, int> entries, uid) async {
   // Create a new user with a first and last name
   final storedEntries = <String, dynamic>{};
+
+  DateTime timeSubmitted = DateTime.now();
+  storedEntries["timestamp"] = timeSubmitted;
+
   for (int i = 0; i < entries.length; i++) {
     storedEntries["q$i"] = entries[i];
   }

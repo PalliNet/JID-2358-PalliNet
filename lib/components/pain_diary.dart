@@ -30,7 +30,7 @@ class _PainDiary extends State<PainDiary> {
   DataRow getRow(Map<String, dynamic> map, int length) {
     // debugPrint("GET ROW");
     List<DataCell> entries = [];
-    for (var i = 0; i < length; i++) {
+    for (var i = 0; i < length - 1; i++) {
       // entries.add(map["q$i"]);
       // debugPrint(map["q$i"].toString());
       if (map["q$i"] != null) {
@@ -41,6 +41,7 @@ class _PainDiary extends State<PainDiary> {
       }
       // debugPrint("added $i");
     }
+    entries.add(DataCell(Text(map["timestamp"].toDate().toString())));
     // debugPrint("ENTRIES");
     // debugPrint(entries.toString());
 
@@ -56,17 +57,7 @@ class _PainDiary extends State<PainDiary> {
           return const SizedBox.shrink();
         }
 
-        final list = snapshot.data as List ?? [];
-        // debugPrint(list.first);
-        // int length;
-        // if (snapshot.data?.length == 0) {
-        //   length = 0;
-        // } else {
-        //   length = list[0]
-        // }
-        // debugPrint("list");
-        // debugPrint(list.toString());
-        // debugPrint(list.runtimeType.toString());
+        final list = snapshot.data as List;
 
         return Scaffold(
             appBar: AppBar(
@@ -101,10 +92,8 @@ class _PainDiary extends State<PainDiary> {
                             padding:
                                 const EdgeInsets.only(right: 10, bottom: 5),
                             child: OutlinedButton(
-                                onPressed: () => {
-                                      debugPrint(
-                                          "View entries not implemented"),
-                                    },
+                                onPressed: () =>
+                                    {Navigator.pushNamed(context, "/chart")},
                                 child: const Text("View Entries"))),
                         Padding(
                             padding:
