@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -45,7 +43,7 @@ List<LineChartBarData> getChartData(List<dynamic> list, int length) {
         color: colors[i],
         spots: temp.entries.map((e) {
           return FlSpot(
-              e.key.millisecondsSinceEpoch as double, e.value as double);
+              e.key.millisecondsSinceEpoch.toDouble(), e.value.toDouble());
         }).toList()));
   }
   return out;
@@ -111,14 +109,14 @@ FlTitlesData title() {
               reservedSize: 70,
               getTitlesWidget: ((value, meta) {
                 DateTime date =
-                    DateTime.fromMillisecondsSinceEpoch(value as int);
+                    DateTime.fromMillisecondsSinceEpoch(value.toInt());
                 date.toString();
                 String label =
                     "${date.year}-${date.month}-${date.day} ${date.hour}:${date.minute}";
 
                 return Text(style: TextStyle(fontSize: 14), label);
               }),
-              interval: Duration.millisecondsPerDay / 2 as double)));
+              interval: (Duration.millisecondsPerDay / 2).toDouble())));
 }
 
 String _twoDigits(int n) {
