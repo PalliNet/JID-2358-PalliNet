@@ -337,6 +337,18 @@ void updatePatientDetails(Map<dynamic, dynamic> data, id) async {
   // patientRef.update({"gender": data["gender"]});
 }
 
-FirebaseFirestore getDatabase() {
-  return db;
+
+//retreives the appointments specific to the physician using their id
+//first accesses the entire appointments collection and then seperates out the ones specific to them
+Future<List<dynamic>>? retrieveAppointmentsPhysicians() async {
+
+  QuerySnapshot appointments = await db
+    .collection("Appointment")
+    .where('practitioner', isEqualTo: '2222222')
+    .get();
+  final allData = appointments.docs.map((doc) => doc.data()).toList();
+  debugPrint(allData.toString());
+  return allData;
+
 }
+

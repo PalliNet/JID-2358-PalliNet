@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:pallinet/firestore/firestore.dart';
 
 class AppointmentCard extends StatelessWidget {
   const AppointmentCard({
@@ -17,7 +18,7 @@ class AppointmentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () => {debugPrint('$name tapped')},
+        onTap: () => {retrieveAppointmentsPhysicians()},
         child: Card(
             child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0),
