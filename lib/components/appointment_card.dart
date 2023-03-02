@@ -7,12 +7,10 @@ class AppointmentCard extends StatelessWidget {
   const AppointmentCard({
     super.key,
     required this.name,
-    required this.time,
     required this.date,
   });
 
   final String name;
-  final String time;
   final DateTime date;
 
   @override
@@ -32,7 +30,7 @@ class AppointmentCard extends StatelessWidget {
               Expanded(
                 flex: 4,
                 child:
-                    _AppointmentDescription(name: name, time: time, date: date),
+                    _AppointmentDescription(name: name, date: date),
               ),
               const Icon(
                 Icons.more_vert,
@@ -47,12 +45,10 @@ class AppointmentCard extends StatelessWidget {
 class _AppointmentDescription extends StatelessWidget {
   const _AppointmentDescription({
     required this.name,
-    required this.time,
     required this.date,
   });
 
   final String name;
-  final String time;
   final DateTime date;
 
   @override
@@ -77,7 +73,7 @@ class _AppointmentDescription extends StatelessWidget {
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
           Text(
-            'Time: $time',
+            'Time: ${DateFormat('hh:mm').format(date)}',
             style: const TextStyle(fontSize: 14.0),
           ),
           Text(

@@ -27,7 +27,6 @@ class PhysicianAppointments extends StatelessWidget {
               return AppointmentCard(
                 name: data["patient"],
                 date: startTime,
-                time: "1:30"
               );
             },
           ),

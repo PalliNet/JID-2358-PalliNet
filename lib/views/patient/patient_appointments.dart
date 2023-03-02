@@ -19,7 +19,6 @@ class PatientAppointments extends StatelessWidget {
           AppointmentCard(
             name: "Dr. Totally Real Doctor",
             date: DateTime(2023, 2,  21),
-            time: "12:30PM"
             ),
           const Padding(padding: EdgeInsets.all(16.0)),
           const Text(
@@ -29,7 +28,6 @@ class PatientAppointments extends StatelessWidget {
           AppointmentCard(
             name: "Dr. Lanyard",
             date: DateTime(2022, 12,  25),
-            time: "1:30PM"
           ),
           const Padding(padding: EdgeInsets.all(16.0)),
           ElevatedButton(

@@ -340,6 +340,7 @@ void updatePatientDetails(Map<dynamic, dynamic> data, id) async {
 
 //retreives the appointments specific to the physician using their id
 //first accesses the entire appointments collection and then seperates out the ones specific to them
+//currently hardcoded as I figure out how to pass the physician id into the appointments page
 Future<List<dynamic>>? retrieveAppointmentsPhysicians() async {
 
   QuerySnapshot appointments = await db
