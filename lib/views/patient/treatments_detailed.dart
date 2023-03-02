@@ -26,13 +26,13 @@ class TreatmentsDetailed extends StatelessWidget {
       body: Container(
         color: Colors.white,
         child: ListView(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(12),
           children: [
             Text(
               treatmentType,
               style: Theme.of(context).textTheme.headline5,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 10),
             const Divider(),
             const Text(
               'Visitation Time:',
@@ -47,7 +47,6 @@ class TreatmentsDetailed extends StatelessWidget {
               style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
-            const Divider(),
             const Text(
               'Duration:',
               style: TextStyle(
@@ -61,7 +60,6 @@ class TreatmentsDetailed extends StatelessWidget {
               style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
-            const Divider(),
             const Text(
               'Detailed Instructions:',
               style: TextStyle(
