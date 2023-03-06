@@ -90,7 +90,7 @@ Future<List<Medication>>? retrieveMedications(uid) async {
 
   List<Medication> medications = medicationsQuery.map((e) {
     return Medication(e["medication"], List<String>.from(e["brands"]),
-        e["dosage"], e["orderDetail"]);
+        e["dosage"], e["orderDetail"], e["precautions"]);
   }).toList();
 
   return medications;
@@ -300,11 +300,11 @@ void updatePhysicianProfile(Map<String, dynamic> payload) async {
       db.collection("Practitioner").doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62");
 
   await docRef.update({
-    "description": payload["description"], 
+    "description": payload["description"],
     "name.text": payload["name"],
     "email": payload["email"],
     "phone": payload["phone"]
-    });
+  });
 }
 
 Future<Map<dynamic, dynamic>>? retrievePatientDetails(id) async {
