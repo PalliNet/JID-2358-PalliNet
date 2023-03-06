@@ -19,7 +19,7 @@ class MedicationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget gap() => const SizedBox(height: 10);
+    Widget gap() => const SizedBox(height: 5);
 
     return GestureDetector(
       onTap: () {
