@@ -11,6 +11,22 @@ We are creating PalliNet in order to make palliative care specialists more acces
 PalliNet will not only provide access to palliative care specialists, but also provide an easy way for primary healthcare providers to see how patients react to care and plan repeat appointments and/or referrals to specialists
 
 # Release Notes: 
+## Version 0.3.0 
+### :health_worker: New Features:
+* Week view with availability
+* Patient charts visible, and connected to database
+* Detailed medications/treatment view with precautions/instructions respectively
+* Ability to edit practioner profile information from physicians view
+* Added reschedule and cancel appaointment button --in testing--
+* Connected appointments to database --in progress--
+* Polished UI for detailed patient information --in progress--
+
+### :hammer_and_wrench: Bug Fixes:
+*
+
+### :radioactive: Known Issues:
+*
+ 
 ## Version 0.2.0 
 ### :health_worker: New Features:
 * User email authentication
