@@ -16,7 +16,7 @@ class AppointmentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () => {retrieveAppointmentsPhysicians()},
+        onTap: () => {debugPrint("xd")},
         child: Card(
             child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0),

@@ -341,15 +341,42 @@ void updatePatientDetails(Map<dynamic, dynamic> data, id) async {
 //retreives the appointments specific to the physician using their id
 //first accesses the entire appointments collection and then seperates out the ones specific to them
 //currently hardcoded as I figure out how to pass the physician id into the appointments page
-Future<List<dynamic>>? retrieveAppointmentsPhysicians() async {
+Future<List<dynamic>> retrieveAppointmentsPhysicians(uid) async {
+  debugPrint(uid);
+  Map<dynamic, dynamic> physician = await db
+      .collection("Practitioner")
+      .doc(uid)
+      .get()
+      .then((DocumentSnapshot doc) {
+    return doc.data() as Map<String, dynamic>;
+  }, onError: (e) => debugPrint("Error getting document: $e"));
 
+ 
   QuerySnapshot appointments = await db
     .collection("Appointment")
-    .where('practitioner', isEqualTo: '2222222')
+    .where('practitioner', isEqualTo: physician["id"])
     .get();
   final allData = appointments.docs.map((doc) => doc.data()).toList();
   debugPrint(allData.toString());
   return allData;
-
 }
 
+Future<List<dynamic>> retrieveAppointmentsPatients(uid) async {
+  debugPrint(uid);
+  Map<dynamic, dynamic> patient = await db
+      .collection("Patient")
+      .doc(uid)
+      .get()
+      .then((DocumentSnapshot doc) {
+    return doc.data() as Map<String, dynamic>;
+  }, onError: (e) => debugPrint("Error getting document: $e"));
+
+ debugPrint(patient.toString());
+  QuerySnapshot appointments = await db
+    .collection("Appointment")
+    .where('patient', isEqualTo: patient["name"]["text"])
+    .get();
+  final allData = appointments.docs.map((doc) => doc.data()).toList();
+  debugPrint(allData.toString());
+  return allData;
+}
