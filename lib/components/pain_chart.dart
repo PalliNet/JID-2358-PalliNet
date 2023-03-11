@@ -17,6 +17,7 @@ List<LineChartBarData> getChartData(List<dynamic> list, int length) {
     Colors.red,
     Colors.orange,
     Colors.green,
+    Colors.teal,
     Colors.blue,
     Colors.indigo,
     Colors.purple,
@@ -46,6 +47,7 @@ List<LineChartBarData> getChartData(List<dynamic> list, int length) {
               e.key.millisecondsSinceEpoch.toDouble(), e.value.toDouble());
         }).toList()));
   }
+  debugPrint(out[0].spots.toString());
   return out;
 }
 
@@ -69,26 +71,58 @@ class _PainChart extends State<PainChart> {
 
           final list = snapshot.data as List;
           if (list.isEmpty) {
-            return const SizedBox.shrink();
+            return Scaffold(
+                appBar: AppBar(title: const Text("Pain Chart")),
+                body: const Text("No Pain Diary entries to show"));
           }
           debugPrint(list.toString());
           debugPrint(list[0]["timestamp"].runtimeType.toString());
           return Scaffold(
-            appBar: AppBar(title: const Text("Pain Chart")),
-            body: Container(
+              appBar: AppBar(title: const Text("Pain Chart")),
+              body: Container(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: LineChart(LineChartData(
-                    // minX: 0, maxX: 10, minY: 0, maxY: 10,
+                child: AspectRatio(
+                    aspectRatio: 0.75,
+                    child: LineChart(LineChartData(
+                        // minX: 0, maxX: 10, minY: 0, maxY: 10,
 
-                    titlesData: title(),
-                    // lineTouchData: LineTouchTooltipData(getTooltipItems: (value) => LineTooltipItem(value.y) as List<LineTooltipItem>),
-                    lineBarsData: getChartData(list, list[0].length - 1)))),
-          );
+                        titlesData:
+                            title(getChartData(list, list[0].length - 1)),
+                        lineTouchData: LineTouchData(
+                            touchTooltipData: LineTouchTooltipData(
+                          // getTooltipItems: (value) => LineTooltipItem(value.y) as List<LineTooltipItem>),
+                          getTooltipItems: (List<LineBarSpot> spots) {
+                            List<LineTooltipItem> out = spots.map((barSpot) {
+                              final spot = barSpot;
+                              // debugPrint(flSpot.barIndex.toString());
+                              return LineTooltipItem(
+                                'q${spot.barIndex.toInt()}: ',
+                                TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: spot.y.toString(),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                    ),
+                                  ),
+                                ],
+                                textAlign: TextAlign.center,
+                              );
+                            }).toList();
+                            // debugPrint(out.toString());
+                            out.sort((a, b) => a.text.compareTo(b.text));
+                            return out;
+                          },
+                        )),
+                        lineBarsData: getChartData(list, list[0].length - 1)))),
+              ));
         }));
   }
 }
 
-FlTitlesData title() {
+FlTitlesData title(List<LineChartBarData> list) {
   return FlTitlesData(
       show: true,
       topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
@@ -112,11 +146,12 @@ FlTitlesData title() {
                     DateTime.fromMillisecondsSinceEpoch(value.toInt());
                 date.toString();
                 String label =
-                    "${date.year}-${date.month}-${date.day} ${date.hour}:${date.minute}";
+                    "${date.year}-${date.month}-${_twoDigits(date.day)}\n${date.hour}:${_twoDigits(date.minute)}";
 
                 return Text(style: const TextStyle(fontSize: 14), label);
               }),
-              interval: (Duration.millisecondsPerDay / 2).toDouble())));
+              // interval: (Duration.millisecondsPerDay / 2).toDouble()
+              interval: (list[0].spots.last.x - list[0].spots.first.x) / 2)));
 }
 
 String _twoDigits(int n) {

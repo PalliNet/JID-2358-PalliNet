@@ -58,6 +58,16 @@ class _PainDiary extends State<PainDiary> {
         }
 
         final list = snapshot.data as List;
+        // debugPrint(list.first);
+        // int length;
+        // if (snapshot.data?.length == 0) {
+        //   length = 0;
+        // } else {
+        //   length = list[0]
+        // }
+        // debugPrint("list");
+        // debugPrint(list.toString());
+        // debugPrint(list.runtimeType.toString());
 
         return Scaffold(
             appBar: AppBar(
@@ -74,14 +84,16 @@ class _PainDiary extends State<PainDiary> {
                       child: SizedBox(
                         height: 170,
                         child: SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          child: DataTable(
-                              columns: getCol(list[0].keys.toList()),
-                              rows: List.generate(
-                                  list.length,
-                                  (index) =>
-                                      getRow(list[index], list[0].length))),
-                        ),
+                            scrollDirection: Axis.vertical,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: DataTable(
+                                  columns: getCol(list[0].keys.toList()),
+                                  rows: List.generate(
+                                      list.length,
+                                      (index) =>
+                                          getRow(list[index], list[0].length))),
+                            )),
                       )),
                 Expanded(
                     flex: 1,
@@ -92,8 +104,24 @@ class _PainDiary extends State<PainDiary> {
                             padding:
                                 const EdgeInsets.only(right: 10, bottom: 5),
                             child: OutlinedButton(
-                                onPressed: () =>
-                                    {Navigator.pushNamed(context, "/chart")},
+                                onPressed: () => {
+                                      if (list.length == 0)
+                                        {
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) => AlertDialog(
+                                                  title: Text(
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      "Error"),
+                                                  content: Text(
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      "No Pain Diary entries logged")))
+                                        }
+                                      else
+                                        {Navigator.pushNamed(context, "/chart")}
+                                    },
                                 child: const Text("View Entries"))),
                         Padding(
                             padding:
