@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:pallinet/constants.dart';
@@ -14,6 +15,10 @@ FirebaseFirestore db = FirebaseFirestore.instance;
 void addData(UnmodifiableMapView<int, int> entries, uid) async {
   // Create a new user with a first and last name
   final storedEntries = <String, dynamic>{};
+
+  DateTime timeSubmitted = DateTime.now();
+  storedEntries["timestamp"] = timeSubmitted;
+
   for (int i = 0; i < entries.length; i++) {
     storedEntries["q$i"] = entries[i];
   }
@@ -29,7 +34,7 @@ void addData(UnmodifiableMapView<int, int> entries, uid) async {
 }
 
 Future<Map<dynamic, dynamic>>? retrieveQuestions() async {
-  debugPrint("Retrieve Questions");
+  // debugPrint("Retrieve Questions");
 
   Map<dynamic, dynamic> list = await db
       .collection("Pain Diary Questions")
@@ -85,7 +90,7 @@ Future<List<Medication>>? retrieveMedications(uid) async {
 
   List<Medication> medications = medicationsQuery.map((e) {
     return Medication(e["medication"], List<String>.from(e["brands"]),
-        e["dosage"], e["orderDetail"]);
+        e["dosage"], e["orderDetail"], e["precautions"]);
   }).toList();
 
   return medications;
@@ -107,6 +112,7 @@ Future<List<Treatment>>? retrieveTreatments(uid) async {
       e["treatmentType"],
       e["schedule"],
       e["durationToComplete"],
+      e["detailedInstructions"],
     );
   }).toList();
 
@@ -130,7 +136,7 @@ Future<Map<String, dynamic>>? retrieveAppointmentCreationInfo() async {
 
   // parsing patient list
   List<dynamic> data = list["patients"];
-  debugPrint(data.toString());
+  // debugPrint(data.toString());
   List<PatientID> patients = data.map((e) {
     Gender gender = e["gender"] == "M" ? Gender.male : Gender.female;
     Timestamp t = e["birthdate"] as Timestamp;
@@ -149,8 +155,8 @@ Future<Map<String, dynamic>>? retrieveAppointmentCreationInfo() async {
   }, onError: (e) => debugPrint("Error getting document: $e"));
 
   // parsing physician availability
-  List<Map<String, DateTime>> appointmentTime = availability.map((e) {
-    Map<String, DateTime> times = {};
+  List<Map<String, dynamic>> appointmentTime = availability.map((e) {
+    Map<String, dynamic> times = {};
 
     Timestamp timestampStart = e["scheduledTimeStart"] as Timestamp;
     Timestamp timestampEnd = e["scheduledTimeEnd"] as Timestamp;
@@ -160,6 +166,8 @@ Future<Map<String, dynamic>>? retrieveAppointmentCreationInfo() async {
 
     times["timeStart"] = timeStart;
     times["timeEnd"] = timeEnd;
+    times["appointmentType"] = e["appointmentType"];
+    times["patient"] = e["patient"];
 
     return times;
   }).toList();
@@ -174,9 +182,10 @@ Future<Map<String, dynamic>>? retrieveAppointmentCreationInfo() async {
 void createAppointment(Map<String, dynamic> payload) async {
   debugPrint("createAppointment");
 
-  final docRef = db.collection("Appointment");
+  final docRef = db.collection("Appointment").doc();
 
-  await docRef.add({
+  await docRef.set({
+    "appointmentID": docRef.id,
     "patient": "temp_value_patient", // TODO Haven't decided on how to do ids
     "practitioner": "2222222", // temp practicioner id
     "appointmentType": payload["type"],
@@ -186,17 +195,7 @@ void createAppointment(Map<String, dynamic> payload) async {
 
     "scheduledTimeStart": payload["scheduledTimeStart"],
     "scheduledTimeEnd": payload["scheduledTimeEnd"],
-  }).then((value) => debugPrint(value.toString()),
-      onError: (e) => debugPrint("Error occured: $e"));
-}
-
-// TODO Update Physician profile (currently hardcoded)
-void updatePhysicianProfile(Map<String, dynamic> payload) async {
-  debugPrint("updatePhysicianProfile");
-  var docRef =
-      db.collection("Practitioner").doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62");
-
-  await docRef.update({"description": payload["description"]});
+  });
 }
 
 // TODO Update Patient profile (currently hardcoded)
@@ -272,7 +271,7 @@ Future<Patient>? retrievePatientProfile2() async {
 
 //TODO Retrieve physician profile (currently hardcoded))
 Future<Physician> retrievePhysicianProfile(uid) async {
-  debugPrint("retrievePhysicianProfile");
+  // debugPrint("retrievePhysicianProfile");
   // Get Physician
   uid = uid ??
       "5nsl8S4wXoeNLc6OzVgwJGRBmv62"; // TODO Temp for other hardcoded portions
@@ -287,13 +286,29 @@ Future<Physician> retrievePhysicianProfile(uid) async {
       list["name"]["text"],
       list["gender"] == "M" ? Gender.male : Gender.female,
       list["id"],
-      list["description"]);
+      list["description"],
+      list["email"],
+      list["phone"]);
 
   return physician;
 }
 
+// TODO Update Physician profile (currently hardcoded)
+void updatePhysicianProfile(Map<String, dynamic> payload) async {
+  debugPrint("updatePhysicianProfile");
+  var docRef =
+      db.collection("Practitioner").doc("5nsl8S4wXoeNLc6OzVgwJGRBmv62");
+
+  await docRef.update({
+    "description": payload["description"],
+    "name.text": payload["name"],
+    "email": payload["email"],
+    "phone": payload["phone"]
+  });
+}
+
 Future<Map<dynamic, dynamic>>? retrievePatientDetails(id) async {
-  debugPrint("retrievePatientDetails");
+  // debugPrint("retrievePatientDetails");
 
   Map<dynamic, dynamic> patientDetails = await db
       .collection("Patient")
@@ -328,6 +343,53 @@ void updatePatientDetails(Map<dynamic, dynamic> data, id) async {
   // patientRef.update({"gender": data["gender"]});
 }
 
-FirebaseFirestore getDatabase() {
-  return db;
+
+//retreives the appointments specific to the physician using their id
+//first accesses the entire appointments collection and then seperates out the ones specific to them
+//currently hardcoded as I figure out how to pass the physician id into the appointments page
+Future<List<dynamic>> retrieveAppointmentsPhysicians(uid) async {
+  Map<dynamic, dynamic> physician = await db
+      .collection("Practitioner")
+      .doc(uid)
+      .get()
+      .then((DocumentSnapshot doc) {
+    return doc.data() as Map<String, dynamic>;
+  }, onError: (e) => debugPrint("Error getting document: $e"));
+
+ 
+  QuerySnapshot appointments = await db
+    .collection("Appointment")
+    .where('practitioner', isEqualTo: physician["id"])
+    .get();
+  final allData = appointments.docs.map((doc) => doc.data()).toList();
+  return allData;
+}
+
+Future<List<dynamic>> retrieveAppointmentsPatients(uid) async {
+  Map<dynamic, dynamic> patient = await db
+      .collection("Patient")
+      .doc(uid)
+      .get()
+      .then((DocumentSnapshot doc) {
+    return doc.data() as Map<String, dynamic>;
+  }, onError: (e) => debugPrint("Error getting document: $e"));
+
+  QuerySnapshot appointments = await db
+    .collection("Appointment")
+    .where('patient', isEqualTo: patient["name"]["text"])
+    .get();
+  final allData = appointments.docs.map((doc) => doc.data()).toList();
+  return allData;
+}
+
+Future<Map<dynamic, dynamic>>? retrieveAppointment(id) async {
+
+  Map<dynamic, dynamic> appointmentDetails = await db
+      .collection("Appointment")
+      .where('appointmentID', isEqualTo: id)
+      .get()
+      .then((res) {
+    return res.docs.single.data();
+  });
+  return appointmentDetails;
 }

@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 
-class TreatmentsDetailed extends StatelessWidget {
-  final String treatmentType;
-  final String schedule;
-  final String durationToComplete;
-  final String detailedInstructions;
+class MedicationsDetailed extends StatelessWidget {
+  final String medication;
+  final List<String> brands;
+  final String dosage;
+  final String orderDetail;
+  final String precautions;
 
-  const TreatmentsDetailed({
+  const MedicationsDetailed({
     Key? key,
-    required this.treatmentType,
-    required this.schedule,
-    required this.durationToComplete,
-    required this.detailedInstructions,
+    required this.medication,
+    required this.brands,
+    required this.dosage,
+    required this.orderDetail,
+    required this.precautions,
   }) : super(key: key);
 
   @override
@@ -19,7 +21,7 @@ class TreatmentsDetailed extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          '$treatmentType Details',
+          '$medication Details',
           style: const TextStyle(color: Colors.white),
         ),
       ),
@@ -29,13 +31,13 @@ class TreatmentsDetailed extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           children: [
             Text(
-              treatmentType,
+              medication,
               style: Theme.of(context).textTheme.headline5,
             ),
             const SizedBox(height: 10),
             const Divider(),
             const Text(
-              'Visitation Time:',
+              'Brands: ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
@@ -43,12 +45,40 @@ class TreatmentsDetailed extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              schedule,
+              brands.join(", "),
+              style: const TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Dosage:',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              dosage,
+              style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Order Detail:',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              orderDetail,
               style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
             const Text(
-              'Duration:',
+              'Precautions:',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
@@ -56,20 +86,7 @@ class TreatmentsDetailed extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              durationToComplete,
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'Detailed Instructions:',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              detailedInstructions,
+              precautions,
               style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),

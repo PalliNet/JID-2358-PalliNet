@@ -34,7 +34,7 @@ class NewPainDiaryEntryState extends State<NewPainDiaryEntry> {
   bool init = true;
 
   int questionNum = 0;
-  double input = 5;
+  double input = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -117,6 +117,20 @@ class NewPainDiaryEntryState extends State<NewPainDiaryEntry> {
                           min: 0.0,
                           max: 10.0,
                         ),
+                      if (questionTypes[questionNum] == "slider4")
+                        Slider(
+                          value: input,
+                          onChanged: (newVal) {
+                            setState(() {
+                              input = newVal;
+                              // context.update(questionNum, d);
+                            });
+                          },
+                          divisions: 4,
+                          label: "$input",
+                          min: 0.0,
+                          max: 4.0,
+                        ),
                       if (questionTypes[questionNum] == "mc")
                         Expanded(
                           child: ListView.separated(
@@ -176,7 +190,7 @@ class NewPainDiaryEntryState extends State<NewPainDiaryEntry> {
                                           if (questionNum > 0) {
                                             questionNum -= 1;
                                           }
-                                          input = 5;
+                                          input = 0;
                                         }),
                                       },
                                   child: const Text("Previous Question"))),
@@ -191,7 +205,7 @@ class NewPainDiaryEntryState extends State<NewPainDiaryEntry> {
                                           onPressed: () => {
                                                 model.update(
                                                     questionNum, input.round()),
-                                                input = 5,
+                                                input = 0,
                                                 setState(() {
                                                   questionNum += 1;
                                                 }),

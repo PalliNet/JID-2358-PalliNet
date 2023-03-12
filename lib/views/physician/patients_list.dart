@@ -3,11 +3,32 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pallinet/components/patient_card.dart';
 import 'package:pallinet/firestore/firestore.dart';
+import 'package:pallinet/models/session_manager.dart';
 
-class PatientList extends StatelessWidget {
+class PatientList extends StatefulWidget {
   const PatientList({super.key});
 
+  @override
+  State<PatientList> createState() => _PatientListState();
+}
+
+class _PatientListState extends State<PatientList> {
   // final test = retrievePatients();
+  late final SessionManager _prefs;
+
+  @override
+  void initState() {
+    _prefs = SessionManager();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+  
+  //TODO create retrieve id method in firestore to get physician ID and then put into retrievePatients()
+
 
   @override
   Widget build(BuildContext context) {

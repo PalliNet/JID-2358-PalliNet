@@ -30,7 +30,7 @@ class _PainDiary extends State<PainDiary> {
   DataRow getRow(Map<String, dynamic> map, int length) {
     // debugPrint("GET ROW");
     List<DataCell> entries = [];
-    for (var i = 0; i < length; i++) {
+    for (var i = 0; i < length - 1; i++) {
       // entries.add(map["q$i"]);
       // debugPrint(map["q$i"].toString());
       if (map["q$i"] != null) {
@@ -41,6 +41,7 @@ class _PainDiary extends State<PainDiary> {
       }
       // debugPrint("added $i");
     }
+    entries.add(DataCell(Text(map["timestamp"].toDate().toString())));
     // debugPrint("ENTRIES");
     // debugPrint(entries.toString());
 
@@ -56,7 +57,7 @@ class _PainDiary extends State<PainDiary> {
           return const SizedBox.shrink();
         }
 
-        final list = snapshot.data as List ?? [];
+        final list = snapshot.data as List;
         // debugPrint(list.first);
         // int length;
         // if (snapshot.data?.length == 0) {
@@ -83,14 +84,16 @@ class _PainDiary extends State<PainDiary> {
                       child: SizedBox(
                         height: 170,
                         child: SingleChildScrollView(
-                          scrollDirection: Axis.vertical,
-                          child: DataTable(
-                              columns: getCol(list[0].keys.toList()),
-                              rows: List.generate(
-                                  list.length,
-                                  (index) =>
-                                      getRow(list[index], list[0].length))),
-                        ),
+                            scrollDirection: Axis.vertical,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: DataTable(
+                                  columns: getCol(list[0].keys.toList()),
+                                  rows: List.generate(
+                                      list.length,
+                                      (index) =>
+                                          getRow(list[index], list[0].length))),
+                            )),
                       )),
                 Expanded(
                     flex: 1,
@@ -102,8 +105,22 @@ class _PainDiary extends State<PainDiary> {
                                 const EdgeInsets.only(right: 10, bottom: 5),
                             child: OutlinedButton(
                                 onPressed: () => {
-                                      debugPrint(
-                                          "View entries not implemented"),
+                                      if (list.length == 0)
+                                        {
+                                          showDialog(
+                                              context: context,
+                                              builder: (context) => AlertDialog(
+                                                  title: Text(
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      "Error"),
+                                                  content: Text(
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      "No Pain Diary entries logged")))
+                                        }
+                                      else
+                                        {Navigator.pushNamed(context, "/chart")}
                                     },
                                 child: const Text("View Entries"))),
                         Padding(

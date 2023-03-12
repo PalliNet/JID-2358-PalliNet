@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pallinet/components/scheduler.dart';
+import 'package:pallinet/views/chart.dart';
 import 'package:pallinet/views/patient/calendar.dart';
 import 'package:pallinet/views/patient/new_account.dart';
 import 'package:pallinet/views/patient/patient_home.dart';
@@ -21,12 +23,12 @@ import 'package:pallinet/views/medications_view.dart';
 import 'package:pallinet/views/treatments_view.dart';
 import 'package:pallinet/views/patient/patient_appointments.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:pallinet/views/physician/physician_appointment_specifics.dart';
 import 'package:pallinet/views/symptoms.dart';
 import 'firebase_options.dart';
 import 'package:pallinet/views/forget_password.dart';
 import 'package:pallinet/views/forgot_password_success.dart';
 import 'package:pallinet/views/patient/patient_end_of_life_plans.dart';
+import 'package:pallinet/views/detailed_appointment_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -67,15 +69,15 @@ class PalliNet extends StatelessWidget {
           '/physician/patient/edit_details': (context) =>
               const EditPatientDetails(),
           '/physician/appointments': (context) => const PhysicianAppointments(),
+          '/appointments/details':(context) => const AppointmentPage(),
           '/patient/appointments': (context) => const PatientAppointments(),
           '/physician/appointments/new': (context) => const CreateAppointment(),
           '/patient/calendar': (context) => const CalendarView(),
           '/forgotpassword': (context) => const ForgotPage(),
-          '/physician/appointment/detail': (context) =>
-              const PhysicianAppointmentSpecifics(),
           '/symptoms': (context) => const SymptomsView(),
-          '/physician/profile': (context) => const PhysicianProfile(),
-          '/forgotsuccess': (context) => const ForgotSuccess()
+          '/physician/profile': (context) => const ProfileContent(),
+          '/forgotsuccess': (context) => const ForgotSuccess(),
+          '/chart': (context) => const Chart(),
         },
         onUnknownRoute: (settings) =>
             MaterialPageRoute(builder: (context) => const HomePage()));

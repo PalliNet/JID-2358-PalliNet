@@ -39,6 +39,7 @@ class _MedicationsState extends State<Medications> {
                     brands: data.brands,
                     orderDetail: data.orderDetail,
                     dosage: data.dosage,
+                    precautions: data.precautions,
                   );
                 },
               ),
