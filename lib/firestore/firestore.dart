@@ -186,7 +186,7 @@ void createAppointment(Map<String, dynamic> payload) async {
 
   await docRef.set({
     "appointmentID": docRef.id,
-    "patient": "temp_value_patient", // TODO Haven't decided on how to do ids
+    "patient": payload["patient"], // TODO Haven't decided on how to do ids
     "practitioner": "2222222", // temp practicioner id
     "appointmentType": payload["type"],
     "description": payload["description"],

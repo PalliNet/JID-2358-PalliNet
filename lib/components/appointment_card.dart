@@ -22,7 +22,8 @@ class AppointmentCard extends StatelessWidget {
     return InkWell(
         onTap: () => {
               Navigator.pushNamed(context, "/appointments/details",
-                  arguments: id)
+                      arguments: id)
+                  .then((_) => refresh())
             },
         child: Card(
             child: Padding(

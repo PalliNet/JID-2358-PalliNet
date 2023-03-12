@@ -217,7 +217,7 @@ class AppointmentContentState extends State<AppointmentContent> {
                               validateCombinedDateTime(
                                   scheduledTimeStart, scheduledTimeEnd)) {
                             Map<String, dynamic> payload = {
-                              "patient": patient,
+                              "patient": patient!.name,
                               "practitioner": practitioners,
                               "description": desc,
                               "type": serviceType?.value,

@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:pallinet/firestore/firestore.dart';
 
 Future<void> CancelDialog(BuildContext context, String id, String name,
-    DateTime date, Function refresh) {
+    DateTime date, Function callback) {
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
@@ -29,7 +29,7 @@ Future<void> CancelDialog(BuildContext context, String id, String name,
             onPressed: () {
               cancelAppointment(id);
               Navigator.of(context).pop();
-              refresh();
+              callback();
             },
           ),
         ],
