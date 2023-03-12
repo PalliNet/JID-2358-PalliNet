@@ -8,15 +8,18 @@ class AppointmentCard extends StatelessWidget {
     super.key,
     required this.name,
     required this.date,
+    required this.appointmentType,
+    required this.id
   });
 
   final String name;
   final DateTime date;
-
+  final String appointmentType;
+  final String id;
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () => {debugPrint("xd")},
+        onTap: () => {Navigator.pushNamed(context, "/appointments/details", arguments: id)},
         child: Card(
             child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -30,7 +33,7 @@ class AppointmentCard extends StatelessWidget {
               Expanded(
                 flex: 4,
                 child:
-                    _AppointmentDescription(name: name, date: date),
+                    _AppointmentDescription(name: name, date: date, appointmentType: appointmentType),
               ),
               const Icon(
                 Icons.more_vert,
@@ -46,10 +49,12 @@ class _AppointmentDescription extends StatelessWidget {
   const _AppointmentDescription({
     required this.name,
     required this.date,
+    required this.appointmentType,
   });
 
   final String name;
   final DateTime date;
+  final String appointmentType;
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +72,8 @@ class _AppointmentDescription extends StatelessWidget {
             ),
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
-          const Text(
-            'Appointment Type: Checkup',
+          Text(
+            'Appoitnment type: $appointmentType',
             style: TextStyle(fontSize: 14.0),
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
