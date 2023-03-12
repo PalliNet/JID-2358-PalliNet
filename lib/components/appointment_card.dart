@@ -4,13 +4,12 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:pallinet/firestore/firestore.dart';
 
 class AppointmentCard extends StatelessWidget {
-  const AppointmentCard({
-    super.key,
-    required this.name,
-    required this.date,
-    required this.appointmentType,
-    required this.id
-  });
+  const AppointmentCard(
+      {super.key,
+      required this.name,
+      required this.date,
+      required this.appointmentType,
+      required this.id});
 
   final String name;
   final DateTime date;
@@ -19,7 +18,10 @@ class AppointmentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-        onTap: () => {Navigator.pushNamed(context, "/appointments/details", arguments: id)},
+        onTap: () => {
+              Navigator.pushNamed(context, "/appointments/details",
+                  arguments: id)
+            },
         child: Card(
             child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -32,12 +34,26 @@ class AppointmentCard extends StatelessWidget {
               ),
               Expanded(
                 flex: 4,
-                child:
-                    _AppointmentDescription(name: name, date: date, appointmentType: appointmentType),
+                child: _AppointmentDescription(
+                    name: name, date: date, appointmentType: appointmentType),
               ),
-              const Icon(
-                Icons.more_vert,
-                size: 16.0,
+              PopupMenuButton(
+                icon: const Icon(
+                  Icons.more_vert,
+                  size: 16.0,
+                ),
+                itemBuilder: (context) => const [
+                  PopupMenuItem(value: 0, child: Text("Details")),
+                  PopupMenuItem(value: 1, child: Text("Reschedule")),
+                  PopupMenuItem(value: 2, child: Text("Cancel"))
+                ],
+                onSelected: (value) {
+                  if (value == 0) {
+                    Navigator.pushNamed(context, "/appointments/details",
+                        arguments: id);
+                  } else if (value == 1) {
+                  } else if (value == 2) {}
+                },
               ),
             ],
           ),
