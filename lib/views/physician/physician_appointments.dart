@@ -28,7 +28,8 @@ class _PhysicianAppointmentsState extends State<PhysicianAppointments> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Expanded(child: FutureBuilder<List<dynamic>>(
+
+        Expanded(flex: 8, child: FutureBuilder<List<dynamic>>(
         future: _prefs.getUid().then((uid) => retrieveAppointmentsPhysicians(uid)),
         builder: ((context, snapshot) {
           final list = snapshot.data == null
@@ -47,6 +48,8 @@ class _PhysicianAppointmentsState extends State<PhysicianAppointments> {
                 return AppointmentCard(
                   name: data["patient"],
                   date: startTime,
+                  appointmentType: data["appointmentType"],
+                  id: data["appointmentID"],
                 );
               },
             ),
@@ -54,54 +57,28 @@ class _PhysicianAppointmentsState extends State<PhysicianAppointments> {
          }),
         ),
       ),
+      Expanded(flex: 2, child: ElevatedButton(
+            onPressed: () => {Navigator.pushNamed(context, "/physician/appointments/new")},
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white, // Background color
+            ),
+            child: Row(
+              children: const [
+                Icon(
+                  Icons.schedule,
+                  color: Colors.pink,
+                  size: 40,
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Text(
+                  'Schedule Appointment',
+                  style: TextStyle(fontSize: 20, color: Colors.black),
+                )
+              ],
+            )),)
       ]
     );
   }
 }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // double screenWidth = MediaQuery.of(context).size.width;
-//     return Scaffold(
-//       appBar: AppBar(title: const Text("Appointments")),
-//       body: ListView(
-//         padding: const EdgeInsets.all(8),
-//         children: [
-//           const Text(
-//             "Upcoming Appointments",
-//             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-//           ),
-//           AppointmentCard(name: "Kenny Hoang", date: DateTime(2023, 2, 21), time: "12:30PM"),
-//           const Padding(padding: EdgeInsets.all(16.0)),
-//           const Text(
-//             "Past Appointments",
-//             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-//           ),
-//           AppointmentCard(name: "Jenny Ang", date: DateTime(2022, 12, 25), time: "1:30PM"),
-//           const Padding(padding: EdgeInsets.all(16.0)),
-//           ElevatedButton(
-//               onPressed: () => {Navigator.pushNamed(context, "/physician/appointments/new")},
-//               style: ElevatedButton.styleFrom(
-//                 backgroundColor: Colors.white, // Background color
-//               ),
-//               child: Row(
-//                 children: const [
-//                   Icon(
-//                     Icons.schedule,
-//                     color: Colors.pink,
-//                     size: 40,
-//                   ),
-//                   SizedBox(
-//                     width: 20,
-//                   ),
-//                   Text(
-//                     'Schedule Appointment',
-//                     style: TextStyle(fontSize: 15, color: Colors.black),
-//                   )
-//                 ],
-//               )),
-//         ],
-//       ),
-//     );
-//   }
-// }

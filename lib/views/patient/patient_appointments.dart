@@ -29,7 +29,7 @@ class _PatientAppointmentsState extends State<PatientAppointments> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Expanded(child: FutureBuilder<List<dynamic>>(
+        Expanded(flex: 8, child: FutureBuilder<List<dynamic>>(
         future: _prefs.getUid().then((uid) => retrieveAppointmentsPatients(uid)),
         builder: ((context, snapshot) {
           final list = snapshot.data == null
@@ -46,8 +46,10 @@ class _PatientAppointmentsState extends State<PatientAppointments> {
                 Timestamp t = data["scheduledTimeStart"] as Timestamp;
                 DateTime startTime = t.toDate();
                 return AppointmentCard(
-                  name: data["appointmentType"],
+                  name: data["practitioner"],
                   date: startTime,
+                  appointmentType: data["appointmentType"],
+                  id: data["appointmentID"],
                 );
               },
             ),
