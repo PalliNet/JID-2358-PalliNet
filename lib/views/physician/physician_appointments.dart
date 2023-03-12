@@ -68,8 +68,10 @@ class _PhysicianAppointmentsState extends State<PhysicianAppointments> {
       Expanded(
         flex: 2,
         child: ElevatedButton(
-            onPressed: () =>
-                {Navigator.pushNamed(context, "/physician/appointments/new")},
+            onPressed: () => {
+                  Navigator.pushNamed(context, "/physician/appointments/new")
+                      .then((_) => setState(() {}))
+                },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white, // Background color
             ),

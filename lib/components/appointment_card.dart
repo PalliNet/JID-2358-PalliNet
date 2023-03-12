@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:pallinet/firestore/firestore.dart';
+import 'package:pallinet/components/appointment_cancel_dialog.dart';
 
 class AppointmentCard extends StatelessWidget {
   const AppointmentCard(
@@ -55,7 +55,7 @@ class AppointmentCard extends StatelessWidget {
                         arguments: id);
                   } else if (value == 1) {
                   } else if (value == 2) {
-                    _dialogBuilder(context, id, name, date, refresh);
+                    CancelDialog(context, id, name, date, refresh);
                     // debugPrint(id);
                   }
                 },
@@ -110,40 +110,4 @@ class _AppointmentDescription extends StatelessWidget {
       ),
     );
   }
-}
-
-Future<void> _dialogBuilder(BuildContext context, String id, String name,
-    DateTime date, Function refresh) {
-  return showDialog<void>(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text('Cancel Appointment Confirmation'),
-        content: Text(
-            'Are you sure you want to cancel appointment with $name at ${DateFormat('MM-dd-yyyy').format(date)}?'),
-        actions: <Widget>[
-          TextButton(
-            style: TextButton.styleFrom(
-              textStyle: Theme.of(context).textTheme.labelLarge,
-            ),
-            child: const Text('Cancel'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          TextButton(
-            style: TextButton.styleFrom(
-              textStyle: Theme.of(context).textTheme.labelLarge,
-            ),
-            child: const Text('Continue'),
-            onPressed: () {
-              cancelAppointment(id);
-              Navigator.of(context).pop();
-              refresh();
-            },
-          ),
-        ],
-      );
-    },
-  );
 }
