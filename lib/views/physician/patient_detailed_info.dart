@@ -6,11 +6,96 @@ import 'package:pallinet/firestore/firestore.dart';
 
 class PatientDetails extends StatelessWidget {
   const PatientDetails({super.key});
-  Widget gap() => const Divider(
+  Widget gap() => const SizedBox(
         height: 10,
-        color: Colors.black,
+        // color: Colors.black,
       );
 
+  Widget buildInfo(dynamic name, dynamic sex, dynamic age, dynamic mrn) =>
+      Column(children: [
+        Text(
+          name,
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+        ),
+        const SizedBox(height: 4),
+        Text(
+            '$sex | ${((DateTime.now().difference(age).inDays) ~/ 365.0)} years old'),
+        const SizedBox(height: 10),
+        Container(
+          height: 200,
+          width: 350,
+          color: Colors.transparent,
+          child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.lightBlue[200],
+                  borderRadius: const BorderRadius.all(Radius.circular(20.0))),
+              alignment: const Alignment(-.8, -.3),
+              child: Text('MRN:'
+                  '\nMarried$mrn '
+                  '\n'
+                  '\nDOB:'
+                  '\n${DateFormat('MM-dd-yyyy').format(age)}'
+                  '\n'
+                  '\nPain Regiment:'
+                  '\n N/A'
+                  '\n'
+                  '\nPain Scores:'
+                  '\n80, 70, 60')),
+        )
+      ]);
+
+  Widget buildButtons() => Row(
+        children: <Widget>[
+          Expanded(
+              child: Center(
+            child: Material(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.lightBlue[200],
+              child: InkWell(
+                onTap: () {
+                  debugPrint('Medical');
+                },
+                borderRadius: BorderRadius.circular(20),
+                child: Container(
+                    width: 150,
+                    height: 100,
+                    alignment: Alignment.center,
+                    child: const Text(
+                      "Medical History",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 26,
+                      ),
+                    )),
+              ),
+            ),
+          )),
+          Expanded(
+              child: Center(
+            child: Material(
+              borderRadius: BorderRadius.circular(20),
+              color: Colors.lightBlue[200],
+              child: InkWell(
+                onTap: () {
+                  debugPrint('Surgical');
+                },
+                borderRadius: BorderRadius.circular(20),
+                child: Container(
+                    width: 150,
+                    height: 100,
+                    alignment: Alignment.center,
+                    child: const Text(
+                      "Surgical History",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 26,
+                      ),
+                    )),
+              ),
+            ),
+          ))
+        ],
+      );
   @override
   Widget build(BuildContext context) {
     debugPrint(ModalRoute.of(context)?.settings.arguments.toString());
@@ -25,54 +110,46 @@ class PatientDetails extends StatelessWidget {
           t = datas["birthdate"] as Timestamp;
           DateTime birthdate = t.toDate();
           return Scaffold(
-              appBar: AppBar(title: Text(datas['name']['text'])),
+              appBar: AppBar(title: const Text('Detailed Patient View')),
+              // appBar: AppBar(title: Text(datas['name']['text'])),
               body: ListView(
                 children: [
-                  Text('Gender: ${datas['gender']}',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 20)),
+                  const Icon(
+                    Icons.account_circle,
+                    size: 80,
+                  ),
+                  // const SizedBox(height: 24),
+                  buildInfo(datas['name']['text'], datas['gender'], birthdate,
+                      datas['maritalStatus']),
                   gap(),
-                  Text('DOB: ${DateFormat('MM-dd-yyyy').format(birthdate)}',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 20)),
-                  gap(),
-                  Text(
-                      'Age: ${((DateTime.now().difference(birthdate).inDays) ~/ 365.0)} years old',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 20)),
-                  gap(),
-                  Text('MRN: ${datas['maritalStatus']}',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 20)),
-                  gap(),
-                  Text('Pain Regiment: ${datas['maritalStatus']}',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 20)),
-                  gap(),
-                  Text('Last 3 Pain Scores: ${datas['maritalStatus']}',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 20)),
-                  gap(),
-                  TextButton(
-                      onPressed: () {}, child: const Text('Medical History')),
-                  gap(),
-                  TextButton(
-                      onPressed: () {}, child: const Text('Surgical History')),
-                  SizedBox(
-                    height: 100,
-                    width: 100,
-                    child: OutlinedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(
-                            context, "/physician/patient/edit_details",
-                            arguments: arguments);
-                      },
-                      child: const Text(
-                        "Edit Details",
-                        style: TextStyle(fontSize: 25),
+                  buildButtons(),
+                  const SizedBox(height: 30),
+                  Expanded(
+                      child: Center(
+                    child: Material(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.lightBlue[200],
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, "/physician/patient/edit_details",
+                              arguments: arguments);
+                        },
+                        borderRadius: BorderRadius.circular(20),
+                        child: Container(
+                            width: 350,
+                            height: 100,
+                            alignment: Alignment.center,
+                            child: const Text(
+                              "Edit Details",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 26,
+                              ),
+                            )),
                       ),
                     ),
-                  )
+                  ))
                 ],
               ));
         } else {
