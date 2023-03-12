@@ -51,19 +51,50 @@ class AppointmentPage extends StatelessWidget {
                   Text('Practitioner ID: ${datas['practitioner']}',
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 20)),
-                  SizedBox(
-                    height: 100,
-                    width: 100,
-                    child: OutlinedButton(
-                      onPressed: () {
-                            debugPrint("rescheduled click");
-                      },
-                      child: const Text(
-                        "Reschedule",
-                        style: TextStyle(fontSize: 25),
-                      ),
+                  gap(),
+                  ElevatedButton(
+                    onPressed: () => {debugPrint("reschedule")},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white, // Background color
                     ),
-                  )
+                    child: Row(
+                      children: const [
+                        Icon(
+                          Icons.schedule,
+                          color: Colors.pink,
+                          size: 40,
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          'Reschedule Appointment',
+                          style: TextStyle(fontSize: 20, color: Colors.black),
+                        )
+                      ],
+                  )),
+                  gap(),
+                  ElevatedButton(
+                    onPressed: () => {debugPrint("cancel")},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white, // Background color
+                    ),
+                    child: Row(
+                      children: const [
+                        Icon(
+                          Icons.schedule,
+                          color: Colors.pink,
+                          size: 40,
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          'Cancel Appointment',
+                          style: TextStyle(fontSize: 20, color: Colors.black),
+                        )
+                      ],
+                    )),
                 ],
               ));
         } else {

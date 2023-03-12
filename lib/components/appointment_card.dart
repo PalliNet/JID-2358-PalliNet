@@ -73,12 +73,12 @@ class _AppointmentDescription extends StatelessWidget {
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
           Text(
-            'Appoitnment type: $appointmentType',
+            'Appointment type: $appointmentType',
             style: TextStyle(fontSize: 14.0),
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
           Text(
-            'Time: ${DateFormat('hh:mm').format(date)}',
+            'Time: ${DateFormat('hh:mm a').format(date)}',
             style: const TextStyle(fontSize: 14.0),
           ),
           Text(
