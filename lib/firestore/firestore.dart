@@ -186,7 +186,7 @@ void createAppointment(Map<String, dynamic> payload) async {
 
   await docRef.set({
     "appointmentID": docRef.id,
-    "patient": "temp_value_patient", // TODO Haven't decided on how to do ids
+    "patient": payload["patient"], // TODO Haven't decided on how to do ids
     "practitioner": "2222222", // temp practicioner id
     "appointmentType": payload["type"],
     "description": payload["description"],
@@ -196,6 +196,14 @@ void createAppointment(Map<String, dynamic> payload) async {
     "scheduledTimeStart": payload["scheduledTimeStart"],
     "scheduledTimeEnd": payload["scheduledTimeEnd"],
   });
+}
+
+void cancelAppointment(String id) async {
+  debugPrint("Cancel Appointment $id");
+
+  final docRef = db.collection("Appointment").doc(id);
+
+  await docRef.delete();
 }
 
 // TODO Update Patient profile (currently hardcoded)
@@ -343,7 +351,6 @@ void updatePatientDetails(Map<dynamic, dynamic> data, id) async {
   // patientRef.update({"gender": data["gender"]});
 }
 
-
 //retreives the appointments specific to the physician using their id
 //first accesses the entire appointments collection and then seperates out the ones specific to them
 //currently hardcoded as I figure out how to pass the physician id into the appointments page
@@ -356,11 +363,10 @@ Future<List<dynamic>> retrieveAppointmentsPhysicians(uid) async {
     return doc.data() as Map<String, dynamic>;
   }, onError: (e) => debugPrint("Error getting document: $e"));
 
- 
   QuerySnapshot appointments = await db
-    .collection("Appointment")
-    .where('practitioner', isEqualTo: physician["id"])
-    .get();
+      .collection("Appointment")
+      .where('practitioner', isEqualTo: physician["id"])
+      .get();
   final allData = appointments.docs.map((doc) => doc.data()).toList();
   return allData;
 }
@@ -375,15 +381,14 @@ Future<List<dynamic>> retrieveAppointmentsPatients(uid) async {
   }, onError: (e) => debugPrint("Error getting document: $e"));
 
   QuerySnapshot appointments = await db
-    .collection("Appointment")
-    .where('patient', isEqualTo: patient["name"]["text"])
-    .get();
+      .collection("Appointment")
+      .where('patient', isEqualTo: patient["name"]["text"])
+      .get();
   final allData = appointments.docs.map((doc) => doc.data()).toList();
   return allData;
 }
 
 Future<Map<dynamic, dynamic>>? retrieveAppointment(id) async {
-
   Map<dynamic, dynamic> appointmentDetails = await db
       .collection("Appointment")
       .where('appointmentID', isEqualTo: id)

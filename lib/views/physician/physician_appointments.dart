@@ -27,6 +27,10 @@ class _PhysicianAppointmentsState extends State<PhysicianAppointments> {
 
   @override
   Widget build(BuildContext context) {
+    refresh() {
+      setState(() {});
+    }
+
     return Column(children: [
       Expanded(
         flex: 8,
@@ -53,6 +57,7 @@ class _PhysicianAppointmentsState extends State<PhysicianAppointments> {
                     date: startTime,
                     appointmentType: data["appointmentType"],
                     id: data["appointmentID"],
+                    refresh: () => refresh(),
                   );
                 },
               ),
@@ -63,8 +68,10 @@ class _PhysicianAppointmentsState extends State<PhysicianAppointments> {
       Expanded(
         flex: 2,
         child: ElevatedButton(
-            onPressed: () =>
-                {Navigator.pushNamed(context, "/physician/appointments/new")},
+            onPressed: () => {
+                  Navigator.pushNamed(context, "/physician/appointments/new")
+                      .then((_) => setState(() {}))
+                },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white, // Background color
             ),

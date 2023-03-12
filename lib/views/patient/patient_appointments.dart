@@ -25,39 +25,45 @@ class _PatientAppointmentsState extends State<PatientAppointments> {
     super.dispose();
   }
 
-@override
+  @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(flex: 8, child: FutureBuilder<List<dynamic>>(
-        future: _prefs.getUid().then((uid) => retrieveAppointmentsPatients(uid)),
-        builder: ((context, snapshot) {
-          final list = snapshot.data == null
-              ? []
-              : (snapshot.data as List)
-                  .map((e) => e as Map<String, dynamic>)
-                  .toList();
-          return Scaffold(
-            appBar: AppBar(title: const Text("Appointments")),
-            body: ListView.builder(
-              itemCount: list.length,
-              itemBuilder: (BuildContext context, int index) {
-                final data = list[index];
-                Timestamp t = data["scheduledTimeStart"] as Timestamp;
-                DateTime startTime = t.toDate();
-                return AppointmentCard(
-                  name: data["practitioner"],
-                  date: startTime,
-                  appointmentType: data["appointmentType"],
-                  id: data["appointmentID"],
-                );
-              },
-            ),
-          );
-         }),
+    refresh() {
+      setState(() {});
+    }
+
+    return Column(children: [
+      Expanded(
+        flex: 8,
+        child: FutureBuilder<List<dynamic>>(
+          future:
+              _prefs.getUid().then((uid) => retrieveAppointmentsPatients(uid)),
+          builder: ((context, snapshot) {
+            final list = snapshot.data == null
+                ? []
+                : (snapshot.data as List)
+                    .map((e) => e as Map<String, dynamic>)
+                    .toList();
+            return Scaffold(
+              appBar: AppBar(title: const Text("Appointments")),
+              body: ListView.builder(
+                itemCount: list.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final data = list[index];
+                  Timestamp t = data["scheduledTimeStart"] as Timestamp;
+                  DateTime startTime = t.toDate();
+                  return AppointmentCard(
+                    name: data["practitioner"],
+                    date: startTime,
+                    appointmentType: data["appointmentType"],
+                    id: data["appointmentID"],
+                    refresh: () => refresh(),
+                  );
+                },
+              ),
+            );
+          }),
         ),
       ),
-      ]
-    );
+    ]);
   }
 }

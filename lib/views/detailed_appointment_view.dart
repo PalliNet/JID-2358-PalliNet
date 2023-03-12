@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pallinet/components/appointment_cancel_dialog.dart';
 import 'package:pallinet/components/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pallinet/firestore/firestore.dart';
@@ -27,6 +28,10 @@ class AppointmentPage extends StatelessWidget {
           timeEnd = datas["scheduledTimeEnd"] as Timestamp;
           DateTime start = timeStart.toDate();
           DateTime end = timeEnd.toDate();
+
+          String name = datas['patient'];
+          String id = arguments.toString();
+
           return Scaffold(
               appBar: AppBar(title: Text("Appointment")),
               body: ListView(
@@ -35,7 +40,8 @@ class AppointmentPage extends StatelessWidget {
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 20)),
                   gap(),
-                  Text('Start Time: ${DateFormat('MM-dd-yyyy hh:mm a').format(start)}',
+                  Text(
+                      'Start Time: ${DateFormat('MM-dd-yyyy hh:mm a').format(start)}',
                       style: const TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 20)),
                   gap(),
@@ -53,48 +59,51 @@ class AppointmentPage extends StatelessWidget {
                           fontWeight: FontWeight.bold, fontSize: 20)),
                   gap(),
                   ElevatedButton(
-                    onPressed: () => {debugPrint("reschedule")},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white, // Background color
-                    ),
-                    child: Row(
-                      children: const [
-                        Icon(
-                          Icons.schedule,
-                          color: Colors.pink,
-                          size: 40,
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'Reschedule Appointment',
-                          style: TextStyle(fontSize: 20, color: Colors.black),
-                        )
-                      ],
-                  )),
+                      onPressed: () => {debugPrint("reschedule")},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white, // Background color
+                      ),
+                      child: Row(
+                        children: const [
+                          Icon(
+                            Icons.schedule,
+                            color: Colors.pink,
+                            size: 40,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            'Reschedule Appointment',
+                            style: TextStyle(fontSize: 20, color: Colors.black),
+                          )
+                        ],
+                      )),
                   gap(),
                   ElevatedButton(
-                    onPressed: () => {debugPrint("cancel")},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white, // Background color
-                    ),
-                    child: Row(
-                      children: const [
-                        Icon(
-                          Icons.schedule,
-                          color: Colors.pink,
-                          size: 40,
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Text(
-                          'Cancel Appointment',
-                          style: TextStyle(fontSize: 20, color: Colors.black),
-                        )
-                      ],
-                    )),
+                      onPressed: () => {
+                            CancelDialog(context, id, name, start,
+                                () => Navigator.pop(context))
+                          },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white, // Background color
+                      ),
+                      child: Row(
+                        children: const [
+                          Icon(
+                            Icons.schedule,
+                            color: Colors.pink,
+                            size: 40,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            'Cancel Appointment',
+                            style: TextStyle(fontSize: 20, color: Colors.black),
+                          )
+                        ],
+                      )),
                 ],
               ));
         } else {

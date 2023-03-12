@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:pallinet/firestore/firestore.dart';
+import 'package:pallinet/components/appointment_cancel_dialog.dart';
 
 class AppointmentCard extends StatelessWidget {
   const AppointmentCard(
@@ -9,18 +9,21 @@ class AppointmentCard extends StatelessWidget {
       required this.name,
       required this.date,
       required this.appointmentType,
-      required this.id});
+      required this.id,
+      required this.refresh});
 
   final String name;
   final DateTime date;
   final String appointmentType;
   final String id;
+  final Function refresh;
   @override
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () => {
               Navigator.pushNamed(context, "/appointments/details",
-                  arguments: id)
+                      arguments: id)
+                  .then((_) => refresh())
             },
         child: Card(
             child: Padding(
@@ -45,14 +48,17 @@ class AppointmentCard extends StatelessWidget {
                 itemBuilder: (context) => const [
                   PopupMenuItem(value: 0, child: Text("Details")),
                   PopupMenuItem(value: 1, child: Text("Reschedule")),
-                  PopupMenuItem(value: 2, child: Text("Cancel"))
+                  PopupMenuItem(value: 2, child: Text("Remove"))
                 ],
                 onSelected: (value) {
                   if (value == 0) {
                     Navigator.pushNamed(context, "/appointments/details",
                         arguments: id);
                   } else if (value == 1) {
-                  } else if (value == 2) {}
+                  } else if (value == 2) {
+                    CancelDialog(context, id, name, date, refresh);
+                    // debugPrint(id);
+                  }
                 },
               ),
             ],
@@ -90,7 +96,7 @@ class _AppointmentDescription extends StatelessWidget {
           const Padding(padding: EdgeInsets.symmetric(vertical: 2.0)),
           Text(
             'Appointment type: $appointmentType',
-            style: TextStyle(fontSize: 14.0),
+            style: const TextStyle(fontSize: 14.0),
           ),
           const Padding(padding: EdgeInsets.symmetric(vertical: 1.0)),
           Text(
